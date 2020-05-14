@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--配置注解式事务-->
+    <!--<tx:annotation-driven transaction-manager="transactionManager"/>-->
+
+    <!--扫描service层-->
+    <context:component-scan base-package="njtech.design.flightBerth.service.impl"/>
+
+    <!--
+      aop事务整合  数据源
+    -->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:db.properties"/>
+    </bean>
+
+    <bean id="ds" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+    <!--配置事务-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="ds"/>
+
+    </bean>
+
+
+
+    <!--spring和mybatis整合-->
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--加载数据源-->
+        <property name="dataSource" ref="ds"/>
+        <!--扫描entity包，将该包下的类设置别名-->
+        <property name="typeAliasesPackage" value="njtech.design.flightBerth.entity"/>
+        <!--
+        加载**.mapper映射文件
+        -->
+        <property name="mapperLocations">
+            <array>
+                <value>classpath:njtech/design/flightBerth/mapper/*Mapper.xml</value>
+            </array>
+        </property>
+
+
+    </bean>
+
+    <!--dao接口被spring代理
+    dao已经被spring管理，key就是类名的首字母小写
+    -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="njtech.design.flightBerth.dao"/>
+
+    </bean>
+
+
+</beans>

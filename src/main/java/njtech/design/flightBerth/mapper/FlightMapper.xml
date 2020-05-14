@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="njtech.design.flightBerth.dao.FlightMapper">
+
+    <resultMap id="RM" type="njtech.design.flightBerth.entity.Flight">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="flightCode" column="flight_code" jdbcType="VARCHAR"/>
+        <result property="airCompanyCode" column="air_company_code" jdbcType="INTEGER"/>
+        <result property="airCompanyName" column="air_company_name" jdbcType="VARCHAR"/>
+        <result property="flightNum" column="flight_num" jdbcType="VARCHAR"/>
+        <result property="flightDate" column="flight_date" jdbcType="TIMESTAMP" />
+        <result property="redundantBusinessClass" column="redundant_business_class" jdbcType="INTEGER"/>
+        <result property="redundantFirstClass" column="redundant_first_class" jdbcType="INTEGER"/>
+        <result property="delFlag" column="del_flag" jdbcType="TINYINT"></result>
+    </resultMap>
+
+    <select id="findFlight" resultMap="RM">
+        select
+        *
+        from flight f
+        where
+            f.del_flag = 0
+        <if test="airCompanyName!=null">
+          and  air_company_name like #{airCompanyName}
+        </if>
+
+        <if test="flightNum!=null">
+            and flight_num like #{flightNum}
+        </if>
+
+        <if test="startDate!=null ">
+            and flight_date > #{startDate}
+        </if>
+
+
+    </select>
+
+
+</mapper>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="njtech.design.flightBerth.dao.PriceMapper">
+    <resultMap id="RM" type="njtech.design.flightBerth.entity.Price">
+        <id property="id" column="id"/>
+        <result property="priceCode" column="price_code"/>
+        <result property="price" column="price"/>
+        <result property="userCode" column="user_code"/>
+        <result property="userName" column="user_name"/>
+        <result property="flightCode" column="flight_code"/>
+        <result property="createTime" column="create_time"/>
+        <result property="remark" column="remark"/>
+        <result property="delFlag" column="del_flag"/>
+    </resultMap>
+
+</mapper>
