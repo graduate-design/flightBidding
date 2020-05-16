@@ -19,7 +19,7 @@ public class Ticket {
     //航空公司名称
     private String airCompanyName;
     //航班号
-    private int flightNum;
+    private String flightNum;
     //起飞地
     private String start;
     //目的地

@@ -2,6 +2,8 @@ package njtech.design.flightBerth.entity;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class Price {
     //id
@@ -19,9 +21,9 @@ public class Price {
     //航班信息id
     private String flightCode;
     //出价时间
-    private String createTime;
+    private Date createTime;
     //备注
     private String remark;
     //是否删除
-    private boolean delFlag;
+    private Byte delFlag;
 }
