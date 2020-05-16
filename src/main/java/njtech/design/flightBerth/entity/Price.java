@@ -10,6 +10,8 @@ public class Price {
     private String priceCode;
     //出价价格
     private double price;
+    //竞价的舱位(berth里面的code ：BusinessClass  和 FirstClass)
+    private String berthClass;
     //出价人
     private String userCode;
     //出价人姓名

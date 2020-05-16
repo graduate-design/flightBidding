@@ -30,6 +30,11 @@ public class Flight{
     //头等舱空位
     private int redundantFirstClass;
 
+    //起飞地
+    private String startPlace;
+
+    private String targetPlace;
+
     private short delFlag;
 
 

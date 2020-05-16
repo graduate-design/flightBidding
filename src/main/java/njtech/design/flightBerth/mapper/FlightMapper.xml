@@ -13,6 +13,8 @@
         <result property="flightDate" column="flight_date" jdbcType="TIMESTAMP" />
         <result property="redundantBusinessClass" column="redundant_business_class" jdbcType="INTEGER"/>
         <result property="redundantFirstClass" column="redundant_first_class" jdbcType="INTEGER"/>
+        <result property="startPlace" column="start_place" jdbcType="VARCHAR"></result>
+        <result property="targetPlace" column="target_place" jdbcType="VARCHAR"></result>
         <result property="delFlag" column="del_flag" jdbcType="TINYINT"></result>
     </resultMap>
 
@@ -22,19 +24,23 @@
         from flight f
         where
             f.del_flag = 0
-        <if test="airCompanyName!=null">
+        <if test="airCompanyName!=null and flightNum!=''">
           and  air_company_name like #{airCompanyName}
         </if>
 
-        <if test="flightNum!=null">
+        <if test="flightNum!=null and flightNum!=''">
             and flight_num like #{flightNum}
         </if>
 
         <if test="startDate!=null ">
             and flight_date > #{startDate}
         </if>
+        order by flight_date
 
+    </select>
 
+    <select id="findAccurateFlight" resultMap="RM">
+        select * from flight where id = #{flightId}
     </select>
 
 

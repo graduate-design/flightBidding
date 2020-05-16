@@ -1,6 +1,7 @@
 package njtech.design.flightBerth.service;
 
 import njtech.design.flightBerth.entity.Flight;
+import njtech.design.flightBerth.entity.dto.FlightRespDTO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -14,7 +15,21 @@ public interface FlightService {
      * @param startDate
      * @return
      */
-    List<Flight> findFlight(String airCompanyName, String flightNum,  Date startDate);
+    List<FlightRespDTO> findFlight(String airCompanyName, String flightNum,  Date startDate);
 
-    List<Flight> findAll(Date date);
+    /**
+     * 查询所有航班信息
+     * @param date
+     * @return
+     */
+    List<FlightRespDTO> findAll(Date date);
+
+    /**
+     * 根据id查找具体航班
+     * @param id
+     * @return
+     */
+    Flight findAccurateFlight(int id);
+
+    int getFlightAndTicket(String identity,String flightNum,String startPlace,String targetPlace,Date flightDate);
 }

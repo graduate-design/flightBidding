@@ -23,4 +23,6 @@ public interface FlightMapper {
      * @return
      */
 //    List<Flight> findAll();
+
+    Flight findAccurateFlight(@Param("flightId") int id);
 }

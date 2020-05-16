@@ -7,6 +7,7 @@
         <id property="id" column="id"/>
         <result property="priceCode" column="price_code"/>
         <result property="price" column="price"/>
+        <result property="berthClass" column="berth_class"/>
         <result property="userCode" column="user_code"/>
         <result property="userName" column="user_name"/>
         <result property="flightCode" column="flight_code"/>

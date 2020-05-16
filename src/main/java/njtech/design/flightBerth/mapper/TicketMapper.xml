@@ -20,6 +20,11 @@
         <result property="seatNum" column="seat_num"/>
         <result property="remark" column="remark"/>
     </resultMap>
+
+    <select id="getFlightAndTicket">
+        select * from ticket where identity = #{identity} and flight_num = #{flightNum} and flight_date
+    </select>
+
     <!--public List<Ticket> selectAll();-->
     <!--<select id="selectAll" resultMap="RM">-->
     <!--SELECT-->

@@ -20,4 +20,21 @@
     <select id="findUser" resultType="int">
         select count(*) from user_info where phone=#{phone} and password = #{psd}
     </select>
+
+    <select id="userIsRemark" resultType="java.lang.String">
+        select remark from user_info where phone = #{phone}
+    </select>
+
+    <update id="userInfoSupplement">
+        update user_info set user_name=#{userName} ,user_sex=#{sex},identity = #{identity},
+        <if test="email!=null and email!=''">
+            email =#{email},
+        </if>
+        remark='已认证'
+        where phone = #{phone}
+    </update>
+
+    <select id="getUser">
+        select * from user_info where phone = #{phone}
+    </select>
 </mapper>
