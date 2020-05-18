@@ -1,6 +1,8 @@
 package njtech.design.flightBerth.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -25,8 +27,12 @@ public class Ticket {
     //目的地
     private String destination;
     //预计登机时间
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date flightTime;
     //起飞日期
+    @JsonFormat(pattern="yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date flightDate;
     //舱位等级名称
     private String berthName;

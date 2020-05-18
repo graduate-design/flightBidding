@@ -73,7 +73,7 @@
 
 <div style="text-align: center;">
     <div class="layui-inline">
-        <table lay-filter="parse-table-demo" class="layui-table">
+        <table lay-filter="parse-table-demo" class="layui-table" style="width: 120%;">
             <thead>
             <tr>
                 <th lay-data="{field:'text', width:1500}"></th>
@@ -114,7 +114,7 @@
 
 
         <form action="${pageContext.request.contextPath}/bid/addPrice" class="layui-form-pane" method="get">
-            <div class="layui-form-item">
+            <div class="layui-form-item" style="width: 133%;">
                 <label class="layui-form-label">本次竞价:</label>
                 <div class="layui-input-block" style="width: 62%;">
                     <input type="number" name="price" placeholder="本次竞价不可比上次低" step="1" min="${submittedPrice}" onkeyup="this.value= this.value.match(/\d+(\.\d{0,2})?/) ? this.value.match(/\d+(\.\d{0,2})?/)[0] : ''"  required  lay-verify="required" placeholder="本次竞价不能比上次低" autocomplete="off" class="layui-input">
@@ -124,20 +124,21 @@
 
 
             <div class="layui-form-item">
-                <div class="layui-input-block">
+                <div class="layui-input-inline"style="width: 125%;">
                     <button class="layui-btn" lay-submit lay-filter="formDemo">登录</button>
                     <button type="reset" class="layui-btn layui-btn-primary"><a href="success.jsp" class="font-set">返回首页</a></button>
+                    <button type="reset" class="layui-btn layui-btn-primary"><a href="javascript:window.location = 'bid/exit'" class="font-set">退出竞价</a></button>
                 </div>
             </div>
         </form>
 
-        <form action="${pageContext.request.contextPath}/bid/exit" class="layui-form-pane" method="get">
-            <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit lay-filter="formDemo">退出竞价</button>
-                </div>
-            </div>
-        </form>
+        <%--<form action="${pageContext.request.contextPath}/bid/exit" class="layui-form-pane" method="get">--%>
+            <%--<div class="layui-form-item">--%>
+                <%--<div class="layui-input-block">--%>
+                    <%--<button class="layui-btn" lay-submit lay-filter="formDemo">退出竞价</button>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</form>--%>
     </div>
 </div>
 

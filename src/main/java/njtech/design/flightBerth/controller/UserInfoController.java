@@ -4,6 +4,7 @@ import njtech.design.flightBerth.entity.AuthInfo;
 import njtech.design.flightBerth.entity.Flight;
 import njtech.design.flightBerth.entity.Ticket;
 import njtech.design.flightBerth.entity.UserInfo;
+import njtech.design.flightBerth.entity.dto.TicketDTO;
 import njtech.design.flightBerth.enums.AuthorityEnum;
 import njtech.design.flightBerth.enums.BerthClass;
 import njtech.design.flightBerth.enums.TicketRemarkEnum;
@@ -11,6 +12,7 @@ import njtech.design.flightBerth.service.FlightService;
 import njtech.design.flightBerth.service.TicketService;
 import njtech.design.flightBerth.service.UserService;
 import njtech.design.flightBerth.utils.Authentication;
+import njtech.design.flightBerth.utils.DateConverters;
 import njtech.design.flightBerth.utils.EmailCheck;
 import njtech.design.flightBerth.utils.PhoneUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -140,16 +142,8 @@ public class UserInfoController {
         }
     }
 
-    @RequestMapping(value = "/addTicket",method = RequestMethod.GET)
-    public String addTicket(@RequestParam(value = "airCompanyName") String airCompanyName,
-                            @RequestParam(value = "flightNum")String flightNum,
-                            @RequestParam(value = "flightTime")@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") Date flightTime,
-                            @RequestParam("start")String start,
-                            @RequestParam(value = "destination")String destination,
-                            @RequestParam("berthClass") String berthClass,
-                            @RequestParam(value = "gateNum") String gateNum,
-                            @RequestParam("seatNum")String seatNum,
-                            HttpServletRequest request,HttpSession session){
+    @RequestMapping(value = "/addTicket",method = RequestMethod.POST)
+    public String addTicket(TicketDTO ticketDTO, HttpServletRequest request, HttpSession session){
         String phone = (String) session.getAttribute("phone");
         if (StringUtils.isEmpty(phone)){
             //TODO 请先登录 转到登录主页
@@ -168,30 +162,56 @@ public class UserInfoController {
 
         ticket.setTicCode(stringBuffer.toString());
         ticket.setRemark(TicketRemarkEnum.BIDDING.getRemark());
-        if (berthClass.equalsIgnoreCase(BerthClass.BUSINESSCLASS.getBerthClass())){
+        if (ticketDTO.getBerthClass().equalsIgnoreCase(BerthClass.BUSINESSCLASS.getBerthClass())){
             ticket.setBerthName(BerthClass.BUSINESSCLASS.getBerthName());
-        }else if (berthClass.equalsIgnoreCase(BerthClass.ECONOMYCLASS.getBerthClass())){
+        }else if (ticketDTO.getBerthClass().equalsIgnoreCase(BerthClass.ECONOMYCLASS.getBerthClass())){
             ticket.setBerthName(BerthClass.ECONOMYCLASS.getBerthName());
         }else {
             ticket.setBerthName(BerthClass.FISRTCLASS.getBerthName());
         }
-        ticket.setAirCompanyName(airCompanyName);
+        ticket.setAirCompanyName(ticketDTO.getAirCompanyName());
         ticket.setBuyWay(1);
-        ticket.setFlightNum(flightNum);
-        ticket.setFlightTime(flightTime);
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String nowdayTime = dateFormat.format(flightTime);
-        Date nowDate = null;
+        ticket.setFlightNum(ticketDTO.getFlightNum());
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String date = simpleDateFormat.format(ticketDTO.getFlightDate());
+        StringBuffer dateTime = new StringBuffer();
+        dateTime.append(date+" ");
+        //判断小时数是否为两位，不是则补齐
+        if (DateConverters.lengthNum(ticketDTO.getFlightHour())==1){
+            StringBuffer sb1 = new StringBuffer();
+            sb1.append("0");
+            sb1.append(ticketDTO.getFlightHour());
+            dateTime.append(sb1.toString()+":");
+        }else {
+            dateTime.append(ticketDTO.getFlightHour()+":");
+        }
+
+        if (DateConverters.lengthNum(ticketDTO.getFlightMin())==1){
+            StringBuffer sb1 = new StringBuffer();
+            sb1.append("0");
+            sb1.append(ticketDTO.getFlightMin());
+            dateTime.append(sb1.toString());
+        }else {
+            dateTime.append(ticketDTO.getFlightMin());
+        }
+
+
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         try {
-           nowDate  = dateFormat.parse(nowdayTime);
+            ticket.setFlightTime(sdf1.parse(dateTime.toString()));
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        ticket.setFlightDate(nowDate);
-        ticket.setStart(start);
-        ticket.setDestination(destination);
-        ticket.setGateNum(gateNum);
-        ticket.setSeatNum(seatNum);
+        System.out.println("起飞时间"+dateTime.toString());
+        System.out.println("起飞日期"+ticketDTO.getFlightDate());
+
+        ticket.setFlightDate(ticketDTO.getFlightDate());
+
+        ticket.setStart(ticketDTO.getStart());
+        ticket.setDestination(ticketDTO.getDestination());
+        ticket.setGateNum(ticketDTO.getGateNum());
+        ticket.setSeatNum(ticketDTO.getSeatNum());
 
 
         ticket.setIdentity(userInfo.getIdentity());
@@ -200,6 +220,12 @@ public class UserInfoController {
         int row = ticketService.insertTicket(ticket);
 
         return "redirect:/success.jsp";
+    }
+
+    @RequestMapping("/exit")
+    public String exit(HttpSession session){
+        session.setAttribute("phone",null);
+        return "redirect:/index.jsp";
     }
 
 }

@@ -15,7 +15,6 @@ public class UserInfo {
     //年龄
     private int userAge;
 
-
     //联系电话
     private String phone;
     //身份信息

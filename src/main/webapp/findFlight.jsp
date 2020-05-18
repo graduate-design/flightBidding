@@ -12,72 +12,39 @@
 <script type="text/javascript" src="./resources/layui/layui-v2.5.6/layui/layui.js"></script>
 <script type="text/javascript" src="./resources/layui/layui-v2.5.6/layui/layui.all.js"></script>
 
-<style>
-    #subMenu {
-        display: none;
-        position: fixed;
-        top: 55px;
-        left: 10px;
-    }
-</style>
 <script>
-    function showSubMenu() {
-        var m = document.getElementById("subMenu");
-        m.style.display = "block";
-    }
-
-    function hiddenSubMenu() {
-        var m = document.getElementById("subMenu");
-        m.style.display = "none";
-    }
 
     $(document).ready(function () {
         var element = layui.element;
         element.render();
     });
-</script>
 
-<script>
-    $.get("/flight/getAirCompany",{},function (data) {
-        var list = data;
-        var select = document.getElementById('airCompanyName');
-        if (list != null || list.size() > 0) {
-            for (var c in list) {
-                var option = document.createElement("option");
-                option.setAttribute("value", list[c].id);
-                option.innerText = list[c].name;
-                select.appendChild(option)
+
+    $(document).ready(function () {
+        $.ajax({
+            timeout: 3000,
+            async: false,
+            type: "GET",
+            url: "flight/getAirCompany",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                $("#airCompanyName").empty();//清空下拉框
+                for (var i = 0; i < data.length; i++) {
+                    console.log(data[i]);
+                    $("#airCompanyName").append("<option value="+data[i]+">" + data[i]+ "</option>");
+                }
+
+            },
+            error: function() {
+                layer.msg('获取规则失败');
+
             }
-        };
-        form.render('select');
-    },"json");
-</script>
-<script>
-    $(function(){
-        $("#addpeop").click(function(){
-            var peop=$("#addpeod");
-            var t=$(['<label class="layui-form-label"></label>',
-                '<div style="width: 150px;display: inline-block;">',
-                ' <select name="airCompanyName" >',
-                ' <option value="">请选择</option>',
-                '</select>',
-                '</div>'].join(''));
-            t.find('#del').on('click', function(){
-                t1.remove();
-            });
-            peop.append(t);
-
-        })
-    })
-
-    //渲染select的下拉框
-    layui.use('form', function () {
+        });
         var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
-        //……
-        //但是，如果你的HTML是动态生成的，自动渲染就会失效
-        //因此你需要在相应的地方，执行下述方法来手动渲染，跟这类似的还有 element.init();
         form.render('select');
     });
+
 </script>
 
 </head>
@@ -128,10 +95,10 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">航空公司：</label>
                 <div class="layui-input-inline" style="width: 50%;">
-                    <input type="text" name="airCompanyName"   lay-verify="text" placeholder="请输入航空公司" autocomplete="off" class="layui-input">
-                    <%--<select name="airCompanyName" id="airCompanyName" lay-verify="text">--%>
-                        <%--<option value="">请选择</option>--%>
-                    <%--</select>--%>
+                    <%--<input type="text" name="airCompanyName"   lay-verify="text" placeholder="请输入航空公司" autocomplete="off" class="layui-input">--%>
+                    <select name="airCompanyName" id="airCompanyName" lay-verify="text">
+                        <option value="">请选择</option>
+                    </select>
                 </div>
             </div>
 

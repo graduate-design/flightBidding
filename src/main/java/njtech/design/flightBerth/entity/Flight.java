@@ -22,8 +22,8 @@ public class Flight{
     //航班号
     private String flightNum;
     //起飞日期
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date flightDate;
     //商务舱空位
     private int redundantBusinessClass;

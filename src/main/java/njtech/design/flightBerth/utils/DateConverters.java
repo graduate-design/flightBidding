@@ -8,6 +8,15 @@ import java.util.Locale;
 
 public class DateConverters {
 
+    public static  int lengthNum(int num) {
+        int count=0; //计数
+        while(num>=1) {
+            num/=10;
+            count++;
+        }
+        return count;
+    }
+
     public static Date dateConverter(Date date){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String toDate = sdf.format(date);

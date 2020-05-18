@@ -32,6 +32,62 @@
         return false;
     }
 
+    $(document).ready(function () {
+        $.ajax({
+            timeout: 3000,
+            async: false,
+            type: "GET",
+            url: "flight/getAirCompany",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                for (var i = 0; i < data.length; i++) {
+                    console.log(data[i]);
+                    $("#airCompanyName").empty();//清空下拉框
+                    $("#airCompanyName").append("<option value="+data[i]+">" + data[i]+ "</option>");
+                }
+
+            },
+            error: function() {
+                layer.msg('获取规则失败');
+
+            }
+        });
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        form.render('select');
+    });
+
+
+
+    $(document).ready(function () {
+        $.ajax({
+            timeout: 3000,
+            async: false,
+            type: "GET",
+            url: "flight/getCity",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                $("#destination").empty();//清空下拉框
+                $("#start").empty();//清空下拉框
+                for (var i = 0; i < data.length; i++) {
+                    console.log(data[i]);
+
+                    $("#destination").append("<option value="+data[i]+">" + data[i]+ "</option>");
+                    $("#start").append("<option value="+data[i]+">" + data[i]+ "</option>");
+                }
+
+            },
+            error: function() {
+                layer.msg('获取规则失败');
+
+            }
+        });
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        form.render('select');
+    });
+
+
 </script>
 <body>
 
@@ -56,33 +112,45 @@
 
 <div style="text-align: center;">
     <div class="layui-inline">
-    <h1> <p style="text-align: center">添加购票信息</p></h1><br><br>
-    <form action="${pageContext.request.contextPath}/user/addTicket" class="layui-form-pane" method="get">
+    <h1> <p >添加购票信息</p></h1><br><br>
+    <form action="${pageContext.request.contextPath}/user/addTicket" class="layui-form-pane" method="post">
         <div class="layui-form-item">
             <label class="layui-form-label">航空公司:</label>
-            <div class="layui-input-block">
-                <input type="text" name="airCompanyName" required  lay-verify="required" placeholder="请输入航空公司" autocomplete="off" class="layui-input">
+            <div class="layui-input-block" style="width: 80%;">
+                    <select name="airCompanyName" id="airCompanyName" lay-verify="text">
+                        <option value="">请选择</option>
+                    </select>
             </div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">航班号:</label>
-            <div class="layui-input-block">
+            <div class="layui-input-block"  style="width: 80%;">
                 <input type="text" name="flightNum" required  lay-verify="required" placeholder="请输入航班号" autocomplete="off" class="layui-input">
             </div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">起飞时间:</label>
-            <div class="layui-input-block">
-                <input type="datetime" name="flightTime" required  lay-verify="required" placeholder="请输入起飞时间" autocomplete="off" class="layui-input">
+            <div class="layui-input-inline" style="width: 150px;">
+                <input type="date"  name="flightDate" required  lay-verify="required" placeholder="请输入起飞日期" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid"></div>
+            <div class="layui-input-inline"style="width: 100px;">
+                <input type="number" name="flightHour" step="1" min="0" max="23" required lay-verify="required" placeholder="请输入起飞时间" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid">-</div>
+            <div class="layui-input-inline"style="width: 100px;">
+                <input type="number" name="flightMin" step="1" min="0" max="59" required lay-verify="required" placeholder="请输入起飞时间" autocomplete="off" class="layui-input">
             </div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">起飞地:</label>
-            <div class="layui-input-block">
-                <input type="text" name="start" required  lay-verify="required" placeholder="请输入起飞地" autocomplete="off" class="layui-input">
+            <div class="layui-input-block" style="width: 80%;">
+                <%--<input type="text" name="start" required  lay-verify="required" placeholder="请输入起飞地" autocomplete="off" class="layui-input">--%>
+                    <select name="start" id="start" lay-verify="text">
+                    </select>
             </div>
         </div>
 
@@ -90,14 +158,16 @@
 
         <div class="layui-form-item">
             <label class="layui-form-label">目的地:</label>
-            <div class="layui-input-block">
-                <input type="text" name="destination" required  lay-verify="required" placeholder="请输入目的地" autocomplete="off" class="layui-input">
+            <div class="layui-input-block" style="width: 80%;">
+                <%--<input type="text" name="destination" required  lay-verify="required" placeholder="请输入目的地" autocomplete="off" class="layui-input">--%>
+                    <select name="destination" id="destination" lay-verify="text">
+                    </select>
             </div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">舱位:</label>
-            <div class="layui-input-block">
+            <div class="layui-input-block" style="width: 80%;">
                 <%--<input type="text" name="berthClass" required  lay-verify="required" placeholder="请输入您的舱位" autocomplete="off" class="layui-input">--%>
                     <select name="berthClass" id="berthClass" lay-verify="required">
                         <option value="BusinessClass">商务舱</option>
@@ -109,7 +179,7 @@
 
         <div class="layui-form-item">
             <label class="layui-form-label">登机口:</label>
-            <div class="layui-input-block">
+            <div class="layui-input-block" style="width: 80%;">
                 <input type="text" name="gateNum" required  lay-verify="required" placeholder="请输入登机口" autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -117,15 +187,15 @@
 
         <div class="layui-form-item">
             <label class="layui-form-label">座位号:</label>
-            <div class="layui-input-block">
+            <div class="layui-input-block" style="width: 80%;">
                 <input type="text" name="seatNum" required  lay-verify="required" placeholder="请输入座位号" autocomplete="off" class="layui-input">
             </div>
         </div>
 
 
         <div class="layui-form-item">
-            <div class="layui-input-block">
-                <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <div class="layui-input-block" style="width: 60%;">
+                <button class="layui-btn" lay-submit lay-filter="formDemo" onchange="changeDate(this)">立即提交</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                 <button type="reset" class="layui-btn layui-btn-primary"><a href="success.jsp" class="font-set">返回首页</a></button>
             </div>
