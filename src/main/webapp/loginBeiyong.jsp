@@ -21,7 +21,7 @@
 </SCRIPT>
 <body>
 
-<div align="center">
+<div>
 
     <h2>欢迎来到竞价升舱</h2><br>
     ${msg}<br>
@@ -30,7 +30,7 @@
         密码：<input type="password" name="password" required><br>
         <input type="submit" value="登录" onclick="javascript:check();">
     </form>
-    <a href="javascript:window.location.href='register.jsp'">注册</a>
+    <a href="javascript:window.location.href='#'">注册</a>
 </div>
 </body>
 </html>

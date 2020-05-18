@@ -4,27 +4,50 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="njtech.design.flightBerth.dao.TicketMapper">
     <resultMap id="RM" type="njtech.design.flightBerth.entity.Ticket">
-        <id property="id" column="id"/>
-        <result property="ticCode" column="tic_code"/>
-        <result property="identity" column="identity"/>
-        <result property="userName" column="user_name"/>
-        <result property="buyWay" column="buy_way"/>
-        <result property="airCompanyName" column="air_company_name"/>
-        <result property="flightNum" column="flight_num"/>
-        <result property="start" column="start"/>
-        <result property="destination" column="destination"/>
-        <result property="flightTime" column="flight_time"/>
-        <result property="flightDate" column="flight_date"/>
-        <result property="berthName" column="berth_name"/>
-        <result property="gateNum" column="gate_num"/>
-        <result property="seatNum" column="seat_num"/>
-        <result property="remark" column="remark"/>
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="ticCode" column="tic_code" jdbcType="VARCHAR"/>
+        <result property="identity" column="identity" jdbcType="VARCHAR"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="buyWay" column="buy_way" jdbcType="INTEGER"/>
+        <result property="airCompanyName" column="air_company_name" jdbcType="VARCHAR"/>
+        <result property="flightNum" column="flight_num" jdbcType="VARCHAR"/>
+        <result property="start" column="start" jdbcType="VARCHAR"/>
+        <result property="destination" column="destination" jdbcType="VARCHAR"/>
+        <result property="flightTime" column="flight_time" jdbcType="TIMESTAMP"/>
+        <result property="flightDate" column="flight_date" jdbcType="DATE"/>
+        <result property="berthName" column="berth_name" jdbcType="VARCHAR"/>
+        <result property="gateNum" column="gate_num" jdbcType="VARCHAR"/>
+        <result property="seatNum" column="seat_num" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <select id="getFlightAndTicket">
-        select * from ticket where identity = #{identity} and flight_num = #{flightNum} and flight_date
+    <select id="getFlightAndTicket" resultMap="RM">
+        select * from ticket where identity = #{identity} and flight_num = #{flightNum} and flight_time=#{flightDate}
+        <if test="startPlace!=null and startPlace!=''">
+            and start = #{startPlace}
+        </if>
+        <if test="targetPlace!=null and targetPlace!=''">
+            and destination = #{targetPlace}
+        </if>
+        and remark = #{remark}
     </select>
 
+    <insert id="insertTicket" parameterType="njtech.design.flightBerth.entity.Ticket">
+        INSERT INTO
+        ticket
+        (tic_code,identity,user_name,buy_way,flight_num,start,destination,flight_time,flight_date,gate_num,seat_num,remark,air_company_name,berth_name)
+        VALUES
+        (#{ticCode},#{identity},#{userName},#{buyWay},#{flightNum},#{start},#{destination},#{flightTime},#{flightDate},#{gateNum},#{seatNum},#{remark},#{airCompanyName},#{berthName})
+    </insert>
+
+    <update id="updateTicketRemarkById">
+        UPDATE
+        ticket
+        SET
+        remark=#{remark}
+        WHERE
+        id=#{id}
+    </update>
     <!--public List<Ticket> selectAll();-->
     <!--<select id="selectAll" resultMap="RM">-->
     <!--SELECT-->

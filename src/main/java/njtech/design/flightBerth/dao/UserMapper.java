@@ -26,11 +26,20 @@ public interface UserMapper {
      * @param realName
      * @param identity
      * @param sex
-     * @param email
+     * /*@param email
      * @return
      */
     int userInfoSupplement(@Param("phone") String phone,@Param("userName") String realName,@Param("identity") String identity,
-                           @Param("sex") String sex ,@Param("email") String email);
+                           @Param("sex") String sex/* ,@Param("email") String email*/);
 
     UserInfo getUser(@Param("phone")String phone);
+
+
+    //注册
+     int register(UserInfo user);
+    //登录
+    UserInfo login(@Param("phone") String phone, @Param("password") String password);
+
+
+
 }

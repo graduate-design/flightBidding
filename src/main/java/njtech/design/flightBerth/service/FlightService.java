@@ -31,5 +31,24 @@ public interface FlightService {
      */
     Flight findAccurateFlight(int id);
 
+    /**
+     * 查询是否有与航班相关的购票信息
+     * @param identity
+     * @param flightNum
+     * @param startPlace
+     * @param targetPlace
+     * @param flightDate
+     * @return
+     */
     int getFlightAndTicket(String identity,String flightNum,String startPlace,String targetPlace,Date flightDate);
+
+    /**
+     * 设置过期航班
+     * @return
+     */
+    List<Flight> solveExpiredFlight();
+
+    List<String> getAirCompany();
+
+
 }

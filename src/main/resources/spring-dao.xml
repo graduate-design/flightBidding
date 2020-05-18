@@ -5,7 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!--配置注解式事务-->
-    <!--<tx:annotation-driven transaction-manager="transactionManager"/>-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <!--扫描service层-->
     <context:component-scan base-package="njtech.design.flightBerth.service.impl"/>
@@ -57,6 +57,7 @@
         <property name="basePackage" value="njtech.design.flightBerth.dao"/>
 
     </bean>
+
 
 
 </beans>

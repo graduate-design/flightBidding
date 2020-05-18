@@ -9,4 +9,8 @@
         <result property="airCompanyName" column="air_company_name"/>
     </resultMap>
 
+    <select id="getAirCompany" resultType="java.lang.String">
+        select air_company_name from air_company
+    </select>
+
 </mapper>

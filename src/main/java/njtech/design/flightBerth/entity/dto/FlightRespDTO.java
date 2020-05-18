@@ -1,41 +1,27 @@
-package njtech.design.flightBerth.entity;
+package njtech.design.flightBerth.entity.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
-import java.util.regex.Pattern;
+
 
 @Data
-public class Flight{
-    //id
-    private int id;
-    //航班信息编码
-    private String flightCode;
-    //航空公司编码
-    private String airCompanyCode;
+public class FlightRespDTO {
 
+    private int id;
     //航空公司名称
     private String airCompanyName;
-
     //航班号
     private String flightNum;
-    //起飞日期
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    //起始日期
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date flightDate;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private String flightDate;
+
     //商务舱空位
     private int redundantBusinessClass;
     //头等舱空位
     private int redundantFirstClass;
-
-    //起飞地
-    private String startPlace;
-
-    private String targetPlace;
-
-    private byte delFlag;
-
-
 }

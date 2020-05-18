@@ -40,8 +40,15 @@
     </select>
 
     <select id="findAccurateFlight" resultMap="RM">
-        select * from flight where id = #{flightId}
+        select * from flight where id = #{flightId} and del_flag=0
     </select>
 
+    <select id="getExpiredFlight" resultMap="RM">
+        select * from flight where flight_date  &lt;= #{date} and del_flag = 0
+    </select>
+
+    <update id="expireFlight">
+        update flight set del_flag = 1 where id = #{id}
+    </update>
 
 </mapper>

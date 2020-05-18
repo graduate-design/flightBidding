@@ -1,5 +1,6 @@
 package njtech.design.flightBerth.dao;
 
+import njtech.design.flightBerth.entity.Ticket;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -16,7 +17,11 @@ public interface TicketMapper {
      * @param flightDate
      * @return
      */
-    int getFlightAndTicket(@Param("identity") String identity, @Param("flightNum") String flightNum,
-                           @Param("startPlace") String startPlace,@Param("targetPlace") String targetPlace,@Param("flightDate")@DateTimeFormat(pattern = "yyyy-MM-dd") Date flightDate);
+    Ticket getFlightAndTicket(@Param("identity") String identity, @Param("flightNum") String flightNum,
+                              @Param("startPlace") String startPlace, @Param("targetPlace") String targetPlace,
+                              @Param("flightDate")@DateTimeFormat(pattern = "yyyy-MM-dd") Date flightDate,@Param("remark")String remark);
 
+    int updateTicketRemarkById(@Param("id")int id,@Param("remark")String remark);
+
+    int insertTicket(Ticket ticket);
 }

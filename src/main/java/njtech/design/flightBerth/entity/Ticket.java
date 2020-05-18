@@ -8,9 +8,9 @@ import java.util.Date;
 public class Ticket {
     //id
     private int id;
-    //机票信息编码
+    //购票信息编码
     private String ticCode;
-    //乘客身份信息、姓名(使用user对象)
+    //乘客身份信息、姓名
     private String userName;
 
     private String identity;

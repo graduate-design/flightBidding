@@ -33,8 +33,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int userInfoSupplement(String phone, String realName, String identity, String sex, String email) {
-        int count = userMapper.userInfoSupplement(phone,realName,identity,sex,email);
+    public int userInfoSupplement(String phone, String realName, String identity, String sex) {
+        int count = userMapper.userInfoSupplement(phone,realName,identity,sex);
 
         return count;
     }
@@ -43,6 +43,16 @@ public class UserServiceImpl implements UserService {
     public UserInfo getUser(String phone) {
         UserInfo userInfo = userMapper.getUser(phone);
         return userInfo;
+    }
+
+    @Override
+    public int register(UserInfo user) {
+        return userMapper.register(user);
+    }
+
+    @Override
+    public UserInfo login(String phone, String password) {
+        return userMapper.login(phone,password);
     }
 
 

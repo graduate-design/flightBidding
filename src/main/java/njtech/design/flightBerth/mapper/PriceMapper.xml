@@ -4,16 +4,70 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="njtech.design.flightBerth.dao.PriceMapper">
     <resultMap id="RM" type="njtech.design.flightBerth.entity.Price">
-        <id property="id" column="id"/>
-        <result property="priceCode" column="price_code"/>
-        <result property="price" column="price"/>
-        <result property="berthClass" column="berth_class"/>
-        <result property="userCode" column="user_code"/>
-        <result property="userName" column="user_name"/>
-        <result property="flightCode" column="flight_code"/>
-        <result property="createTime" column="create_time"/>
-        <result property="remark" column="remark"/>
-        <result property="delFlag" column="del_flag"/>
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="priceCode" column="price_code" jdbcType="VARCHAR"/>
+        <result property="price" column="price" jdbcType="DOUBLE"/>
+        <result property="berthClass" column="berth_class" jdbcType="VARCHAR"/>
+        <result property="userCode" column="user_code" jdbcType="VARCHAR"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="flightCode" column="flight_code" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="delFlag" column="del_flag" jdbcType="TINYINT"/>
     </resultMap>
+    <insert id="insertPrice" parameterType="njtech.design.flightBerth.entity.Price">
+        insert into price(price_code,berth_class,price,user_code,user_name,flight_code,create_time,del_flag)
+        values (#{priceCode},#{berthClass},#{price},
+        #{userCode},#{userName},#{flightCode},#{createTime},#{delFlag})
+    </insert>
 
+    <select id="rank" resultType="int">
+        select r.row_num from (select row_number() OVER(order by e.price desc,e.create_time asc) as row_num ,e.price,e.user_code,e.berth_class
+        from price e where e.del_flag = 0 ) r where r.user_code=#{user} and r.berth_class = #{berthClass}
+
+    </select>
+
+    <update id="updatePrice" >
+      update price set price = #{price},create_time=#{createDate}
+       where berth_class=#{berthClass} and flight_code = #{flightCode} and user_code = #{phone} and del_flag = 0
+
+    </update>
+
+    <select id="findPrice" resultMap="RM">
+        select * from price where flight_code = #{flightCode} and user_code = #{userCode} and berth_class = #{berthClass} and del_flag = 0
+    </select>
+
+    <select id="getEventualRank" resultType="njtech.design.flightBerth.entity.dto.SuccessRank">
+
+	SELECT
+		row_number ( ) OVER ( ORDER BY e.price DESC, e.create_time ASC ) AS ranking,
+		e.id id,
+		e.price price,
+		u.phone phone,
+		e.user_name userName,
+		u.identity identity,
+		u.email email,
+		e.berth_class bidClass,
+		f.flight_num flightNum,
+		f.flight_date flightDate
+	FROM
+		price e
+		INNER JOIN flight f ON e.flight_code = f.flight_code
+		INNER JOIN user_info u ON e.user_code = u.phone
+		where e.flight_code = #{flightCode} and  e.berth_class = #{bidClass} and e.del_flag = 0
+
+    </select>
+
+    <update id="updatePriceRemarkDelFlag" parameterType="njtech.design.flightBerth.entity.Price">
+        update price set del_flag=#{delFlag},remark = #{remark}
+       where id = #{id}
+
+    </update>
+
+    <delete id="removePrice">
+      delete from price where flight_code = #{flightCode} and user_code = #{phone}
+      <if test="userName!=null and userName!=''">
+          and user_name = #{userName}
+      </if>
+    </delete>
 </mapper>

@@ -5,16 +5,16 @@
 <mapper namespace="njtech.design.flightBerth.dao.UserMapper">
     <resultMap id="RM" type="njtech.design.flightBerth.entity.UserInfo">
         <id property="id" column="id"/>
-        <result property="userCode" column="user_code"/>
-        <result property="userName" column="user_name"/>
-        <result property="password" column="password"/>
-        <result property="email" column="email"/>
-        <result property="userSex" column="user_sex"/>
+        <result property="userCode" column="user_code" jdbcType="VARCHAR"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="userSex" column="user_sex" jdbcType="VARCHAR"/>
         <result property="userAge" column="user_age"/>
-        <result property="phoneNum" column="phone"/>
-        <result property="identity" column="identity"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="identity" column="identity" jdbcType="VARCHAR"/>
         <result property="authority" column="authority"/>
-        <result property="remark" column="remark"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
     </resultMap>
 
     <select id="findUser" resultType="int">
@@ -27,14 +27,21 @@
 
     <update id="userInfoSupplement">
         update user_info set user_name=#{userName} ,user_sex=#{sex},identity = #{identity},
-        <if test="email!=null and email!=''">
-            email =#{email},
-        </if>
         remark='已认证'
         where phone = #{phone}
     </update>
 
-    <select id="getUser">
+    <select id="getUser" resultMap="RM">
         select * from user_info where phone = #{phone}
     </select>
+
+
+    <insert id="register" parameterType="njtech.design.flightBerth.entity.UserInfo">
+    insert into user_info (password,phone,user_code,authority,remark,email) values(#{password},#{phone},#{phone},#{authority},#{remark},#{email})
+</insert>
+
+    <select id="login" resultMap="RM">
+    select * from user_info where phone=#{phone} and password=#{password}
+</select>
+
 </mapper>

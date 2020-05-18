@@ -25,4 +25,10 @@ public interface FlightMapper {
 //    List<Flight> findAll();
 
     Flight findAccurateFlight(@Param("flightId") int id);
+
+    List<Flight> getExpiredFlight(@Param("date") Date date);
+
+    void expireFlight(@Param("id") int flight);
+
+
 }
