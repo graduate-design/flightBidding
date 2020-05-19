@@ -1,17 +1,16 @@
-<%@ page import="njtech.design.flightBerth.entity.Flight" %>
+<%@ page import="njtech.design.flightBerth.entity.Ticket" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="njtech.design.flightBerth.entity.dto.FlightRespDTO" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: liber
-  Date: 2020/5/13
-  Time: 21:16
+  Date: 2020/5/19
+  Time: 11:34
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Title</title>
@@ -34,6 +33,23 @@
 </head>
 
 <body>
+
+<div align="center">
+    <%
+        String errorInfo = (String)session.getAttribute("ticketBidInfo");         // 获取错误属性
+        if(errorInfo != null) {
+    %>
+    <script type="text/javascript" language="javascript">
+        alert("<%=errorInfo%>");                                            // 弹出错误信息
+
+        // window.location='findFlight' ;                            // 跳转到登录界面
+    </script>
+    <%
+            session.setAttribute("ticketBidInfo",null);
+        }
+    %>
+
+</div>
 
 <div>
     <ul class="layui-nav" lay-filter = "">
@@ -73,49 +89,60 @@
         <th lay-data="{field:'airCompanyName', minWidth:2000}">航空公司</th>
         <th lay-data="{field:'flightNum', minWidth:2000}">航班号</th>
         <th lay-data="{field:'flightDate', minWidth: 2000}">起飞时间</th>
+        <th lay-data="{field:'start', minWidth: 2000}">起飞地</th>
+        <th lay-data="{field:'destination', minWidth: 2000}">目的地</th>
+        <th lay-data="{field:'berthClass', minWidth: 2000}">舱位</th>
+        <th lay-data="{field:'remark', minWidth: 2000}">备注</th>
         <th lay-date="{fieId:'button',minWidth: 2000}"></th>
     </tr>
     </thead>
     <tbody>
-    <%--<c:forEach items="${allFlights}" var="flight">--%>
+    <%--<c:forEach items="${allTickets}" var="ticket">--%>
         <%--<form action="${pageContext.request.contextPath}/bid/check" method="get">--%>
-            <%--<tr>--%>
-                <%--<td>${flight.airCompanyName}</td>--%>
-                <%--<td>${flight.flightNum}</td>--%>
-                <%--<td>${flight.flightDate}</td>--%>
-                <%--<td><input type="hidden" name = "flight" value="${flight.id}" readonly><button class="layui-btn" lay-submit lay-filter="formDemo">竞价</button></td>--%>
-            <%--</tr>--%>
-        <%--</form>--%>
-
-    <%--</c:forEach>--%>
     <%
-        List<FlightRespDTO> list = (List<FlightRespDTO>) session.getAttribute("allFlights");
-        for (FlightRespDTO flight:list){
+        List<Ticket> ticketList = (List<Ticket>) session.getAttribute("allTickets");
+        for (Ticket ticket:ticketList){
     %>
-    <form action="${pageContext.request.contextPath}/bid/check" method="get">
+    <form action="${pageContext.request.contextPath}/user/bid" method="get">
     <tr>
         <td>
-            <%
-                out.print(flight.getAirCompanyName());%>
+    <%
+        out.print(ticket.getAirCompanyName());%>
         </td>
         <td>
-            <%
-                out.print(flight.getFlightNum());%>
+    <%
+        out.print(ticket.getFlightNum());%>
         </td>
         <td>
-            <%
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                String date = sdf.format(flight.getFlightDate());
-                out.print(date);
-            %>
+    <%
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String date = sdf.format(ticket.getFlightTime());
+        out.print(date);
+        %>
         </td>
         <td>
-            <button class="layui-btn" lay-submit lay-filter="formDemo"><input type="hidden" name = "flight" value="<%=flight.getId()%>" readonly>竞价</button>
+                <%out.print(ticket.getStart());%>
         </td>
-        </tr>
+        <td>
+                <%out.print(ticket.getDestination());%>
+        </td>
+        <td>
+                <%out.print(ticket.getBerthName());%>
+        </td>
+        <td>
+                <%out.print(ticket.getRemark());%>
+        </td>
+        <td>
+                <%
+                if ("进行中".equals(ticket.getRemark())){
+                    %>
+                    <button class="layui-btn" lay-submit lay-filter="formDemo"><input type="hidden" name = "ticketId" value="<%=ticket.getId()%>" readonly>竞价</button>
+
+    <%
+                }%>
     </form>
-            <%
-        }
+     <%   }
+
     %>
 
     </tbody>

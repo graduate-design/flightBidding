@@ -16,9 +16,9 @@ public class FlightRespDTO {
     //航班号
     private String flightNum;
     //起始日期
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private String flightDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private Date flightDate;
 
     //商务舱空位
     private int redundantBusinessClass;

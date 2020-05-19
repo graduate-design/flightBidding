@@ -40,6 +40,15 @@ public interface UserMapper {
     //登录
     UserInfo login(@Param("phone") String phone, @Param("password") String password);
 
+    int findPhone(@Param("phone")String phone);
+
+    int findEmail(@Param("email")String email);
+
+    int findIdentity(@Param("identity") String identity);
+
+    int modify(UserInfo user,@Param("phone") String phone);
+    //修改密码
+    int changePassword(@Param("password") String password,@Param("phone") String phone);
 
 
 }

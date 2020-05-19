@@ -50,22 +50,34 @@
 </head>
 
 <body>
-<div class="box">
+
+<div>
     <ul class="layui-nav" lay-filter = "">
-        <li class="layui-nav-item">
+        <li class="layui-nav-item" >
             <a href="javascript:;">查询航班</a>
             <dl class="layui-nav-child">
                 <dd><a href="findFlight.jsp">精确查找</a></dd>
                 <dd><a href="javascript:window.location = 'bid/flights'">所有航班</a></dd>
             </dl>
         </li>
-        <li class="layui-nav-item">
-            <a href="javascript:;">个人管理</a>
+        <li class="layui-nav-item" >
+            <a href="javascript:;">竞价信息</a>
             <dl class="layui-nav-child">
-                <dd><a href="addTicket.jsp">添加机票信息</a></dd>
-                <dd><a href="javascript:;">退出</a></dd>
+                <dd><a href="javascript:window.location = 'user/checkAdd'">添加机票信息</a></dd>
+                <dd><a href="javascript:window.location = 'user/checkTicket'">机票信息</a></dd>
             </dl>
         </li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">个人信息</a>
+            <dl class="layui-nav-child">
+                <dd><a href="javascript:window.location = 'user/checkAuth'">身份认证</a></dd>
+                <dd><a href="changePsd.jsp">修改密码</a></dd>
+                <dd><a href="index.jsp">退出</a></dd>
+            </dl>
+        </li>
+        <span class="layui-layout-right">
+            <li class="layui-nav-item"><a href="success.jsp">返回首页</a></li>
+        </span>
     </ul>
 </div>
 
@@ -80,11 +92,13 @@
         // window.location='findFlight' ;                            // 跳转到登录界面
     </script>
     <%
+            session.setAttribute("msg",null);
         }
     %>
 
 </div>
 
+<br>
 
 <div style="text-align: center;">
     <div class="layui-inline">
@@ -104,23 +118,23 @@
 
         <div class="layui-form-item">
             <label class="layui-form-label">航&nbsp;班&nbsp;号：</label>
-            <div class="layui-input-block" style="width: 50%;">
+            <div class="layui-input-block" style="width: 80%;">
                 <input type="text" name="flightNum"   lay-verify="text" placeholder="请输入航班号" autocomplete="off" class="layui-input">
             </div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">起飞日期：</label>
-            <div class="layui-input-block" style="width: 50%;">
+            <div class="layui-input-block" style="width: 80%;">
                 <input type="date" name="startDate"    placeholder="请输入起飞日期" autocomplete="off" class="layui-input">
             </div>
         </div>
 
         <div class="layui-form-item">
-            <div class="layui-input-block">
+            <div class="layui-input-block" style="width: 70%;">
                 <button class="layui-btn" id="addpeop" lay-submit lay-filter="formDemo">查找</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                <button type="reset" class="layui-btn layui-btn-primary"><a href="success.jsp" class="font-set">返回首页</a></button>
+                <%--<button type="reset" class="layui-btn layui-btn-primary"><a href="success.jsp" class="font-set">返回首页</a></button>--%>
             </div>
         </div>
     </form>

@@ -1,3 +1,7 @@
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="njtech.design.flightBerth.entity.Flight" %>
+<%@ page import="java.util.List" %>
+<%@ page import="njtech.design.flightBerth.entity.dto.FlightRespDTO" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -42,20 +46,31 @@
 
 <div>
     <ul class="layui-nav" lay-filter = "">
-        <li class="layui-nav-item">
+        <li class="layui-nav-item" >
             <a href="javascript:;">查询航班</a>
             <dl class="layui-nav-child">
                 <dd><a href="findFlight.jsp">精确查找</a></dd>
                 <dd><a href="javascript:window.location = 'bid/flights'">所有航班</a></dd>
             </dl>
         </li>
-        <li class="layui-nav-item">
-            <a href="javascript:;">个人管理</a>
+        <li class="layui-nav-item" >
+            <a href="javascript:;">竞价信息</a>
             <dl class="layui-nav-child">
-                <dd><a href="addTicket.jsp">添加机票信息</a></dd>
-                <dd><a href="javascript:;">退出</a></dd>
+                <dd><a href="javascript:window.location = 'user/checkAdd'">添加机票信息</a></dd>
+                <dd><a href="javascript:window.location = 'user/checkTicket'">机票信息</a></dd>
             </dl>
         </li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">个人信息</a>
+            <dl class="layui-nav-child">
+                <dd><a href="javascript:window.location = 'user/checkAuth'">身份认证</a></dd>
+                <dd><a href="changePsd.jsp">修改密码</a></dd>
+                <dd><a href="index.jsp">退出</a></dd>
+            </dl>
+        </li>
+        <span class="layui-layout-right">
+            <li class="layui-nav-item"><a href="success.jsp">返回首页</a></li>
+        </span>
     </ul>
 </div>
 
@@ -69,17 +84,50 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${allFlights}" var="flight">
-            <form action="${pageContext.request.contextPath}/bid/check" method="get">
-                <tr>
-                    <td>${flight.airCompanyName}</td>
-                    <td>${flight.flightNum}</td>
-                    <td>${flight.flightDate}</td>
-                    <td><input type="hidden" name = "flight" value="${flight.id}" readonly><button class="layui-btn" lay-submit lay-filter="formDemo">竞价</button></td>
-                </tr>
-            </form>
+        <%--<c:forEach items="${allFlights}" var="flight">--%>
+            <%--<form action="${pageContext.request.contextPath}/bid/check" method="get">--%>
+                <%--<tr>--%>
+                    <%--<td>${flight.airCompanyName}</td>--%>
+                    <%--<td>${flight.flightNum}</td>--%>
+                    <%--<td>${flight.flightDate}--%>
+                    <%--</td>--%>
+                    <%--<td><input type="hidden" name = "flight" value="${flight.id}" readonly><button class="layui-btn" lay-submit lay-filter="formDemo">竞价</button></td>--%>
+                <%--</tr>--%>
+            <%--</form>--%>
 
-        </c:forEach>
+        <%--</c:forEach>--%>
+
+        <%
+            List<FlightRespDTO> list = (List<FlightRespDTO>) session.getAttribute("flights");
+            for (FlightRespDTO flight:list){
+        %>
+        <form action="${pageContext.request.contextPath}/bid/check" method="get">
+        <tr>
+            <td>
+                <%=flight.getAirCompanyName()%>
+            </td>
+            <td>
+                <%
+                    out.print(flight.getFlightNum());%>
+            </td>
+            <td>
+                <%
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                    String date = sdf.format(flight.getFlightDate());
+                    out.print(date);
+                %>
+            </td>
+            <td>
+                <button class="layui-btn" lay-submit lay-filter="formDemo"><input type="hidden" name = "flight" value="<%=flight.getId()%>" readonly>竞价</button>
+            </td>
+        </form>
+                <%
+
+        }
+
+    %>
+
+
         </tbody>
     </table>
 

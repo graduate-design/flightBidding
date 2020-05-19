@@ -45,20 +45,31 @@
 
 <div>
     <ul class="layui-nav" lay-filter = "">
-        <li class="layui-nav-item">
+        <li class="layui-nav-item" >
             <a href="javascript:;">查询航班</a>
             <dl class="layui-nav-child">
                 <dd><a href="findFlight.jsp">精确查找</a></dd>
                 <dd><a href="javascript:window.location = 'bid/flights'">所有航班</a></dd>
             </dl>
         </li>
-        <li class="layui-nav-item">
-            <a href="javascript:;">个人管理</a>
+        <li class="layui-nav-item" >
+            <a href="javascript:;">竞价信息</a>
             <dl class="layui-nav-child">
-                <dd><a href="addTicket.jsp">添加机票信息</a></dd>
-                <dd><a href="javascript:;">退出</a></dd>
+                <dd><a href="javascript:window.location = 'user/checkAdd'">添加机票信息</a></dd>
+                <dd><a href="javascript:window.location = 'user/checkTicket'">机票信息</a></dd>
             </dl>
         </li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">个人信息</a>
+            <dl class="layui-nav-child">
+                <dd><a href="javascript:window.location = 'user/checkAuth'">身份认证</a></dd>
+                <dd><a href="changePsd.jsp">修改密码</a></dd>
+                <dd><a href="index.jsp">退出</a></dd>
+            </dl>
+        </li>
+        <span class="layui-layout-right">
+            <li class="layui-nav-item"><a href="success.jsp">返回首页</a></li>
+        </span>
     </ul>
 </div>
 
@@ -137,6 +148,7 @@
             <div class="layui-input-block">
                 <button class="layui-btn" lay-submit lay-filter="formDemo">提交</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                <%--<button type="reset" class="layui-btn layui-btn-primary"><a href="success.jsp" class="font-set">返回首页</a></button>--%>
             </div>
         </div>
 

@@ -41,9 +41,9 @@
             dataType: "json",
             success: function (data) {
                 console.log(data);
+                $("#airCompanyName").empty();//清空下拉框
                 for (var i = 0; i < data.length; i++) {
                     console.log(data[i]);
-                    $("#airCompanyName").empty();//清空下拉框
                     $("#airCompanyName").append("<option value="+data[i]+">" + data[i]+ "</option>");
                 }
 
@@ -93,26 +93,54 @@
 
 <div>
     <ul class="layui-nav" lay-filter = "">
-        <li class="layui-nav-item">
+        <li class="layui-nav-item" >
             <a href="javascript:;">查询航班</a>
             <dl class="layui-nav-child">
                 <dd><a href="findFlight.jsp">精确查找</a></dd>
                 <dd><a href="javascript:window.location = 'bid/flights'">所有航班</a></dd>
             </dl>
         </li>
-        <li class="layui-nav-item">
-            <a href="javascript:;">个人管理</a>
+        <li class="layui-nav-item" >
+            <a href="javascript:;">竞价信息</a>
             <dl class="layui-nav-child">
-                <dd><a href="addTicket.jsp">添加机票信息</a></dd>
-                <dd><a href="javascript:;">退出</a></dd>
+                <dd><a href="javascript:window.location = 'user/checkAdd'">添加机票信息</a></dd>
+                <dd><a href="javascript:window.location = 'user/checkTicket'">机票信息</a></dd>
             </dl>
         </li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">个人信息</a>
+            <dl class="layui-nav-child">
+                <dd><a href="javascript:window.location = 'user/checkAuth'">身份认证</a></dd>
+                <dd><a href="changePsd.jsp">修改密码</a></dd>
+                <dd><a href="index.jsp">退出</a></dd>
+            </dl>
+        </li>
+        <span class="layui-layout-right">
+            <li class="layui-nav-item"><a href="success.jsp">返回首页</a></li>
+        </span>
     </ul>
 </div>
 
+<br>
+
+<%
+    String addTicketInfo = (String) session.getAttribute("addTicketInfo");
+
+    if(addTicketInfo != null /*&& "您需要进行身份认证，才能进行下一步操作".equals(errorInfo)*/) {
+%>
+<script type="text/javascript" language="javascript">
+    alert("<%=addTicketInfo%>");                                            // 弹出错误信息
+
+    // window.location='Authentication' ;                            // 跳转到登录界面
+</script>
+<%
+        session.setAttribute("addTicketInfo",null);
+    }
+%>
+
 <div style="text-align: center;">
     <div class="layui-inline">
-    <h1> <p >添加购票信息</p></h1><br><br>
+    <h2> <p >添加购票信息</p></h2><br><br>
     <form action="${pageContext.request.contextPath}/user/addTicket" class="layui-form-pane" method="post">
         <div class="layui-form-item">
             <label class="layui-form-label">航空公司:</label>
@@ -197,7 +225,7 @@
             <div class="layui-input-block" style="width: 60%;">
                 <button class="layui-btn" lay-submit lay-filter="formDemo" onchange="changeDate(this)">立即提交</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                <button type="reset" class="layui-btn layui-btn-primary"><a href="success.jsp" class="font-set">返回首页</a></button>
+                <%--<button type="reset" class="layui-btn layui-btn-primary"><a href="success.jsp" class="font-set">返回首页</a></button>--%>
             </div>
         </div>
 

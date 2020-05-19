@@ -30,7 +30,7 @@ public class MailUtils{
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("liberationjurt@163.com", "juzp728tr96c10Q");
+                return new PasswordAuthentication("clupinya@163.com：", "123456789LY");
             }
 
         });
@@ -44,12 +44,12 @@ public class MailUtils{
         message.setSubject("来自竞价升舱系统的邮件");
         // 2.4设置邮件的正文：
         message.setContent(
-                "<h1>来自竞价升舱系统的邮件，恭喜您对于"+flightNum+"航班的"+berthClass+"舱位以"+price+"元竞价成功，请点击下列链接进行支付"
-                        +"</h1><h3><a href='http://localhost:8888/flightberth/"
+                "<h2>来自竞价升舱系统的邮件，恭喜您对于"+flightNum+"航班的"+berthClass+"舱位以"+price+"元竞价成功，请点击下列链接进行支付"
+                        +"</h2><h4><a href='http://localhost:8888/flightberth/"
 //                        + code
                         + "'>http://localhost:8888/flightberth/"
 //                        + code +
-                        + "</a></h3>",
+                        + "</a></h4>",
                 "text/html;charset=UTF-8");
         // 3.发送一封激活邮件：
         Transport.send(message);

@@ -23,25 +23,36 @@
 
 <div>
     <ul class="layui-nav" lay-filter = "">
-        <li class="layui-nav-item">
+        <li class="layui-nav-item" >
             <a href="javascript:;">查询航班</a>
             <dl class="layui-nav-child">
                 <dd><a href="findFlight.jsp">精确查找</a></dd>
                 <dd><a href="javascript:window.location = 'bid/flights'">所有航班</a></dd>
             </dl>
         </li>
-        <li class="layui-nav-item">
-            <a href="javascript:;">个人管理</a>
+        <li class="layui-nav-item" >
+            <a href="javascript:;">竞价信息</a>
             <dl class="layui-nav-child">
-                <dd><a href="addTicket.jsp">添加机票信息</a></dd>
-                <dd><a href="javascript:;">退出</a></dd>
+                <dd><a href="javascript:window.location = 'user/checkAdd'">添加机票信息</a></dd>
+                <dd><a href="javascript:window.location = 'user/checkTicket'">机票信息</a></dd>
             </dl>
         </li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">个人信息</a>
+            <dl class="layui-nav-child">
+                <dd><a href="javascript:window.location = 'user/checkAuth'">身份认证</a></dd>
+                <dd><a href="changePsd.jsp">修改密码</a></dd>
+                <dd><a href="index.jsp">退出</a></dd>
+            </dl>
+        </li>
+        <span class="layui-layout-right">
+            <li class="layui-nav-item"><a href="success.jsp">返回首页</a></li>
+        </span>
     </ul>
 </div>
 
 <%
-    String errorInfo = (String)request.getAttribute("info");         // 获取错误属性
+    String errorInfo = (String)session.getAttribute("info");         // 获取错误属性
     if(errorInfo != null /*&& "您需要进行身份认证，才能进行下一步操作".equals(errorInfo)*/) {
 %>
 <script type="text/javascript" language="javascript">
@@ -50,6 +61,7 @@
     // window.location='Authentication' ;                            // 跳转到登录界面
 </script>
 <%
+        session.setAttribute("info",null);
     }
 %>
 
@@ -70,7 +82,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">证件类型:</label>
                     <div class="layui-input-block">
-                        <input type="text"  readonly  lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+                        <input type="text"  readonly  lay-verify="required" placeholder="中华人民共和国居民身份证" autocomplete="off" class="layui-input">
                     </div>
                 </div>
 
@@ -80,51 +92,13 @@
                         <input type="text"  name="identity"  lay-verify="required" placeholder="请输入身份证号" autocomplete="off" class="layui-input">
                     </div>
                 </div>v
-            <%--<tr>--%>
 
-                <%--<td>证件类型:</td>--%>
-
-                <%--<td>--%>
-
-                    <%--<select name="type">--%>
-
-                        <%--<option value="中国民居身份证">中国民居身份证</option>--%>
-
-                    <%--</select>--%>
-
-                <%--</td>--%>
-            <%--<tr/>--%>
-
-            <%--<tr>--%>
-                <%--<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>--%>
-                <%--<td>--%>
-                    <%--<input name="identity" required>--%>
-                <%--</td>--%>
-            <%--</tr>--%>
-
-            <%--<tr>--%>
-
-                <%--<td>邮箱:</td>--%>
-
-                <%--<td><input type="text" placeholder="请输入邮箱" name="email" value="${param.email}" /></td>--%>
-
-                <%--<td id="email_msg"></td>--%>
-
-            <%--</tr>--%>
-
-            <%--<tr align="center">--%>
-
-                <%--<td><input type="submit" value="身份验证" /></td>--%>
-
-            <%--</tr>--%>
                 <div class="layui-form-item">
                     <div class="layui-input-block">
                         <button class="layui-btn" lay-submit lay-filter="formDemo">身份认证</button>
                         <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                     </div>
                 </div>
-
-        <%--</table>--%>
 
     </form>
 

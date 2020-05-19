@@ -59,6 +59,7 @@ public class BiddingController {
         session.setAttribute("flights",flights);
         session.setAttribute("flag","accurate");
 
+        System.out.println(flights.get(0).getFlightDate());
        return "redirect:/flights.jsp";
     }
 
@@ -112,7 +113,7 @@ public class BiddingController {
         //phone = "15850725308";
         if (StringUtils.isEmpty(phone)){
             //TODO 请先登录 转到登录主页
-            return "redirect:/success.jsp";
+            return "redirect:/index.jsp";
         }
         UserInfo userInfo = userService.getUser(phone);
 
@@ -188,6 +189,10 @@ public class BiddingController {
         //TODO 需要在登录的时候存session中的登录账户
         String phone = (String) session.getAttribute("phone");
         //phone = "15850725308";
+        if (StringUtils.isEmpty(phone)){
+            //TODO 请先登录 转到登录主页
+            return "redirect:/index.jsp";
+        }
         UserInfo userInfo = userService.getUser(phone);
 
         //有订票信息
@@ -216,11 +221,18 @@ public class BiddingController {
         Flight flight = (Flight) session.getAttribute("accurateFlight");
         //TODO 需要在登录的时候存session中的登录账户
         String phone = (String) session.getAttribute("phone");
-        phone = "15850725308";
+//        phone = "15850725308";
+        if (StringUtils.isEmpty(phone)){
+            //TODO 请先登录 转到登录主页
+            return "redirect:/index.jsp";
+        }
         UserInfo userInfo = userService.getUser(phone);
         //
         priceService.removePrice(flight,userInfo);
         return "redirect:/success.jsp";
     }
+
+
+
 
 }

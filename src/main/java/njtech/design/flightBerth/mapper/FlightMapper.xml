@@ -25,11 +25,11 @@
         where
             f.del_flag = 0
         <if test="airCompanyName!=null and flightNum!=''">
-          and  air_company_name like #{airCompanyName}
+          and  air_company_name = #{airCompanyName}
         </if>
 
         <if test="flightNum!=null and flightNum!=''">
-            and flight_num like #{flightNum}
+            and flight_num = #{flightNum}
         </if>
 
         <if test="startDate!=null ">
@@ -50,5 +50,14 @@
     <update id="expireFlight">
         update flight set del_flag = 1 where id = #{id}
     </update>
+
+    <select id="getFlight" resultMap="RM">
+        select * from flight where  del_flag = 0
+        and air_company_name = #{airCompanyName} and flight_num = #{flightNum}
+        and start_place = #{startPlace}
+        and target_place = #{targetPlace}
+        and flight_date = #{flightDate}
+
+    </select>
 
 </mapper>

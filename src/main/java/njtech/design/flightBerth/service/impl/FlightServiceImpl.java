@@ -42,13 +42,13 @@ public class FlightServiceImpl implements FlightService {
     public List<FlightRespDTO> findFlight(String airCompanyName, String flightNum,  Date startDate) {
         List<Flight> flights = flightMapper.findFlight(airCompanyName, flightNum, startDate);
         List<FlightRespDTO> flightRespDTOS = new ArrayList<>();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         for (Flight flight:flights){
             FlightRespDTO flightRespDTO = new FlightRespDTO();
             flightRespDTO.setId(flight.getId());
             flightRespDTO.setAirCompanyName(flight.getAirCompanyName());
             flightRespDTO.setFlightNum(flight.getFlightNum());
-            flightRespDTO.setFlightDate(sdf.format(flight.getFlightDate()));
+            flightRespDTO.setFlightDate(flight.getFlightDate());
             flightRespDTO.setRedundantBusinessClass(flight.getRedundantBusinessClass());
             flightRespDTO.setRedundantFirstClass(flight.getRedundantFirstClass());
             flightRespDTOS.add(flightRespDTO);
@@ -60,13 +60,13 @@ public class FlightServiceImpl implements FlightService {
     public List<FlightRespDTO> findAll(Date date) {
         List<Flight> flights = flightMapper.findFlight(null, null, date);
         List<FlightRespDTO> flightRespDTOS = new ArrayList<>();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         for (Flight flight:flights){
             FlightRespDTO flightRespDTO = new FlightRespDTO();
             flightRespDTO.setId(flight.getId());
             flightRespDTO.setAirCompanyName(flight.getAirCompanyName());
             flightRespDTO.setFlightNum(flight.getFlightNum());
-            flightRespDTO.setFlightDate(sdf.format(flight.getFlightDate()));
+            flightRespDTO.setFlightDate(flight.getFlightDate());
             flightRespDTO.setRedundantBusinessClass(flight.getRedundantBusinessClass());
             flightRespDTO.setRedundantFirstClass(flight.getRedundantFirstClass());
             flightRespDTOS.add(flightRespDTO);
@@ -109,6 +109,12 @@ public class FlightServiceImpl implements FlightService {
     public List<String> getAirCompany() {
         List<String> airCompanys = airCompanyMapper.getAirCompany();
         return airCompanys;
+    }
+
+    @Override
+    public Flight getFlight(String  airCompanyName,String flightNum, String startPlace, String targetPlace, Date flightDate) {
+        Flight id = flightMapper.getFlight(airCompanyName,flightNum,startPlace,targetPlace,flightDate);
+        return id;
     }
 
 

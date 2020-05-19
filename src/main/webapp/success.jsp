@@ -29,7 +29,8 @@
 
 <%
     String errorInfo = (String)session.getAttribute("ticketInfo");         // 获取错误属性
-    String loginInfo = (String)request.getAttribute("loginMsg");
+    String loginInfo = (String)session.getAttribute("loginMsg");
+    String userAuth = (String)session.getAttribute("authInfo");
     if(errorInfo != null) {
 %>
 <script type="text/javascript" language="javascript">
@@ -47,6 +48,31 @@
 
 </script>
 <%
+        session.setAttribute("loginMsg",null);
+    }
+    if (userAuth!=null){
+ %>
+<script type="text/javascript" language="javascript">
+    alert("<%=userAuth%>");                                            // 弹出错误信息
+
+</script>
+<%
+        session.setAttribute("authInfo",null);
+    }
+%>
+
+<%
+    String addTicketInfo = (String) session.getAttribute("addTicketInfo");
+
+    if(addTicketInfo != null /*&& "您需要进行身份认证，才能进行下一步操作".equals(errorInfo)*/) {
+%>
+<script type="text/javascript" language="javascript">
+    alert("<%=addTicketInfo%>");                                            // 弹出错误信息
+
+    // window.location='Authentication' ;                            // 跳转到登录界面
+</script>
+<%
+        session.setAttribute("addTicketInfo",null);
     }
 %>
 
@@ -59,13 +85,25 @@
                 <dd><a href="javascript:window.location = 'bid/flights'">所有航班</a></dd>
             </dl>
         </li>
-        <li class="layui-nav-item">
-            <a href="javascript:;">个人管理</a>
+        <li class="layui-nav-item" >
+            <a href="javascript:;">竞价信息</a>
             <dl class="layui-nav-child">
-                <dd><a href="addTicket.jsp">添加机票信息</a></dd>
+                <dd><a href="javascript:window.location = 'user/checkAdd'">添加机票信息</a></dd>
+                <dd><a href="javascript:window.location = 'user/checkTicket'">机票信息</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">个人信息</a>
+            <dl class="layui-nav-child">
+                <dd><a href="javascript:window.location = 'user/checkAuth'">身份认证</a></dd>
+                <dd><a href="changePsd.jsp">修改密码</a></dd>
                 <dd><a href="index.jsp">退出</a></dd>
             </dl>
         </li>
+        <span class="layui-layout-right">
+            <li class="layui-nav-item"><a href="success.jsp">返回首页</a></li>
+        </span>
+
     </ul>
 </div>
 

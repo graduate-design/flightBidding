@@ -9,6 +9,6 @@ public class AuthInfo {
 
     private String identity;
 
-    private String email;
+//    private String email;
 
 }

@@ -13,6 +13,7 @@
 
 <%
     String errorInfo = (String)session.getAttribute("loginMsg");         // 获取错误属性
+    String changeInfo = (String) session.getAttribute("psdMsg");
     if(errorInfo != null) {
 %>
 <script type="text/javascript" language="javascript">
@@ -21,28 +22,39 @@
 <%
         session.setAttribute("loginMsg",null);
     }
+    if (changeInfo!=null){
+       %>
+<script type="text/javascript" language="javascript">
+    alert("<%=changeInfo%>");                                            // 弹出错误信息
+</script>
+<%
+        session.setAttribute("psdMsg",null);
+    }
 %>
+
+<br>
+
 <div style="text-align: center;">
     <div class="layui-inline">
-    <h2> 登录</h2><br><br>
+    <h1>  <p style="text-align: center">&nbsp; 登录</h1><br><br>
     <form action="user/login" class="layui-form-item">
         <div class="layui-form-item">
             <label class="layui-form-label">手机号:</label>
-            <div class="layui-input-block" style="width: 50%;">
+            <div class="layui-input-block" style="width: 70%;">
                 <input type="text" name="phone" required  lay-verify="required" placeholder="请输入用户" autocomplete="off" class="layui-input">
             </div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">密码:</label>
-            <div class="layui-input-block" style="width: 50%;">
+            <div class="layui-input-block" style="width: 70%;">
                 <input type="password" name="password" required  lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
             </div>
         </div>
 
 
         <div class="layui-form-item">
-            <div class="layui-input-block">
+            <div class="layui-input-block" style="width: 50%;">
                 <button class="layui-btn" lay-submit lay-filter="formDemo">登录</button>
                 <button type="reset" class="layui-btn layui-btn-primary"><a href="register.jsp" class="font-set">注册</a></button>
             </div>

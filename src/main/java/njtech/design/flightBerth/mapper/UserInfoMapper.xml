@@ -13,7 +13,7 @@
         <result property="userAge" column="user_age"/>
         <result property="phone" column="phone" jdbcType="VARCHAR"/>
         <result property="identity" column="identity" jdbcType="VARCHAR"/>
-        <result property="authority" column="authority"/>
+        <result property="authority" column="authority" jdbcType="INTEGER"/>
         <result property="remark" column="remark" jdbcType="VARCHAR"/>
     </resultMap>
 
@@ -43,5 +43,39 @@
     <select id="login" resultMap="RM">
     select * from user_info where phone=#{phone} and password=#{password}
 </select>
+
+    <select id="findPhone" resultType="int">
+        select count(*) from user_info where phone = #{phone}
+    </select>
+
+    <select id="findEmail" resultType="int">
+        select count(*) from user_info where email = #{email}
+    </select>
+
+    <select id="findIdentity" resultType="int">
+        select count(*) from user_info where identity = #{identity}
+    </select>
+
+    <update id="modify" parameterType="njtech.design.flightBerth.entity.UserInfo">
+        update user_info set
+        <if test="userCode!=null">
+            user_code=#{userCode} ,
+        </if>
+
+        <if test="sex!=null">
+            user_sex=#{sex},
+        </if>
+
+        <if test="userAge!=null">
+            user_age = #{userAge}
+        </if>
+
+        where phone = #{phone}
+    </update>
+
+    <update id="changePassword">
+        update user_info set password=#{password}
+        where phone = #{phone}
+    </update>
 
 </mapper>

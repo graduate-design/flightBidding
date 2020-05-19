@@ -30,5 +30,15 @@ public interface FlightMapper {
 
     void expireFlight(@Param("id") int flight);
 
-
+    /**
+     * 返回flight的id
+     * @param airCompanyName
+     * @param flightNum
+     * @param startPlace
+     * @param targetPlace
+     * @param flightDate
+     * @return
+     */
+    Flight getFlight(@Param("airCompanyName")String airCompanyName,@Param("flightNum")String flightNum,
+                  @Param("startPlace") String startPlace,@Param("targetPlace") String targetPlace,@Param("flightDate") Date flightDate);
 }

@@ -51,4 +51,14 @@ public interface FlightService {
     List<String> getAirCompany();
 
 
+    /**
+     * 得到可竞价航班Id
+     * @param airCompanyName
+     * @param flightNum
+     * @param startPlace
+     * @param targetPlace
+     * @param flightDate
+     * @return
+     */
+    Flight getFlight(String  airCompanyName,String flightNum,String startPlace,String targetPlace,Date flightDate);
 }

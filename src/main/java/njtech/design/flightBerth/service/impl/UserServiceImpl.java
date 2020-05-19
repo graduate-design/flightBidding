@@ -55,5 +55,29 @@ public class UserServiceImpl implements UserService {
         return userMapper.login(phone,password);
     }
 
+    @Override
+    public int findPhone(String phone) {
 
+        return userMapper.findPhone(phone);
+    }
+
+    @Override
+    public int findEmail(String email) {
+        return userMapper.findEmail(email);
+    }
+
+    @Override
+    public int findIdentity(String identity) {
+        return 0;
+    }
+
+    @Override
+    public boolean modify(UserInfo user,String phone) {
+        return userMapper.modify(user,phone) == 1?true:false;
+    }
+
+    @Override
+    public boolean changePassword(String password,String phone) {
+        return userMapper.changePassword(password,phone) == 1?true:false;
+    }
 }

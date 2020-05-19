@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.List;
 
 public interface TicketMapper {
 
@@ -23,5 +24,21 @@ public interface TicketMapper {
 
     int updateTicketRemarkById(@Param("id")int id,@Param("remark")String remark);
 
+    /**
+     * 升舱后添加机票信息
+     * @param ticket
+     * @return
+     */
     int insertTicket(Ticket ticket);
+
+    /**
+     * 用户机票信息
+     * @param identity
+     * @param userName
+     * @return
+     */
+    List<Ticket> getTicket(@Param("identity") String identity, @Param("userName") String userName);
+
+    Ticket findTicket(@Param("id")int id);
+
 }

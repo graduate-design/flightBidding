@@ -14,4 +14,25 @@ public interface UserService {
      int register(UserInfo user);
 
      UserInfo login(String username,String password);
+
+    /**
+     * 验证手机是否被注册过
+     * @param phone
+     * @return
+     */
+     int findPhone(String phone);
+
+    /**
+     * 验证邮箱是否被注册过
+     * @param email
+     * @return
+     */
+     int findEmail(String email);
+
+     int findIdentity(String identity);
+
+    boolean modify(UserInfo user,String phone);
+
+    boolean changePassword(String password,String phone);
+
 }

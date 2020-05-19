@@ -33,6 +33,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 
 @Controller
@@ -48,7 +49,7 @@ public class UserInfoController {
     @Autowired
     private TicketService ticketService;
 
-    //身份认证
+    //身份认证 (从查询页面)
     @RequestMapping(value = "/auth",method = RequestMethod.POST)
     public String authentication(AuthInfo authInfo,HttpSession session,HttpServletRequest request) throws UnsupportedEncodingException, InvalidKeyException, NoSuchAlgorithmException {
         //TODO 需要在登录的时候存session中的登录账户
@@ -57,6 +58,13 @@ public class UserInfoController {
         if (StringUtils.isEmpty(phone)){
             //TODO 请先登录 转到登录主页
         }
+
+        int row = userService.findIdentity(authInfo.getIdentity());
+        if (row!=0){
+            session.setAttribute("info","此身份信息已被注册");
+            return "redirect:/authentication.jsp";
+        }
+
         String result = Authentication.get(authInfo.getIdentity(),authInfo.getRealName());
         if (result.contains("false")){
             //认证失败
@@ -98,6 +106,20 @@ public class UserInfoController {
             return "redirect:/register.jsp";
         }
 
+        //验证手机号是否被注册过
+        int count = userService.findPhone(phone);
+        if (count!=0){
+            session.setAttribute("registerMsg","该手机号已被注册");
+            return "redirect:/register.jsp";
+        }
+
+        //验证邮箱是否被注册过
+        int emailCount = userService.findEmail(email);
+        if (emailCount!=0){
+            session.setAttribute("registerMsg","该邮箱已被注册");
+            return "redirect:/register.jsp";
+        }
+
         if (password.equals(repassword)) {
             UserInfo user = new UserInfo();
             user.setUserCode(phone);
@@ -112,6 +134,9 @@ public class UserInfoController {
                 session.setAttribute("registerMsg", "邮箱无效");
                 return "redirect:/register.jsp";
             }
+
+
+
 //            System.out.println(user);
             int row = userService.register(user);
             if (row> 0) {
@@ -131,6 +156,8 @@ public class UserInfoController {
     public String loign(@RequestParam(value = "phone") String phone, @RequestParam(value = "password") String password, HttpServletRequest request ,HttpSession session){
 
         UserInfo user = userService.login(phone,password);
+        session.setAttribute("loginMsg",null);
+        session.setAttribute("psdMsg",null);
         if (user != null){
 //            session.setAttribute("loginMsg","登录成功");
             System.out.println(phone+"用户 登陆成功!");
@@ -218,14 +245,233 @@ public class UserInfoController {
         ticket.setUserName(userInfo.getUserName());
 
         int row = ticketService.insertTicket(ticket);
-
-        return "redirect:/success.jsp";
+        if (row!=0){
+            session.setAttribute("addTicketInfo","添加机票成功");
+            return "redirect:/success.jsp";
+        }
+        session.setAttribute("addTicketInfo","后台错误，请重试");
+        return "redirect:/addTicket.jsp";
     }
 
     @RequestMapping("/exit")
     public String exit(HttpSession session){
         session.setAttribute("phone",null);
         return "redirect:/index.jsp";
+    }
+
+    @RequestMapping("/checkAuth")
+    public String checkAuth(HttpSession session){
+        //TODO 需要在登录的时候存session中的登录账户
+        String phone = (String) session.getAttribute("phone");
+//        phone = "15850725308";
+        if (StringUtils.isEmpty(phone)){
+            //TODO 请先登录 转到登录主页
+            return "redirect:/index.jsp";
+        }
+        boolean isRemark = userService.userIsRemark(phone);
+        if (isRemark){
+            System.out.println("您已认证");
+            session.setAttribute("authInfo","您已认证");
+            return "redirect:/success.jsp";
+        }
+        return "redirect:/userAuth.jsp";
+    }
+
+    @RequestMapping("/userAuth")
+    public String userAuth(AuthInfo authInfo,HttpSession session,HttpServletRequest request){
+        //TODO 需要在登录的时候存session中的登录账户
+        String phone = (String) session.getAttribute("phone");
+//        phone = "15850725308";
+        if (StringUtils.isEmpty(phone)){
+            //TODO 请先登录 转到登录主页
+            return "redirect:/index.jsp";
+        }
+
+        boolean isRemark = userService.userIsRemark(phone);
+        if (isRemark){
+            System.out.println("您已认证");
+            session.setAttribute("authInfo","您已认证");
+            return "redirect:/success.jsp";
+        }
+
+        int row = userService.findIdentity(authInfo.getIdentity());
+        if (row!=0){
+            session.setAttribute("info","此身份信息已被注册");
+            return "redirect:/authentication.jsp";
+        }
+
+        String result = null;
+        try {
+            result = Authentication.get(authInfo.getIdentity(),authInfo.getRealName());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        if (result.contains("false")){
+            //认证失败
+            System.out.println(result);
+            session.setAttribute("authInfo","身份信息错误，请重新填写");
+            return "redirect:/userAuth.jsp";
+        }
+        // 认证成功
+        //补充身份信息
+        int sexIndex = result.indexOf("sex");
+        String sex = result.substring(sexIndex+6,sexIndex+7);
+        int count = userService.userInfoSupplement(phone,authInfo.getRealName(),authInfo.getIdentity(),sex);
+        if (count!=1){
+            session.setAttribute("authInfo","后台错误，请重新输入");
+            return "redirect:/userAuth.jsp";
+        }
+        System.out.println("认证成功");
+        session.setAttribute("authInfo","认证成功，不可更改");
+        return "redirect:/success.jsp";
+    }
+
+
+    //用户界面的机票信息
+    @RequestMapping("/ticket")
+    public String getTicket(HttpSession session){
+        String phone = (String) session.getAttribute("phone");
+//        phone = "15850725308";
+        if (StringUtils.isEmpty(phone)){
+            //TODO 请先登录 转到登录主页
+            return "redirect:/index.jsp";
+        }
+        UserInfo userInfo = userService.getUser(phone);
+
+        List<Ticket> tickets = ticketService.getTicket(userInfo.getIdentity(),userInfo.getUserName());
+        session.setAttribute("allTickets",tickets);
+        return "redirect:/showTicket.jsp";
+    }
+
+    //查询是否认证 （从显示机票界面竞价前的认证）
+    @RequestMapping(value = "/checkAdd",method = RequestMethod.GET)
+    public String checkAdd( HttpSession session, HttpServletRequest request){
+        //TODO 需要在登录的时候存session中的登录账户
+        String phone = (String) session.getAttribute("phone");
+        //phone = "15850725308";
+        if (StringUtils.isEmpty(phone)){
+            //TODO 请先登录 转到登录主页
+            return "redirect:/index.jsp";
+        }
+
+        boolean isRemark = userService.userIsRemark(phone);
+
+        if (!isRemark){
+            request.setAttribute("info","您需要进行身份认证，才能进行下一步操作");
+            return "redirect:/userAuth.jsp";
+        }
+        //已认证
+        return "redirect:/addTicket.jsp";
+    }
+
+    @RequestMapping(value = "/checkTicket",method = RequestMethod.GET)
+    public String checkTicket (HttpSession session, HttpServletRequest request){
+        //TODO 需要在登录的时候存session中的登录账户
+        String phone = (String) session.getAttribute("phone");
+        //phone = "15850725308";
+        if (StringUtils.isEmpty(phone)){
+            //TODO 请先登录 转到登录主页
+            return "redirect:/index.jsp";
+        }
+
+        boolean isRemark = userService.userIsRemark(phone);
+
+        if (!isRemark){
+            request.setAttribute("info","您需要进行身份认证，才能进行下一步操作");
+            return "redirect:/userAuth.jsp";
+        }
+        return "forward:/user/ticket";
+    }
+
+    @RequestMapping("/bid")
+    public String bid(@RequestParam("ticketId")int ticketId, HttpSession session){
+        //TODO 需要在登录的时候存session中的登录账户
+        String phone = (String) session.getAttribute("phone");
+        //phone = "15850725308";
+        if (StringUtils.isEmpty(phone)){
+            //TODO 请先登录 转到登录主页
+            return "redirect:/index.jsp";
+        }
+
+        if (String.valueOf(ticketId)!=null){
+
+            //从显示机票界面进来的
+            //通过ticketID得到这个航班
+            Ticket ticket = ticketService.findTicket(ticketId);
+            Flight flight = flightService.getFlight(ticket.getAirCompanyName(),ticket.getFlightNum(),
+                    ticket.getStart(),ticket.getDestination(),ticket.getFlightTime());
+            if (flight==null){
+                //该机票没有对应可以升舱的航班
+                session.setAttribute("ticketBidInfo","该航班无法进行升舱操作");
+                return "redirect:/showTicket.jsp";
+            }
+            session.setAttribute("flight",flight.getId());
+//            session.setAttribute("accurateFlight",flight);
+//            return "redirect:/bidding.jsp";
+            return "forward:/bid/check?flight="+flight.getId();
+        }
+
+        return "redirect:/showTicket.jsp";
+    }
+
+    @RequestMapping("/modify")
+    public String modify(
+            @RequestParam(value = "usercode",required = false) String usercode,
+            @RequestParam(value = "sex",required = false)String sex,
+            @RequestParam(value = "age",required = false) int age,
+            HttpServletRequest request,HttpSession session)
+    {
+        String phone = (String) session.getAttribute("phone");
+        if (StringUtils.isEmpty(phone)){
+            //TODO 请先登录 转到登录主页
+            return "redirect:/index.jsp";
+        }
+
+        UserInfo user = new UserInfo();
+        user.setUserCode(usercode);
+//        user.setUserSex(sex);
+        user.setUserAge(age);
+
+        boolean flag = userService.modify(user,phone);
+        if (flag = true) {
+            session.setAttribute("changeMsg", "修改成功");
+            return "redirect:/modify.jsp";
+        } else {
+            session.setAttribute("changeMsg", "修改失败");
+            return "redirect:/modify.jsp";
+        }
+    }
+
+    @RequestMapping("/changePsd")
+    public String changePsd(
+            @RequestParam(value = "password",required = false) String password,
+            @RequestParam(value = "repassword",required = false)String repassword,
+            HttpSession session)
+    {
+        String phone = (String) session.getAttribute("phone");
+
+        if (StringUtils.isEmpty(phone)){
+            //TODO 请先登录 转到登录主页
+            return "redirect:/index.jsp";
+        }
+
+        if (password.equals(repassword)) {
+            boolean flag = userService.changePassword(password,phone);
+            if (flag) {
+                session.setAttribute("psdMsg", "密码修改成功");
+                return "redirect:/index.jsp";
+            } else {
+                session.setAttribute("psdMsg", "修改失败");
+                return "redirect:/changePsd.jsp";
+            }
+        } else {
+            session.setAttribute("psdMsg", "密码不一致");
+            return "redirect:/changePsd.jsp";
+        }
     }
 
 }
