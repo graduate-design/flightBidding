@@ -137,9 +137,15 @@
     }
 %>
 
+<br>
+<br>
+
+
 <div style="text-align: center;">
     <div class="layui-inline">
-    <h2> <p >添加购票信息</p></h2><br><br>
+    <h2> <p >添加购票信息</p></h2>
+        <br>
+        <br>
     <form action="${pageContext.request.contextPath}/user/addTicket" class="layui-form" method="post">
         <div class="layui-form-item">
             <label class="layui-form-label" style="width: 110px">航空公司:</label>

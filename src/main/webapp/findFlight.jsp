@@ -98,10 +98,13 @@
 </div>
 
 <br>
+<br>
 
 <div style="text-align: center;">
     <div class="layui-inline">
-    <h2> <p style="text-align: center">精确查找</p></h2><br><br>
+    <h2> <p style="text-align: center">精确查找</p></h2>
+        <br>
+        <br>
     <form action="${pageContext.request.contextPath}/bid/findFlight" class="layui-form" method="post">
 
 

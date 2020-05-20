@@ -72,7 +72,9 @@
 
 <div style="text-align: center;">
     <div class="layui-inline">
-        <h1> <p style="text-align: center">密码修改</p></h1><br><br>
+        <h2> <p style="text-align: center">修改密码</p></h2>
+        <br>
+        <br>
         <form action="${pageContext.request.contextPath}/user/changePsd" class="layui-form-pane">
 
 
@@ -91,8 +93,8 @@
             </div>
 
             <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                <div class="layui-input-inline" style="width: 100%">
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">提交</button>
                     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                     <%--<button type="reset" class="layui-btn layui-btn-primary"><a href="success.jsp" class="font-set">返回首页</a></button>--%>
                 </div>

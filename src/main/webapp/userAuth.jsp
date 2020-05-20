@@ -37,6 +37,12 @@
             return true;
         }
 
+
+        layui.ready('form', function () {
+            var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+            form.render('select');
+        });
+
     </script>
 </head>
 
@@ -86,28 +92,34 @@
 %>
 
 <br>
+<br>
 
 <div style="text-align: center;">
     <div class="layui-inline">
-        <h2>身份认证</h2><br>
-        <form action="${pageContext.request.contextPath}/user/userAuth" method="post" class="layui-form-pane" name="auth">
+        <h2>身份认证</h2>
+        <br>
+        <br>
+        <form action="${pageContext.request.contextPath}/user/userAuth" method="post" class="layui-form-item" name="auth">
 
             <div class="layui-form-item">
-                <label class="layui-form-label">真实姓名:</label>
+                <label class="layui-form-label" style="width: auto">真实姓名:</label>
                 <div class="layui-input-block">
                     <input type="text" name="realName" required  lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input">
                 </div>
             </div>
 
             <div class="layui-form-item">
-                <label class="layui-form-label">证件类型:</label>
+                <label class="layui-form-label" style="width: auto;">证件类型:</label>
                 <div class="layui-input-block">
-                    <input type="text"  readonly  lay-verify="text" placeholder="中华人民共和国居民身份证" autocomplete="off" class="layui-input">
+                    <%--<input type="text"  readonly  lay-verify="text" placeholder="中华人民共和国居民身份证" autocomplete="off" class="layui-input">--%>
+                        <select name="identity" id="identity" lay-verify="text">
+                            <option value="">中华人民共和国居民身份证</option>
+                        </select>
                 </div>
             </div>
 
             <div class="layui-form-item">
-                <label class="layui-form-label"></label>
+                <label class="layui-form-label"style="width: auto;">证件号：</label>
                 <div class="layui-input-block">
                     <input type="text"  name="identity"  lay-verify="required" placeholder="请输入身份证号" autocomplete="off" class="layui-input">
                 </div>

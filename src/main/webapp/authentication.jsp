@@ -65,35 +65,40 @@
 %>
 
 <br>
-
+<br>
 <div style="text-align: center;">
     <div class="layui-inline">
-        <h2>身份认证</h2><br>
-    <form action="${pageContext.request.contextPath}/user/auth" method="post" class="layui-form-pane">
+        <h2>身份认证</h2>
+        <br>
+        <br>
+    <form action="${pageContext.request.contextPath}/user/auth" method="post" class="layui-form-item">
 
                 <div class="layui-form-item">
-                    <label class="layui-form-label">真实姓名:</label>
+                    <label class="layui-form-label"style="width: auto">真实姓名:</label>
                     <div class="layui-input-block">
                         <input type="text" name="realName" required  lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input">
                     </div>
                 </div>
 
                 <div class="layui-form-item">
-                    <label class="layui-form-label">证件类型:</label>
+                    <label class="layui-form-label"style="width: auto">证件类型:</label>
                     <div class="layui-input-block">
-                        <input type="text"  readonly  lay-verify="required" placeholder="中华人民共和国居民身份证" autocomplete="off" class="layui-input">
+                        <%--<input type="text"  readonly  lay-verify="required" placeholder="中华人民共和国居民身份证" autocomplete="off" class="layui-input">--%>
+                            <select name="identity" id="identity" lay-verify="text">
+                                <option value="">中华人民共和国居民身份证</option>
+                            </select>
                     </div>
                 </div>
 
                 <div class="layui-form-item">
-                    <label class="layui-form-label"></label>
+                    <label class="layui-form-label"style="width: auto">证件号：</label>
                     <div class="layui-input-block">
                         <input type="text"  name="identity"  lay-verify="required" placeholder="请输入身份证号" autocomplete="off" class="layui-input">
                     </div>
                 </div>
 
                 <div class="layui-form-item">
-                    <div class="layui-input-block">
+                    <div class="layui-input-inline" style="width: 100%">
                         <button class="layui-btn" lay-submit lay-filter="formDemo">身份认证</button>
                         <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                     </div>

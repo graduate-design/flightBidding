@@ -35,12 +35,6 @@
             element.render();
         });
 
-        //渲染select的下拉框
-        // layui.use('form', function () {
-        //     var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
-        //     form.render('select');
-        // });
-
 
 
     $(document).ready(function () {
@@ -147,6 +141,7 @@
     </tbody>
 </table>
 
+<br>
 <br>
 
 <div style="text-align: center;">
