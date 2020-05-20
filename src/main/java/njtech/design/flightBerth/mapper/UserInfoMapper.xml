@@ -78,4 +78,8 @@
         where phone = #{phone}
     </update>
 
+    <delete id="deleteUser">
+        delete from user_info where phone = #{phone}
+    </delete>
+
 </mapper>

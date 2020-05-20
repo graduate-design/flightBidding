@@ -35,4 +35,6 @@ public interface UserService {
 
     boolean changePassword(String password,String phone);
 
+    //注销
+    int deleteUser(String phone);
 }

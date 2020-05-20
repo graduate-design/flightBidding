@@ -6,8 +6,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
-</head>
+    <title>所选航班信息</title>
 
 <link href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.css" rel="stylesheet">
 <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
@@ -16,24 +15,7 @@
 <script type="text/javascript" src="./resources/layui/layui-v2.5.6/layui/layui.js"></script>
 <script type="text/javascript" src="./resources/layui/layui-v2.5.6/layui/layui.all.js"></script>
 
-<style>
-    #subMenu {
-        display: none;
-        position: fixed;
-        top: 55px;
-        left: 10px;
-    }
-</style>
 <script>
-    function showSubMenu() {
-        var m = document.getElementById("subMenu");
-        m.style.display = "block";
-    }
-
-    function hiddenSubMenu() {
-        var m = document.getElementById("subMenu");
-        m.style.display = "none";
-    }
 
     $(document).ready(function () {
         var element = layui.element;
@@ -58,6 +40,7 @@
             <dl class="layui-nav-child">
                 <dd><a href="javascript:window.location = 'user/checkAdd'">添加机票信息</a></dd>
                 <dd><a href="javascript:window.location = 'user/checkTicket'">机票信息</a></dd>
+                <dd><a href="javascript:window.location = 'bid/showBid'">竞价信息</a></dd>
             </dl>
         </li>
         <li class="layui-nav-item">
@@ -84,18 +67,7 @@
         </tr>
         </thead>
         <tbody>
-        <%--<c:forEach items="${allFlights}" var="flight">--%>
-            <%--<form action="${pageContext.request.contextPath}/bid/check" method="get">--%>
-                <%--<tr>--%>
-                    <%--<td>${flight.airCompanyName}</td>--%>
-                    <%--<td>${flight.flightNum}</td>--%>
-                    <%--<td>${flight.flightDate}--%>
-                    <%--</td>--%>
-                    <%--<td><input type="hidden" name = "flight" value="${flight.id}" readonly><button class="layui-btn" lay-submit lay-filter="formDemo">竞价</button></td>--%>
-                <%--</tr>--%>
-            <%--</form>--%>
 
-        <%--</c:forEach>--%>
 
         <%
             List<FlightRespDTO> list = (List<FlightRespDTO>) session.getAttribute("flights");
@@ -127,10 +99,8 @@
 
     %>
 
-
         </tbody>
     </table>
-
 
 </body>
 </html>

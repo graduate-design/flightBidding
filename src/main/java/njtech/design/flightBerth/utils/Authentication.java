@@ -1,12 +1,7 @@
 package njtech.design.flightBerth.utils;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
+
 import sun.misc.BASE64Encoder;
-import sun.net.www.http.HttpClient;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -17,6 +12,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
@@ -33,7 +29,9 @@ public class Authentication {
         Key sKey = new SecretKeySpec(secretKey.getBytes("UTF-8"), mac.getAlgorithm());
         mac.init(sKey);
         byte[] hash = mac.doFinal(signStr.getBytes("UTF-8"));
-        String sig = new BASE64Encoder().encode(hash);
+//        String sig = new BASE64Encoder().encode(hash);
+        byte[] str = Base64.getEncoder().encode(hash);
+        String sig = new String(str);
 
         String auth = "hmac id=\"" + secretId + "\", algorithm=\"hmac-sha1\", headers=\"x-date x-source\", signature=\"" + sig + "\"";
         return auth;

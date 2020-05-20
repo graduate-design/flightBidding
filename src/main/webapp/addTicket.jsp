@@ -105,6 +105,7 @@
             <dl class="layui-nav-child">
                 <dd><a href="javascript:window.location = 'user/checkAdd'">添加机票信息</a></dd>
                 <dd><a href="javascript:window.location = 'user/checkTicket'">机票信息</a></dd>
+                <dd><a href="javascript:window.location = 'bid/showBid'">竞价信息</a></dd>
             </dl>
         </li>
         <li class="layui-nav-item">
@@ -126,12 +127,10 @@
 <%
     String addTicketInfo = (String) session.getAttribute("addTicketInfo");
 
-    if(addTicketInfo != null /*&& "您需要进行身份认证，才能进行下一步操作".equals(errorInfo)*/) {
+    if(addTicketInfo != null) {
 %>
 <script type="text/javascript" language="javascript">
     alert("<%=addTicketInfo%>");                                            // 弹出错误信息
-
-    // window.location='Authentication' ;                            // 跳转到登录界面
 </script>
 <%
         session.setAttribute("addTicketInfo",null);

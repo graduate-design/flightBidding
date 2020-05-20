@@ -53,14 +53,14 @@ public class PriceServiceImpl implements PriceService {
                 }else {
                     System.out.println("您的竞价需比上次高");
                     priceDTO.setMsg("您的竞价需比上次高");
-                    int rank = rank(userInfo.getPhone(),firstExist.getBerthClass());
+                    int rank = rank(userInfo.getPhone(),firstExist.getBerthClass(),flight.getFlightCode());
                     priceDTO.setRank(rank);
                     return priceDTO;
                 }
         }else if (bidClass.equalsIgnoreCase(BerthClass.FISRTCLASS.getBerthClass()) && firstExist==null && businessExist !=null){
             System.out.println("您存在其他舱位的竞价，如果需要进行本舱位的竞价，请在竞价管理中取消其他舱位的竞价");
             priceDTO.setPriceExist(businessExist);
-            int rank = rank(userInfo.getPhone(),businessExist.getBerthClass());
+            int rank = rank(userInfo.getPhone(),businessExist.getBerthClass(),flight.getFlightCode());
             priceDTO.setRank(rank);
             priceDTO.setMsg("您存在其他舱位的竞价，如果需要进行本舱位的竞价，请在竞价管理中取消其他舱位的竞价");
         }else if (bidClass.equalsIgnoreCase(BerthClass.BUSINESSCLASS.getBerthClass()) &&  businessExist !=null &&firstExist==null){
@@ -75,7 +75,7 @@ public class PriceServiceImpl implements PriceService {
             }else {
                 System.out.println("您的竞价需比上次高");
                 priceDTO.setMsg("您的竞价需比上次高");
-                int rank = rank(userInfo.getPhone(),firstExist.getBerthClass());
+                int rank = rank(userInfo.getPhone(),firstExist.getBerthClass(),flight.getFlightCode());
                 priceDTO.setRank(rank);
                 return priceDTO;
             }
@@ -84,7 +84,7 @@ public class PriceServiceImpl implements PriceService {
 
             System.out.println("您存在其他舱位的竞价，如果需要进行本舱位的竞价，请在竞价管理中取消其他舱位的竞价");
             priceDTO.setPriceExist(firstExist);
-            int rank = rank(userInfo.getPhone(),firstExist.getBerthClass());
+            int rank = rank(userInfo.getPhone(),firstExist.getBerthClass(),flight.getFlightCode());
             priceDTO.setRank(rank);
             priceDTO.setMsg("您存在其他舱位的竞价，如果需要进行本舱位的竞价，请在竞价管理中取消其他舱位的竞价");
 
@@ -111,7 +111,7 @@ public class PriceServiceImpl implements PriceService {
             priceObj.setCreateTime(date);
             priceObj.setDelFlag((byte)0);
             int count = priceMapper.insertPrice(priceObj);
-            int rank = rank(userInfo.getPhone(),bidClass);
+            int rank = rank(userInfo.getPhone(),bidClass,flight.getFlightCode());
             priceDTO.setChangeRow(count);
             priceDTO.setRank(rank);
         }
@@ -120,8 +120,8 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public int rank(String phone,String bidClass) {
-        int rank = priceMapper.rank(phone,bidClass);
+    public int rank(String phone,String bidClass,String flightCode) {
+        int rank = priceMapper.rank(phone,bidClass,flightCode);
         return rank;
     }
 
@@ -135,7 +135,7 @@ public class PriceServiceImpl implements PriceService {
         Date date = new Date();
         int row = priceMapper.updatePrice(bidClass,price,flightCode,date,userInfo.getPhone());
 
-        int rank = rank(userInfo.getPhone(),bidClass);
+        int rank = rank(userInfo.getPhone(),bidClass,flightCode);
 
         priceDTO.setRank(rank);
         priceDTO.setChangeRow(row);
@@ -193,6 +193,7 @@ public class PriceServiceImpl implements PriceService {
                     flight.getStartPlace(),flight.getTargetPlace(),successRank.getFlightDate(),TicketRemarkEnum.BIDDING.getRemark());
             if (rd==1){
                 //支付成功
+                System.out.println(successRank.getPhone()+"用户支付成功");
                 //将这些最终成功的购票信息给新增升舱后的记录
                 Ticket ticket1 = new Ticket();
                 //原来的购票记录 已升舱
@@ -227,6 +228,7 @@ public class PriceServiceImpl implements PriceService {
 
             }else {
                 //下一个 放弃支付 或 支付失败
+                System.out.println(successRank.getPhone()+"用户支付失败");
                 ticket.setRemark(TicketRemarkEnum.EXPIRED.getRemark());
                 ticketMapper.updateTicketRemarkById(ticket.getId(),ticket.getRemark());
                 Price price = new Price();
@@ -248,5 +250,17 @@ public class PriceServiceImpl implements PriceService {
     public int removePrice(Flight flight, UserInfo userInfo) {
         int row = priceMapper.removePrice(flight.getFlightCode(),userInfo.getPhone(),userInfo.getUserName());
         return row;
+    }
+
+    @Override
+    public PriceDTO findPriceAndRank(String phone, String flightCode) {
+        Price price = priceMapper.findPrice(null,flightCode,phone);
+        int rank = priceMapper.rank(phone,price.getBerthClass(),flightCode);
+
+        PriceDTO priceDTO = new PriceDTO();
+        priceDTO.setRank(rank);
+        priceDTO.setPriceExist(price);
+
+        return priceDTO;
     }
 }

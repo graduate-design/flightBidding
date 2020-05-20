@@ -3,6 +3,7 @@ package njtech.design.flightBerth.task;
 import njtech.design.flightBerth.entity.Flight;
 import njtech.design.flightBerth.service.FlightService;
 import njtech.design.flightBerth.service.PriceService;
+import njtech.design.flightBerth.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,7 @@ public class TimeTask {
     private FlightService flightService;
 
     @Autowired
-    private PriceService priceService;
+    private TicketService ticketService;
 
 //    @Scheduled(cron = "0 0/1 * * * ? ") // 每分钟执行一次
     @Scheduled(fixedDelay = 1000*60)
@@ -36,6 +37,7 @@ public class TimeTask {
 //        System.out.print(new Date()+"    ");
         List<Flight> flights =  flightService.solveExpiredFlight();
 
+        ticketService.solveExpiredTicket();
 
     }
 }

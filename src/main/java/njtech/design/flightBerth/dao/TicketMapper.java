@@ -41,4 +41,8 @@ public interface TicketMapper {
 
     Ticket findTicket(@Param("id")int id);
 
+    int solveExpiredTicket(@Param("flightTime")Date flightTime);
+
+
+
 }

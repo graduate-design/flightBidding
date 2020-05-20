@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int findIdentity(String identity) {
-        return 0;
+        return userMapper.findIdentity(identity);
     }
 
     @Override
@@ -79,5 +79,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean changePassword(String password,String phone) {
         return userMapper.changePassword(password,phone) == 1?true:false;
+    }
+
+    @Override
+    public int deleteUser(String phone) {
+
+        return userMapper.deleteUser(phone);
     }
 }

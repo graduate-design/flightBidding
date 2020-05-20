@@ -65,6 +65,7 @@
             <dl class="layui-nav-child">
                 <dd><a href="javascript:window.location = 'user/checkAdd'">添加机票信息</a></dd>
                 <dd><a href="javascript:window.location = 'user/checkTicket'">机票信息</a></dd>
+                <dd><a href="javascript:window.location = 'bid/showBid'">竞价信息</a></dd>
             </dl>
         </li>
         <li class="layui-nav-item">
@@ -88,8 +89,6 @@
     %>
     <script type="text/javascript" language="javascript">
         alert("<%=errorInfo%>");                                            // 弹出错误信息
-
-        // window.location='findFlight' ;                            // 跳转到登录界面
     </script>
     <%
             session.setAttribute("msg",null);

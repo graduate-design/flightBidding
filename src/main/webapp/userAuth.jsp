@@ -21,6 +21,22 @@
             var element = layui.element;
             element.render();
         });
+
+        function check()
+        {
+            if (isNaN(window.document.auth.identity.value))
+            {
+                alert("号码必须为数字");
+                return false;
+            }
+            if (window.document.auth.identity.value.length != 18)
+            {
+                alert("身份证长度必须为18位")
+                return false;
+            }
+            return true;
+        }
+
     </script>
 </head>
 
@@ -40,6 +56,7 @@
             <dl class="layui-nav-child">
                 <dd><a href="javascript:window.location = 'user/checkAdd'">添加机票信息</a></dd>
                 <dd><a href="javascript:window.location = 'user/checkTicket'">机票信息</a></dd>
+                <dd><a href="javascript:window.location = 'bid/showBid'">竞价信息</a></dd>
             </dl>
         </li>
         <li class="layui-nav-item">
@@ -58,12 +75,10 @@
 
 <%
     String errorInfo = (String)session.getAttribute("authInfo");         // 获取错误属性
-    if(errorInfo != null /*&& "您需要进行身份认证，才能进行下一步操作".equals(errorInfo)*/) {
+    if(errorInfo != null ) {
 %>
 <script type="text/javascript" language="javascript">
     alert("<%=errorInfo%>");                                            // 弹出错误信息
-
-    // window.location='Authentication' ;                            // 跳转到登录界面
 </script>
 <%
     session.setAttribute("authInfo",null);
@@ -75,7 +90,7 @@
 <div style="text-align: center;">
     <div class="layui-inline">
         <h2>身份认证</h2><br>
-        <form action="${pageContext.request.contextPath}/user/userAuth" method="post" class="layui-form-pane">
+        <form action="${pageContext.request.contextPath}/user/userAuth" method="post" class="layui-form-pane" name="auth">
 
             <div class="layui-form-item">
                 <label class="layui-form-label">真实姓名:</label>
@@ -100,7 +115,7 @@
 
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit lay-filter="formDemo">身份认证</button>
+                    <button class="layui-btn" lay-submit lay-filter="formDemo" >身份认证</button>
                     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                 </div>
             </div>

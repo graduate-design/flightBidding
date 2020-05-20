@@ -50,5 +50,5 @@ public interface UserMapper {
     //修改密码
     int changePassword(@Param("password") String password,@Param("phone") String phone);
 
-
+    int deleteUser(@Param("phone") String phone);
 }

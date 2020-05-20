@@ -14,8 +14,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
-</head>
+    <title>所有航班信息</title>
+
 <link href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.css" rel="stylesheet">
 <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
 <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
@@ -49,6 +49,7 @@
             <dl class="layui-nav-child">
                 <dd><a href="javascript:window.location = 'user/checkAdd'">添加机票信息</a></dd>
                 <dd><a href="javascript:window.location = 'user/checkTicket'">机票信息</a></dd>
+                <dd><a href="javascript:window.location = 'bid/showBid'">竞价信息</a></dd>
             </dl>
         </li>
         <li class="layui-nav-item">
@@ -77,17 +78,8 @@
     </tr>
     </thead>
     <tbody>
-    <%--<c:forEach items="${allFlights}" var="flight">--%>
-        <%--<form action="${pageContext.request.contextPath}/bid/check" method="get">--%>
-            <%--<tr>--%>
-                <%--<td>${flight.airCompanyName}</td>--%>
-                <%--<td>${flight.flightNum}</td>--%>
-                <%--<td>${flight.flightDate}</td>--%>
-                <%--<td><input type="hidden" name = "flight" value="${flight.id}" readonly><button class="layui-btn" lay-submit lay-filter="formDemo">竞价</button></td>--%>
-            <%--</tr>--%>
-        <%--</form>--%>
 
-    <%--</c:forEach>--%>
+
     <%
         List<FlightRespDTO> list = (List<FlightRespDTO>) session.getAttribute("allFlights");
         for (FlightRespDTO flight:list){

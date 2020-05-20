@@ -1,7 +1,9 @@
 package njtech.design.flightBerth.service;
 
 import njtech.design.flightBerth.entity.Flight;
+import njtech.design.flightBerth.entity.UserInfo;
 import njtech.design.flightBerth.entity.dto.FlightRespDTO;
+import njtech.design.flightBerth.entity.dto.ShowBidDTO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -61,4 +63,7 @@ public interface FlightService {
      * @return
      */
     Flight getFlight(String  airCompanyName,String flightNum,String startPlace,String targetPlace,Date flightDate);
+
+    List<ShowBidDTO> showBid(UserInfo userInfo);
+
 }

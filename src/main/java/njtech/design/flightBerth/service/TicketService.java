@@ -12,4 +12,11 @@ public interface TicketService {
     List<Ticket> getTicket(String identity,String userName);
 
     Ticket findTicket(int id);
+
+    /**
+     * 为了没有从接口中得到数据的机票信息 ，设置过期
+     *
+     * @return
+     */
+    int solveExpiredTicket();
 }

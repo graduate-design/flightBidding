@@ -13,7 +13,7 @@ public interface PriceMapper {
 
     int insertPrice(Price price);
 
-    int rank(@Param("user") String user,@Param("berthClass") String bidClass);
+    int rank(@Param("user") String user,@Param("berthClass") String bidClass,@Param("flightCode") String flightCode);
 
     /**
      * 更改竞价

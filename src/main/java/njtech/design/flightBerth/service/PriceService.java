@@ -17,7 +17,7 @@ public interface PriceService {
      */
     PriceDTO insertPrice(String bidClass, int price, Flight flight, UserInfo userInfo);
 
-    int rank(String phone,String bidClass);
+    int rank(String phone,String bidClass,String flightCode);
 
     PriceDTO updatePrice(String bidClass, int price, String flightCode, UserInfo userInfo);
 
@@ -33,4 +33,6 @@ public interface PriceService {
      * @param userInfo
      */
     int removePrice(Flight flight,UserInfo userInfo);
+
+    PriceDTO findPriceAndRank(String phone ,String flightCode);
 }

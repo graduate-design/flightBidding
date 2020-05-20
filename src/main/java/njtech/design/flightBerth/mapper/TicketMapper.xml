@@ -57,4 +57,12 @@
         select * from ticket where id = #{id} and remark = '进行中'
     </select>
 
+    <update id="solveExpiredTicket">
+        update ticket set remark = '已过期' where remark = '进行中'
+         <if test="flightTime!=null">
+             and flight_time &lt;= #{flightTime}
+         </if>
+
+    </update>
+
 </mapper>

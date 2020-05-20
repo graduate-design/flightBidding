@@ -22,8 +22,10 @@
     </insert>
 
     <select id="rank" resultType="int">
-        select r.row_num from (select row_number() OVER(order by e.price desc,e.create_time asc) as row_num ,e.price,e.user_code,e.berth_class
-        from price e where e.del_flag = 0 ) r where r.user_code=#{user} and r.berth_class = #{berthClass}
+        select r.row_num from
+        (select row_number() OVER(order by e.price desc,e.create_time asc) as row_num ,e.price,e.user_code,e.berth_class,e.flight_code
+        from price e where e.del_flag = 0 ) r
+        where r.user_code=#{user} and r.berth_class = #{berthClass} and r.flight_code = #{flightCode}
 
     </select>
 
@@ -34,7 +36,11 @@
     </update>
 
     <select id="findPrice" resultMap="RM">
-        select * from price where flight_code = #{flightCode} and user_code = #{userCode} and berth_class = #{berthClass} and del_flag = 0
+        select * from price where flight_code = #{flightCode} and user_code = #{userCode} and del_flag = 0
+        <if test="berthClass!=null">
+            and berth_class = #{berthClass}
+        </if>
+
     </select>
 
     <select id="getEventualRank" resultType="njtech.design.flightBerth.entity.dto.SuccessRank">

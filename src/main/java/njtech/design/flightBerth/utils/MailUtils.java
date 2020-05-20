@@ -30,7 +30,7 @@ public class MailUtils{
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("clupinya@163.com：", "123456789LY");
+                return new PasswordAuthentication("clupinya@163.com", "123456789LY");
             }
 
         });

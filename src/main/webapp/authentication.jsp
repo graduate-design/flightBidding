@@ -8,9 +8,9 @@
     <link href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.css" rel="stylesheet">
     <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="./resources/layui/layui-v2.5.6/layui/css/layui.css">
-<script type="text/javascript" src="./resources/layui/layui-v2.5.6/layui/layui.js"></script>
-<script type="text/javascript" src="./resources/layui/layui-v2.5.6/layui/layui.all.js"></script>
+    <link rel="stylesheet" href="./resources/layui/layui-v2.5.6/layui/css/layui.css">
+    <script type="text/javascript" src="./resources/layui/layui-v2.5.6/layui/layui.js"></script>
+    <script type="text/javascript" src="./resources/layui/layui-v2.5.6/layui/layui.all.js"></script>
 <script>
     $(document).ready(function () {
         var element = layui.element;
@@ -35,6 +35,7 @@
             <dl class="layui-nav-child">
                 <dd><a href="javascript:window.location = 'user/checkAdd'">添加机票信息</a></dd>
                 <dd><a href="javascript:window.location = 'user/checkTicket'">机票信息</a></dd>
+                <dd><a href="javascript:window.location = 'bid/showBid'">竞价信息</a></dd>
             </dl>
         </li>
         <li class="layui-nav-item">
@@ -57,19 +58,17 @@
 %>
 <script type="text/javascript" language="javascript">
     alert("<%=errorInfo%>");                                            // 弹出错误信息
-
-    // window.location='Authentication' ;                            // 跳转到登录界面
 </script>
 <%
         session.setAttribute("info",null);
     }
 %>
 
-
+<br>
 
 <div style="text-align: center;">
     <div class="layui-inline">
-
+        <h2>身份认证</h2><br>
     <form action="${pageContext.request.contextPath}/user/auth" method="post" class="layui-form-pane">
 
                 <div class="layui-form-item">
@@ -91,7 +90,7 @@
                     <div class="layui-input-block">
                         <input type="text"  name="identity"  lay-verify="required" placeholder="请输入身份证号" autocomplete="off" class="layui-input">
                     </div>
-                </div>v
+                </div>
 
                 <div class="layui-form-item">
                     <div class="layui-input-block">

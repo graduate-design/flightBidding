@@ -13,8 +13,8 @@
 --%>
 <html>
 <head>
-    <title>Title</title>
-</head>
+    <title>机票信息</title>
+
 <link href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.css" rel="stylesheet">
 <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
 <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
@@ -41,8 +41,6 @@
     %>
     <script type="text/javascript" language="javascript">
         alert("<%=errorInfo%>");                                            // 弹出错误信息
-
-        // window.location='findFlight' ;                            // 跳转到登录界面
     </script>
     <%
             session.setAttribute("ticketBidInfo",null);
@@ -65,6 +63,7 @@
             <dl class="layui-nav-child">
                 <dd><a href="javascript:window.location = 'user/checkAdd'">添加机票信息</a></dd>
                 <dd><a href="javascript:window.location = 'user/checkTicket'">机票信息</a></dd>
+                <dd><a href="javascript:window.location = 'bid/showBid'">竞价信息</a></dd>
             </dl>
         </li>
         <li class="layui-nav-item">

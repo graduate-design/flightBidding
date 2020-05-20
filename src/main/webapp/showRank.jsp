@@ -38,6 +38,7 @@
             <dl class="layui-nav-child">
                 <dd><a href="javascript:window.location = 'user/checkAdd'">添加机票信息</a></dd>
                 <dd><a href="javascript:window.location = 'user/checkTicket'">机票信息</a></dd>
+                <dd><a href="javascript:window.location = 'bid/showBid'">竞价信息</a></dd>
             </dl>
         </li>
         <li class="layui-nav-item">
@@ -67,20 +68,6 @@
         session.setAttribute("bidInfo",null);
     }
 %>
-
-<%--您所竞价的航班是：${accurateFlight.flightNum}<br>--%>
-<%--您竞价的舱位是：--%>
-<%--<%--%>
-    <%--String bidClass = (String) session.getAttribute("bidClass");--%>
-    <%--if ("BusinessClass".equals(bidClass)){--%>
-        <%--out.print("商务舱");--%>
-    <%--}else if ("FirstClass".equals(bidClass)){--%>
-        <%--out.print("头等舱");--%>
-    <%--}--%>
-<%--%>--%>
-<%--您的上次出价：${submittedPrice}<br>--%>
-<%--目前排名：${presentRank}<br>--%>
-
 
 
 <div style="text-align: center;">
@@ -137,20 +124,14 @@
 
             <div class="layui-form-item">
                 <div class="layui-input-inline"style="width: 125%;">
-                    <button class="layui-btn" lay-submit lay-filter="formDemo">登录</button>
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">提交</button>
                     <%--<button type="reset" class="layui-btn layui-btn-primary"><a href="success.jsp" class="font-set">返回首页</a></button>--%>
                     <button type="reset" class="layui-btn layui-btn-primary"><a href="javascript:window.location = 'bid/exit'" class="font-set">退出竞价</a></button>
                 </div>
             </div>
         </form>
 
-        <%--<form action="${pageContext.request.contextPath}/bid/exit" class="layui-form-pane" method="get">--%>
-            <%--<div class="layui-form-item">--%>
-                <%--<div class="layui-input-block">--%>
-                    <%--<button class="layui-btn" lay-submit lay-filter="formDemo">退出竞价</button>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-        <%--</form>--%>
+
     </div>
 </div>
 
