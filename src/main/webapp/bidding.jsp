@@ -36,10 +36,38 @@
         });
 
         //渲染select的下拉框
-        layui.use('form', function () {
-            var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
-            form.render('select');
+        // layui.use('form', function () {
+        //     var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        //     form.render('select');
+        // });
+
+
+
+    $(document).ready(function () {
+        $.ajax({
+            timeout: 3000,
+            async: false,
+            type: "GET",
+            url: "flight/getBerth",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                $("#berthClass").empty();//清空下拉框
+                for (var i = 0; i < data.length; i++) {
+                    console.log(data[i]);
+                    $("#berthClass").append("<option value="+data[i]+">" + data[i]+ "</option>");
+                }
+
+            },
+            error: function() {
+                layer.msg('获取规则失败');
+
+            }
         });
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        form.render('select');
+    });
+
 </script>
 <body>
 
@@ -123,22 +151,21 @@
 
 <div style="text-align: center;">
     <div class="layui-inline">
-    <form action="${pageContext.request.contextPath}/bid/subPrice" method="get" onsubmit="return test()" class="layui-form-pane">
+    <form action="${pageContext.request.contextPath}/bid/subPrice" method="get" onsubmit="return test()" class="layui-form">
 
         <div class="layui-form-item">
-            <label class="layui-form-label">升舱舱位：</label>
+            <label class="layui-form-label" style="width: 150px">升舱舱位：</label>
             <div class="layui-input-inline">
-                <select name="class" id="berthClass" lay-verify="required">
-                    <option value="BusinessClass">商务舱</option>
-                    <option value="FirstClass">头等舱</option>
+                <select name="berthClass" id="berthClass" lay-verify="required">
+
                 </select>
             </div>
         </div>
 
 
         <div class="layui-form-item">
-            <label class="layui-form-label">竞价：</label>
-            <div class="layui-input-block">
+            <label class="layui-form-label" style="width: 150px">竞价：</label>
+            <div class="layui-input-inline">
                 <input type="number" name="price" required  step ="1" min="0" onkeyup="this.value= this.value.match(/\d+(\.\d{0,2})?/) ? this.value.match(/\d+(\.\d{0,2})?/)[0] : ''" lay-verify="required" placeholder="请输入您的竞价金额" autocomplete="off" class="layui-input">
             </div>
         </div>

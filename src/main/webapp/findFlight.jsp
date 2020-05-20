@@ -102,13 +102,12 @@
 <div style="text-align: center;">
     <div class="layui-inline">
     <h2> <p style="text-align: center">精确查找</p></h2><br><br>
-    <form action="${pageContext.request.contextPath}/bid/findFlight" class="layui-form-pane" method="post">
+    <form action="${pageContext.request.contextPath}/bid/findFlight" class="layui-form" method="post">
 
 
             <div class="layui-form-item">
-                <label class="layui-form-label">航空公司：</label>
-                <div class="layui-input-inline" style="width: 50%;">
-                    <%--<input type="text" name="airCompanyName"   lay-verify="text" placeholder="请输入航空公司" autocomplete="off" class="layui-input">--%>
+                <label class="layui-form-label" style="width: auto">航空公司：</label>
+                <div class="layui-input-block" style="width: 200px;">
                     <select name="airCompanyName" id="airCompanyName" lay-verify="text">
                         <option value="">请选择</option>
                     </select>
@@ -116,24 +115,23 @@
             </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label">航&nbsp;班&nbsp;号：</label>
-            <div class="layui-input-block" style="width: 80%;">
+            <label class="layui-form-label" style="width: auto">航班号：</label>
+            <div class="layui-input-block" style="width: 200px;">
                 <input type="text" name="flightNum"   lay-verify="text" placeholder="请输入航班号" autocomplete="off" class="layui-input">
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label">起飞日期：</label>
-            <div class="layui-input-block" style="width: 80%;">
+            <label class="layui-form-label" style="width: auto">起飞日期：</label>
+            <div class="layui-input-block" style="width: 200px;">
                 <input type="date" name="startDate"    placeholder="请输入起飞日期" autocomplete="off" class="layui-input">
             </div>
         </div>
 
-        <div class="layui-form-item">
-            <div class="layui-input-block" style="width: 70%;">
-                <button class="layui-btn" id="addpeop" lay-submit lay-filter="formDemo">查找</button>
+        <div class="layui-form-item" >
+            <div class="layui-input-block" style="width: 60%;" >
+                <button class="layui-btn" lay-submit lay-filter="formDemo">查找</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                <%--<button type="reset" class="layui-btn layui-btn-primary"><a href="success.jsp" class="font-set">返回首页</a></button>--%>
             </div>
         </div>
     </form>

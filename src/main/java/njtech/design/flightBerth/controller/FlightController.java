@@ -37,6 +37,14 @@ public class FlightController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "/getBerth",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
+    public List<String> getBerth(){
+        String[] strings = {"商务舱","头等舱"};
+        List<String> stringList = Arrays.asList(strings);
+        return stringList;
+    }
+
+    @ResponseBody
     @RequestMapping(value = "/getCity",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
     public List<String> getCity(){
         String[] list = {"北京","天津","石家庄","邯郸","唐山","秦皇岛","张家口","太原","运城","长治","大同","呼和浩特","包头","鄂尔多斯", "满洲里","乌兰浩特",
@@ -46,7 +54,7 @@ public class FlightController {
                 "常德","衡阳","广州","深圳","珠海","揭阳","湛江","梅州","南宁","桂林","北海","柳州","三亚","海口","重庆","成都","宜宾","南充","西昌","达州","攀枝花","稻城","康定",
                 "贵阳","遵义","荔波","六盘水","昆明","丽江","腾冲","香格里拉","临沧","拉萨","林芝","日喀则","西安",
                 "兰州","敦煌","嘉峪关","庆阳","西宁","格尔木","玉树","乌鲁木齐","喀什","伊宁","吐鲁番"};
-        String[] strings = {"成都","杭州","重庆","武汉","西安","苏州","天津","南京","长沙","郑州","东莞","青岛","沈阳","宁波","昆明"};
+        String[] strings = {"北京","成都","杭州","重庆","武汉","西安","苏州","天津","南京","长沙","郑州","东莞","青岛","沈阳","宁波","昆明"};
         List<String> stringList = Arrays.asList(strings);
         return stringList;
     }
