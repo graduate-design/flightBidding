@@ -19,6 +19,6 @@ public class TicketDTO {
     private String start;
     private String destination;
     private String berthClass;
-    private String gateNum;
-    private String seatNum;
+//    private String gateNum;
+//    private String seatNum;
 }

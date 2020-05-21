@@ -209,20 +209,20 @@
             </div>
         </div>
 
-        <div class="layui-form-item">
-            <label class="layui-form-label" style="width: 110px">登机口:</label>
-            <div class="layui-input-block" style="width: 350px">
-                <input type="text" name="gateNum" required  lay-verify="required" placeholder="请输入登机口" autocomplete="off" class="layui-input">
-            </div>
-        </div>
+        <%--<div class="layui-form-item">--%>
+            <%--<label class="layui-form-label" style="width: 110px">登机口:</label>--%>
+            <%--<div class="layui-input-block" style="width: 350px">--%>
+                <%--<input type="text" name="gateNum" required  lay-verify="required" placeholder="请输入登机口" autocomplete="off" class="layui-input">--%>
+            <%--</div>--%>
+        <%--</div>--%>
 
 
-        <div class="layui-form-item">
-            <label class="layui-form-label" style="width: 110px">座位号:</label>
-            <div class="layui-input-block" style="width: 350px">
-                <input type="text" name="seatNum" required  lay-verify="required" placeholder="请输入座位号" autocomplete="off" class="layui-input">
-            </div>
-        </div>
+        <%--<div class="layui-form-item">--%>
+            <%--<label class="layui-form-label" style="width: 110px">座位号:</label>--%>
+            <%--<div class="layui-input-block" style="width: 350px">--%>
+                <%--<input type="text" name="seatNum" required  lay-verify="required" placeholder="请输入座位号" autocomplete="off" class="layui-input">--%>
+            <%--</div>--%>
+        <%--</div>--%>
 
 
         <div class="layui-form-item">

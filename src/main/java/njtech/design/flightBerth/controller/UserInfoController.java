@@ -252,12 +252,19 @@ public class UserInfoController {
 
         ticket.setStart(ticketDTO.getStart());
         ticket.setDestination(ticketDTO.getDestination());
-        ticket.setGateNum(ticketDTO.getGateNum());
-        ticket.setSeatNum(ticketDTO.getSeatNum());
-
-
+        ticket.setGateNum(null);
+        ticket.setSeatNum(null);
         ticket.setIdentity(userInfo.getIdentity());
         ticket.setUserName(userInfo.getUserName());
+
+        //假设调查询接口
+        int rd=Math.random()>0.5?1:0;
+        System.out.println(rd);
+        if (rd==0){
+
+            session.setAttribute("addTicketInfo","查询不到您的购票记录,请重试");
+            return "redirect:/addTicket.jsp";
+        }
 
         int row = ticketService.insertTicket(ticket);
         if (row!=0){

@@ -35,9 +35,11 @@
     <insert id="insertTicket" parameterType="njtech.design.flightBerth.entity.Ticket">
         INSERT INTO
         ticket
-        (tic_code,identity,user_name,buy_way,flight_num,start,destination,flight_time,flight_date,gate_num,seat_num,remark,air_company_name,berth_name)
+        (tic_code,identity,user_name,buy_way,flight_num,start,destination,flight_time,flight_date,
+        gate_num,seat_num,remark,air_company_name,berth_name)
         VALUES
-        (#{ticCode},#{identity},#{userName},#{buyWay},#{flightNum},#{start},#{destination},#{flightTime},#{flightDate},#{gateNum},#{seatNum},#{remark},#{airCompanyName},#{berthName})
+        (#{ticCode},#{identity},#{userName},#{buyWay},#{flightNum},#{start},#{destination},#{flightTime},#{flightDate},
+        #{gateNum},#{seatNum},#{remark},#{airCompanyName},#{berthName})
     </insert>
 
     <update id="updateTicketRemarkById">
@@ -59,9 +61,9 @@
 
     <update id="solveExpiredTicket">
         update ticket set remark = '已过期' where remark = '进行中'
-         <if test="flightTime!=null">
-             and flight_time &lt;= #{flightTime}
-         </if>
+        <if test="flightTime!=null">
+            and flight_time &lt;= #{flightTime}
+        </if>
 
     </update>
 
