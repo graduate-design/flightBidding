@@ -24,10 +24,10 @@
     <select id="getFlightAndTicket" resultMap="RM">
         select * from ticket where identity = #{identity} and flight_num = #{flightNum} and flight_time=#{flightDate}
         <if test="startPlace!=null and startPlace!=''">
-            and start = #{startPlace}
+            and start = #{startPlace,jdbcType=VARCHAR}
         </if>
         <if test="targetPlace!=null and targetPlace!=''">
-            and destination = #{targetPlace}
+            and destination = #{targetPlace,jdbcType=VARCHAR}
         </if>
         and remark = #{remark}
     </select>
@@ -52,7 +52,7 @@
     </update>
 
     <select id="getTicket" resultMap="RM">
-        select * from ticket where identity = #{identity} and user_name = #{userName}
+        select * from ticket where identity = #{identity} and user_name = #{userName} ORDER BY flight_time
     </select>
 
     <select id="findTicket" resultMap="RM">
@@ -62,7 +62,7 @@
     <update id="solveExpiredTicket">
         update ticket set remark = '已过期' where remark = '进行中'
         <if test="flightTime!=null">
-            and flight_time &lt;= #{flightTime}
+            and flight_time &lt;= #{flightTime,jdbcType=TIMESTAMP }
         </if>
 
     </update>

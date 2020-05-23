@@ -22,22 +22,6 @@
             element.render();
         });
 
-        function check()
-        {
-            if (isNaN(window.document.auth.identity.value))
-            {
-                alert("号码必须为数字");
-                return false;
-            }
-            if (window.document.auth.identity.value.length != 18)
-            {
-                alert("身份证长度必须为18位")
-                return false;
-            }
-            return true;
-        }
-
-
         layui.ready('form', function () {
             var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
             form.render('select');

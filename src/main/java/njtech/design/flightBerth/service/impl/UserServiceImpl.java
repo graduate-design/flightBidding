@@ -68,7 +68,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int findIdentity(String identity) {
-        return userMapper.findIdentity(identity);
+        UserInfo userInfo = userMapper.findIdentity(identity);
+        if(userInfo!=null){
+            return 1;
+        }
+        return 0;
     }
 
     @Override

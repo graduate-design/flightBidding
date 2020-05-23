@@ -7,7 +7,7 @@
     <resultMap id="RM" type="njtech.design.flightBerth.entity.Flight">
         <id property="id" column="id" jdbcType="INTEGER"/>
         <result property="flightCode" column="flight_code" jdbcType="VARCHAR"/>
-        <result property="airCompanyCode" column="air_company_code" jdbcType="INTEGER"/>
+        <result property="airCompanyCode" column="air_company_code" jdbcType="VARCHAR"/>
         <result property="airCompanyName" column="air_company_name" jdbcType="VARCHAR"/>
         <result property="flightNum" column="flight_num" jdbcType="VARCHAR"/>
         <result property="flightDate" column="flight_date" jdbcType="TIMESTAMP" />
@@ -24,16 +24,16 @@
         from flight f
         where
             f.del_flag = 0
-        <if test="airCompanyName!=null and flightNum!=''">
-          and  air_company_name = #{airCompanyName}
+        <if test="airCompanyName != '' and airCompanyName != null">
+          and  air_company_name = #{airCompanyName,jdbcType=VARCHAR}
         </if>
 
-        <if test="flightNum!=null and flightNum!=''">
-            and flight_num = #{flightNum}
+        <if test="flightNum != null and flightNum != '' ">
+            and flight_num = #{flightNum,jdbcType=VARCHAR}
         </if>
 
-        <if test="startDate!=null ">
-            and flight_date > #{startDate}
+        <if test="startDate != null ">
+            and flight_date > #{startDate, jdbcType=TIMESTAMP }
         </if>
         order by flight_date
 

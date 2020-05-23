@@ -44,7 +44,7 @@ public interface UserMapper {
 
     int findEmail(@Param("email")String email);
 
-    int findIdentity(@Param("identity") String identity);
+    UserInfo findIdentity(@Param("identity") String identity);
 
     int modify(UserInfo user,@Param("phone") String phone);
     //修改密码

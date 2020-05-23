@@ -37,8 +37,8 @@
 
     <select id="findPrice" resultMap="RM">
         select * from price where flight_code = #{flightCode} and user_code = #{userCode} and del_flag = 0
-        <if test="berthClass!=null">
-            and berth_class = #{berthClass}
+        <if test="berthClass!=null and berthClass !='' ">
+            and berth_class = #{berthClass,jdbcType=VARCHAR}
         </if>
 
     </select>

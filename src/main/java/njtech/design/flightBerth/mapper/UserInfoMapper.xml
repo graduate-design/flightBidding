@@ -52,8 +52,8 @@
         select count(*) from user_info where email = #{email}
     </select>
 
-    <select id="findIdentity" resultType="int">
-        select count(*) from user_info where identity = #{identity}
+    <select id="findIdentity" resultMap="RM">
+        select * from user_info where remark = '已认证' and identity = #{identity}
     </select>
 
     <update id="modify" parameterType="njtech.design.flightBerth.entity.UserInfo">

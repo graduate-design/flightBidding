@@ -103,15 +103,14 @@ public class BiddingController {
     //提交竞价
     @RequestMapping(value = "/subPrice", method = RequestMethod.GET)
     public String submitPrice(@Param("price") int price, HttpSession session, HttpServletRequest request) {
-        String bidClass = request.getParameter("class");
+        String bidClass = request.getParameter("berthClass");
         //检查该身份证下是否有订票信息
         Flight flight = (Flight) session.getAttribute("accurateFlight");
 
-        //TODO 需要在登录的时候存session中的登录账户
+        // 需要在登录的时候存session中的登录账户
         String phone = (String) session.getAttribute("phone");
-        //phone = "15850725308";
         if (StringUtils.isEmpty(phone)) {
-            //TODO 请先登录 转到登录主页
+            // 请先登录 转到登录主页
             return "redirect:/index.jsp";
         }
         UserInfo userInfo = userService.getUser(phone);
@@ -132,7 +131,13 @@ public class BiddingController {
         int count = flightService.getFlightAndTicket(userInfo.getIdentity(), flight.getFlightNum(), flight.getStartPlace(), flight.getTargetPlace(), flight.getFlightDate());
         if (count == 0) {
             session.setAttribute("ticketInfo", "未找到您购买本次航班的记录，如确实购买，请转到添加机票页面");
-            return "redirect:/success.jsp";
+            //得到从哪个页面过来的 精确查找  / 所有
+            String flag = (String) session.getAttribute("flag");
+            if ("accurate".equalsIgnoreCase(flag)){
+                //从精确查找
+                return "redirect:/success.jsp";
+            }
+            return "redirect:/bidding.jsp";
         } else {
             //有订票信息
             //转到竞价成功（添加竞价信息），显示排名界面
@@ -239,7 +244,7 @@ public class BiddingController {
     public String showBid(HttpSession session) {
         String phone = (String) session.getAttribute("phone");
         if (StringUtils.isEmpty(phone)) {
-            //TODO 请先登录 转到登录主页
+            // 请先登录 转到登录主页
             return "redirect:/index.jsp";
         }
 

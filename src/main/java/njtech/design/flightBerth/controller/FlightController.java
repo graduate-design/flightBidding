@@ -32,7 +32,7 @@ public class FlightController {
     public List<String> getAirCompany(){
         List<String> airCompanyNames = flightService.getAirCompany();
         //String result = JsonUtils.toJson(airCompanyNames);
-
+        System.out.println("航空公司数量"+airCompanyNames.size());
         return airCompanyNames;
     }
 
@@ -55,7 +55,7 @@ public class FlightController {
                 "贵阳","遵义","荔波","六盘水","昆明","丽江","腾冲","香格里拉","临沧","拉萨","林芝","日喀则","西安",
                 "兰州","敦煌","嘉峪关","庆阳","西宁","格尔木","玉树","乌鲁木齐","喀什","伊宁","吐鲁番"};
         String[] strings = {"北京","成都","杭州","重庆","武汉","西安","苏州","天津","南京","长沙","郑州","东莞","青岛","沈阳","宁波","昆明"};
-        List<String> stringList = Arrays.asList(strings);
+        List<String> stringList = Arrays.asList(list);
         return stringList;
     }
 

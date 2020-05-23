@@ -117,7 +117,14 @@
                 <%out.print(flight.getTargetPlace());%>
             </td>
             <td>
-                <%out.print(showBid.getBidClass());%>
+                <%
+                    if ("BusinessClass".equalsIgnoreCase(showBid.getBidClass())){
+                        out.print("商务舱");
+                    }
+                    if ("FirstClass".equalsIgnoreCase(showBid.getBidClass())){
+                        out.print("头等舱");
+                    }
+                    %>
             </td>
             <td>
                 <%out.print(showBid.getPrice());%>

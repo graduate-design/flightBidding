@@ -18,7 +18,7 @@
 <script type="text/javascript" src="./resources/layui/layui-v2.5.6/layui/layui.js"></script>
 <script type="text/javascript" src="./resources/layui/layui-v2.5.6/layui/layui.all.js"></script>
 
-    <script>
+    <script type="text/javascript" language="javascript">
     //获取select选中的内容
     function test(){
         var selectedComs = document.getElementById("berthClass");
@@ -48,8 +48,15 @@
                 console.log(data);
                 $("#berthClass").empty();//清空下拉框
                 for (var i = 0; i < data.length; i++) {
-                    console.log(data[i]);
-                    $("#berthClass").append("<option value="+data[i]+">" + data[i]+ "</option>");
+
+                    var berth = data[i];
+                    console.log(berth);
+                    if (berth == "头等舱"){
+                        $("#berthClass").append("<option value=FirstClass>" + data[i]+ "</option>");
+                    }
+                    if (berth == "商务舱"){
+                        $("#berthClass").append("<option value=BusinessClass>" + data[i]+ "</option>");
+                    }
                 }
 
             },
@@ -64,6 +71,27 @@
 
 </script>
 <body>
+
+<%
+    String bidInfo = (String)session.getAttribute("bidInfo");         // 获取错误属性
+    if(bidInfo != null) {
+%>
+<script type="text/javascript" language="javascript">
+    alert("<%=bidInfo%>");                                            // 弹出错误信息
+</script>
+<%
+        session.setAttribute("bidInfo",null);
+    }
+    String ticketInfo = (String) session.getAttribute("ticketInfo");
+    if (ticketInfo!=null){
+%>
+<script type="text/javascript" language="javascript">
+    alert("<%=ticketInfo%>");                                            // 弹出错误信息
+</script>
+<%      session.setAttribute("ticketInfo",null);
+    }
+%>
+
 
 <div>
     <ul class="layui-nav" lay-filter = "">
@@ -97,17 +125,6 @@
 </div>
 
 
-<%
-        String errorInfo = (String)session.getAttribute("bidInfo");         // 获取错误属性
-        if(errorInfo != null) {
-    %>
-    <script type="text/javascript" language="javascript">
-        alert("<%=errorInfo%>");                                            // 弹出错误信息
-    </script>
-        <%
-        session.setAttribute("bidInfo",null);
-        }
-    %>
 
 <table lay-filter="parse-table-demo" class="layui-table">
     <thead>
@@ -152,7 +169,8 @@
             <label class="layui-form-label" style="width: 150px">升舱舱位：</label>
             <div class="layui-input-inline">
                 <select name="berthClass" id="berthClass" lay-verify="required">
-
+                    <%--<option value="BusinessClass">商务舱</option>--%>
+                    <%--<option value="FirstClass">头等舱</option>--%>
                 </select>
             </div>
         </div>
@@ -174,6 +192,11 @@
         </div>
 
     </form>
+        <%--<%--%>
+            <%--//取得提交的数字，并显示  --%>
+            <%--String n = (String) request.getParameter("berthClass");--%>
+            <%--out.print("选的值是：" + n);--%>
+        <%--%>--%>
 </div>
 </div>
 </body>

@@ -14,11 +14,9 @@ import njtech.design.flightBerth.service.UserService;
 import njtech.design.flightBerth.utils.Authentication;
 import njtech.design.flightBerth.utils.DateConverters;
 import njtech.design.flightBerth.utils.EmailCheck;
-import njtech.design.flightBerth.utils.PhoneUtils;
+import njtech.design.flightBerth.utils.CheckUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,7 +27,6 @@ import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -114,7 +111,7 @@ public class UserInfoController {
             @RequestParam("email")String email,
             HttpSession session)
     {
-        boolean isMobile = PhoneUtils.isMobileNO(phone);
+        boolean isMobile = CheckUtils.isMobileNO(phone);
         if (!isMobile){
             session.setAttribute("registerMsg", "手机格式不对");
             return "redirect:/register.jsp";
@@ -281,12 +278,13 @@ public class UserInfoController {
         return "redirect:/index.jsp";
     }
 
+    //查看是否认证过
     @RequestMapping("/checkAuth")
     public String checkAuth(HttpSession session){
-        //TODO 需要在登录的时候存session中的登录账户
+        // 需要在登录的时候存session中的登录账户
         String phone = (String) session.getAttribute("phone");
         if (StringUtils.isEmpty(phone)){
-            //TODO 请先登录 转到登录主页
+            // 请先登录 转到登录主页
             return "redirect:/index.jsp";
         }
         boolean isRemark = userService.userIsRemark(phone);
@@ -300,10 +298,10 @@ public class UserInfoController {
 
     @RequestMapping("/userAuth")
     public String userAuth(AuthInfo authInfo,HttpSession session){
-        //TODO 需要在登录的时候存session中的登录账户
+        // 需要在登录的时候存session中的登录账户
         String phone = (String) session.getAttribute("phone");
         if (StringUtils.isEmpty(phone)){
-            //TODO 请先登录 转到登录主页
+            // 请先登录 转到登录主页
             return "redirect:/index.jsp";
         }
 
@@ -316,20 +314,37 @@ public class UserInfoController {
             return "redirect:/success.jsp";
         }
 
-        //名字是否为汉字
-        boolean numberFlag=authInfo.getRealName().matches("[0-9]+");
-        if (numberFlag){
-            session.setAttribute("authInfo","真实姓名应该为汉字");
+        //名字是否满足要求
+//        boolean numberFlag=authInfo.getRealName().matches("[0-9]+");
+        boolean isChinese = CheckUtils.isChinese(authInfo.getRealName());
+        if (!isChinese || authInfo.getRealName().length()<2){
+            session.setAttribute("authInfo","姓名格式错误");
             return "redirect:/userAuth.jsp";
         }
 
         //是否为18位
-        if (authInfo.getIdentity().length()!=18){
-            session.setAttribute("authInfo","身份证信息不足18位，请重新认证");
+        int len = authInfo.getIdentity().length();
+        char[] array = authInfo.getIdentity().toCharArray();
+        String sign = "";
+        if (!CheckUtils.isChinese(authInfo.getIdentity())){
+            for (int i = 0 ; i<len;i++){
+                String s = String.valueOf(array[i]);
+                if (s.matches("[0-9]+")){
+                    sign = authInfo.getIdentity().substring(i);
+                    break;
+                }
+            }
+        }else {
+            session.setAttribute("authInfo","身份证格式不对，请重新认证");
             return "redirect:/userAuth.jsp";
         }
 
-        int row = userService.findIdentity(authInfo.getIdentity());
+        if (sign.length()!=18){
+            session.setAttribute("authInfo","身份证格式不对，请重新认证");
+            return "redirect:/userAuth.jsp";
+        }
+
+        int row = userService.findIdentity(sign);
         if (row!=0){
             session.setAttribute("authInfo","此身份信息已被注册");
             return "redirect:/userAuth.jsp";
@@ -339,7 +354,7 @@ public class UserInfoController {
 
         String result = null;
         try {
-            result = Authentication.get(authInfo.getIdentity(),authInfo.getRealName());
+            result = Authentication.get(sign,authInfo.getRealName());
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (InvalidKeyException e) {
@@ -350,7 +365,7 @@ public class UserInfoController {
         if (result.contains("false")){
             //认证失败
             System.out.println(result);
-            session.setAttribute("authInfo","身份信息错误，请重新填写");
+            session.setAttribute("authInfo","身份信息不匹配，请重新填写");
             return "redirect:/userAuth.jsp";
         }else {
             // 认证成功
@@ -373,9 +388,8 @@ public class UserInfoController {
     @RequestMapping("/ticket")
     public String getTicket(HttpSession session){
         String phone = (String) session.getAttribute("phone");
-//        phone = "15850725308";
         if (StringUtils.isEmpty(phone)){
-            //TODO 请先登录 转到登录主页
+            //请先登录 转到登录主页
             return "redirect:/index.jsp";
         }
         UserInfo userInfo = userService.getUser(phone);
@@ -427,10 +441,10 @@ public class UserInfoController {
 
     @RequestMapping("/bid")
     public String bid(@RequestParam("ticketId")int ticketId, HttpSession session){
-        //TODO 需要在登录的时候存session中的登录账户
+        // 需要在登录的时候存session中的登录账户
         String phone = (String) session.getAttribute("phone");
         if (StringUtils.isEmpty(phone)){
-            //TODO 请先登录 转到登录主页
+            // 请先登录 转到登录主页
             return "redirect:/index.jsp";
         }
 
