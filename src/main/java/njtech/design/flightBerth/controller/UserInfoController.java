@@ -49,34 +49,52 @@ public class UserInfoController {
     //身份认证 (从查询页面)
     @RequestMapping(value = "/auth",method = RequestMethod.POST)
     public String authentication(AuthInfo authInfo,HttpSession session) throws UnsupportedEncodingException, InvalidKeyException, NoSuchAlgorithmException {
-        //TODO 需要在登录的时候存session中的登录账户
+        // 需要在登录的时候存session中的登录账户
         String phone = (String) session.getAttribute("phone");
-//        phone = "15850725308";
         if (StringUtils.isEmpty(phone)){
-            //TODO 请先登录 转到登录主页
+            //请先登录 转到登录主页
         }
 
-        //名字是否为汉字
-        boolean numberFlag=authInfo.getRealName().matches("[0-9]+");
-        if (numberFlag){
-            session.setAttribute("info","真实姓名应该为汉字");
-            return "redirect:/authentication.jsp";
+        //名字是否满足要求
+//        boolean numberFlag=authInfo.getRealName().matches("[0-9]+");
+        boolean isChinese = CheckUtils.isChinese(authInfo.getRealName());
+        if (!isChinese || authInfo.getRealName().length()<2){
+            session.setAttribute("authInfo","姓名格式错误");
+            return "redirect:/userAuth.jsp";
         }
 
         //是否为18位
-        if (authInfo.getIdentity().length()!=18){
-            session.setAttribute("info","身份证信息不足18位，请重新认证");
+        int len = authInfo.getIdentity().length();
+        char[] array = authInfo.getIdentity().toCharArray();
+        String sign = "";
+        if (!CheckUtils.isChinese(authInfo.getIdentity())){
+            for (int i = 0 ; i<len;i++){
+                String s = String.valueOf(array[i]);
+                if (s.matches("[0-9]+")){
+                    sign = authInfo.getIdentity().substring(i);
+                    break;
+                }
+            }
+        }else {
+            session.setAttribute("authInfo","身份证格式不对，请重新认证");
             return "redirect:/authentication.jsp";
         }
 
+        if (sign.length()!=18){
+            session.setAttribute("authInfo","身份证格式不对，请重新认证");
+            return "redirect:/authentication.jsp";
+        }
 
-        int row = userService.findIdentity(authInfo.getIdentity());
+        int row = userService.findIdentity(sign);
         if (row!=0){
-            session.setAttribute("info","此身份信息已被注册");
+            session.setAttribute("authInfo","此身份信息已被注册");
             return "redirect:/authentication.jsp";
         }
 
-        String result = Authentication.get(authInfo.getIdentity(),authInfo.getRealName());
+
+
+
+        String result = Authentication.get(sign,authInfo.getRealName());
         if (result.contains("false")){
             //认证失败
             System.out.println(result);
@@ -87,7 +105,7 @@ public class UserInfoController {
         //补充身份信息
         int sexIndex = result.indexOf("sex");
         String sex = result.substring(sexIndex+6,sexIndex+7);
-        int count = userService.userInfoSupplement(phone,authInfo.getRealName(),authInfo.getIdentity(),sex);
+        int count = userService.userInfoSupplement(phone,authInfo.getRealName(),sign,sex);
         if (count!=1){
             session.setAttribute("info","后台错误，请重新输入");
             return "redirect:/authentication.jsp";
@@ -296,6 +314,7 @@ public class UserInfoController {
         return "redirect:/userAuth.jsp";
     }
 
+    //验证身份信息
     @RequestMapping("/userAuth")
     public String userAuth(AuthInfo authInfo,HttpSession session){
         // 需要在登录的时候存session中的登录账户
@@ -372,7 +391,7 @@ public class UserInfoController {
             //补充身份信息
             int sexIndex = result.indexOf("sex");
             String sex = result.substring(sexIndex+6,sexIndex+7);
-            int count = userService.userInfoSupplement(phone,authInfo.getRealName(),authInfo.getIdentity(),sex);
+            int count = userService.userInfoSupplement(phone,authInfo.getRealName(),sign,sex);
             if (count!=1){
                 session.setAttribute("authInfo","后台错误，请重新输入");
                 return "redirect:/userAuth.jsp";
