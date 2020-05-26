@@ -8,6 +8,7 @@ import njtech.design.flightBerth.entity.dto.TicketDTO;
 import njtech.design.flightBerth.enums.AuthorityEnum;
 import njtech.design.flightBerth.enums.BerthClass;
 import njtech.design.flightBerth.enums.TicketRemarkEnum;
+import njtech.design.flightBerth.security.DuplicateData;
 import njtech.design.flightBerth.service.FlightService;
 import njtech.design.flightBerth.service.TicketService;
 import njtech.design.flightBerth.service.UserService;
@@ -122,6 +123,7 @@ public class UserInfoController {
     }
 
     @RequestMapping("/register")
+    @DuplicateData
     public String register(
             @RequestParam(value = "password",required = false) String password,
             @RequestParam(value = "repassword",required = false)String repassword,
@@ -157,7 +159,7 @@ public class UserInfoController {
             user.setAuthority(AuthorityEnum.MEMBER.getAuthorityCode());
             user.setRemark("未认证");
             user.setEmail(email);
-            //检测邮箱是否有效
+            // todo 检测邮箱是否有效
             boolean isTrue = EmailCheck.checkEmail(email);
             if (!isTrue){
                 session.setAttribute("registerMsg", "邮箱无效");
@@ -182,6 +184,7 @@ public class UserInfoController {
     }
 
     @RequestMapping("/login")
+    @DuplicateData
     public String loign(@RequestParam(value = "phone") String phone, @RequestParam(value = "password") String password,
                         HttpSession session){
 
@@ -203,7 +206,7 @@ public class UserInfoController {
     public String addTicket(TicketDTO ticketDTO, HttpSession session){
         String phone = (String) session.getAttribute("phone");
         if (StringUtils.isEmpty(phone)){
-            //TODO 请先登录 转到登录主页
+            // 请先登录 转到登录主页
             return "redirect:/index.jsp";
         }
 

@@ -16,7 +16,8 @@ public class EmailCheck {
 //    https://app.verify-email.org/api/v1/z9Wgv9G17I6M5uNtcKr90xBDCRgnkttEpyqInC4bnUlvl9OBAc/2826936197@qq.com
     public static boolean checkEmail(String email) {
         RestTemplate restTemplate = new RestTemplate();
-        String key = "z9Wgv9G17I6M5uNtcKr90xBDCRgnkttEpyqInC4bnUlvl9OBAc"; // 注册后就会有key值
+//        String key = "z9Wgv9G17I6M5uNtcKr90xBDCRgnkttEpyqInC4bnUlvl9OBAc"; // 注册后就会有key值
+        String key = "Y13aWzChVrmFBZb5ZjBYs09IhxZF0M8OqKPkesJszkgpJurnMJ";
         ResponseEntity<String> result = restTemplate.getForEntity("https://app.verify-email.org/api/v1/"+key+"/verify/"
                 + email,String.class);
         String resultStr = result.getBody();

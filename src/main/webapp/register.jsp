@@ -95,7 +95,7 @@
             <div class="layui-input-inline" style="width: 100%">
                 <button class="layui-btn" lay-submit lay-filter="formDemo">注册</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                <button type="reset" class="layui-btn layui-btn-primary"><a href="index.jsp" class="font-set">登录</a></button>
+                <button type="reset" class="layui-btn layui-btn-primary"><a href="index.jsp" class="font-set" >登录</a></button>
             </div>
         </div>
     </form>

@@ -50,4 +50,13 @@
     <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
          <constructor-arg ref="httpClientFactory" />
     </bean>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <!--<mvc:exclude-mapping path="/user/register"/>-->
+            <bean class="njtech.design.flightBerth.security.DuplicateInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 </beans>

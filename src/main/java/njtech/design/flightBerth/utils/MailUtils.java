@@ -30,14 +30,14 @@ public class MailUtils{
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("clupinya@163.com", "123456789LY");
+                return new PasswordAuthentication("clupinya@163.com", "EWLOUMBTBEIDZPBT");
             }
 
         });
         // 2.创建邮件对象
         Message message = new MimeMessage(session);
         // 2.1设置发件人：
-        message.setFrom(new InternetAddress("liberationjurt@163.com"));
+        message.setFrom(new InternetAddress("clupinya@163.com"));
         // 2.2设置收件人：
         message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
         // 2.3设置邮件的主题：
