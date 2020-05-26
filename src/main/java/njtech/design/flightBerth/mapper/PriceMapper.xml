@@ -22,10 +22,23 @@
     </insert>
 
     <select id="rank" resultType="int">
-        select r.row_num from
-        (select row_number() OVER(order by e.price desc,e.create_time asc) as row_num ,e.price,e.user_code,e.berth_class,e.flight_code
-        from price e where e.del_flag = 0 ) r
-        where r.user_code=#{user} and r.berth_class = #{berthClass} and r.flight_code = #{flightCode}
+
+    SELECT
+	r.row_num
+FROM
+	(
+	SELECT
+		row_number ( ) OVER ( ORDER BY e.price DESC, e.create_time ASC ) AS row_num,
+		e.price,
+		e.user_code,
+		e.berth_class,
+		e.flight_code
+	FROM
+		( SELECT * FROM price WHERE del_flag = 0 AND berth_class = #{berthClass} AND flight_code = #{flightCode} ) e
+	) r
+WHERE
+	r.user_code = #{user}
+
 
     </select>
 
@@ -76,4 +89,169 @@
           and user_name = #{userName}
       </if>
     </delete>
+
+    <!--TODO 管理-->
+    <sql id="Base_Column_List">
+		id,price_code,price,berth_class,user_code,user_name,flight_code,create_time,remark,del_flag
+	</sql>
+
+
+    <!--根据主键查询一条用户数据 -->
+    <select id="selectByPrimaryKey" resultMap="RM"
+            parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List" />
+        from price
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!-- 根据分页数据start 和size查询数据 -->
+    <select id="findByPage" parameterType="Map" resultMap="RM">
+        select
+        <include refid="Base_Column_List" />
+        from price
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+
+    <!--查询所有用户数据 -->
+    <select id="selectPriceList" resultType="njtech.design.flightBerth.entity.Price">
+        select
+        <include refid="Base_Column_List" />
+        from price
+    </select>
+
+    <!-- 查询用户记录总数 -->
+    <select id="selectCount" resultType="int">
+		select count(*) from price
+	</select>
+
+    <!--根据主键删除一条用户数据 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from ticket
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+    <!--插入一条完整用户数据 -->
+    <insert id="insert" parameterType="njtech.design.flightBerth.entity.Price">
+		insert into price (id, price_code, price, berth_class, user_code, user_name,flight_code,create_time,remark,del_flag)
+		values (#{id,jdbcType=INTEGER}, #{priceCode,jdbcType=VARCHAR},#{price,jdbcType=DOUBLE},#{berthClass,jdbcType=VARCHAR},
+		#{userCode,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{flightCode,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR},
+		 #{delFlag,jdbcType=TINYINT})
+	</insert>
+
+    <!--插入一条用户数据 ，可以不完整 -->
+    <insert id="insertSelective" parameterType="njtech.design.flightBerth.entity.Price">
+        insert into price
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="priceCode != null">
+                price_code,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="berthClass != null">
+                berth_class,
+            </if>
+            <if test="userCode != null">
+                user_code,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="flightCode != null">
+                flight_code,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="priceCode != null">
+                #{priceCode,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=DOUBLE},
+            </if>
+            <if test="berthClass != null">
+                #{berthClass,jdbcType=VARCHAR},
+            </if>
+            <if test="userCode != null">
+                #{userCode,jdbcType=INTEGER},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="flightCode != null">
+                #{flightCode,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+
+    <!--根据主键更新一条用户数据，可以不完整 -->
+    <update id="updateByPrimaryKeySelective" parameterType="njtech.design.flightBerth.entity.Price">
+        update price
+        <set>
+            <if test="priceCode != null">
+                price_code = #{priceCode,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=DOUBLE},
+            </if>
+            <if test="berthClass != null">
+                berth_class = #{berthClass,jdbcType=VARCHAR},
+            </if>
+            <if test="userCode != null">
+                user_code = #{userCode,jdbcType=INTEGER},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="flightCode != null">
+                flight_code = #{flightCode,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=TINYINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--根据主键更新一条用户数据 -->
+    <update id="updateByPrimaryKey" parameterType="njtech.design.flightBerth.entity.Price">
+		update price
+		set
+		price_code = #{ticCode,jdbcType=VARCHAR},
+		price = #{identity,jdbcType=DOUBLE},
+		berth_class = #{userName,jdbcType=VARCHAR},
+		user_code = #{buyWay,jdbcType=INTEGER},
+		user_name = #{airCompanyName,jdbcType=VARCHAR},
+		flight_code = #{flightNum,jdbcType=INTEGER},
+		create_time = #{flightNum,jdbcType=TIMESTAMP},
+		remark = #{start,jdbcType=VARCHAR},
+		del_flag = #{destination,jdbcType=TINYINT},
+		where id = #{id,jdbcType=INTEGER}
+	</update>
 </mapper>
