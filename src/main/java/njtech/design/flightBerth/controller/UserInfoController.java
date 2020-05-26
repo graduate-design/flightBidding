@@ -122,6 +122,7 @@ public class UserInfoController {
         return "redirect:/bidding.jsp";
     }
 
+    @SuppressWarnings("unchecked")
     @RequestMapping("/register")
     @DuplicateData
     public String register(

@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>查询航班</title>
+    <title>首页</title>
     <!--CDN上引入bootstrap样式和插件，可以不使用，自己写一样有效果-->
     <link href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.css" rel="stylesheet">
     <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>

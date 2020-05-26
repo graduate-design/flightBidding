@@ -26,11 +26,9 @@ public class DuplicateInterceptor extends HandlerInterceptorAdapter {
             DuplicateData annotation = method.getAnnotation(DuplicateData.class);
             if (annotation != null) {
                 if(repeatDataValidator(request))//如果重复相同数据
-                {    System.out.println("重复提交");
-                    return false;}
-                else{
+                    return false;
+                else
                     return true;
-                }
             }
             return true;
         } else {
@@ -44,8 +42,7 @@ public class DuplicateInterceptor extends HandlerInterceptorAdapter {
      */
     public boolean repeatDataValidator(HttpServletRequest httpServletRequest)
     {
-        String params= JSON.toJSONString(httpServletRequest.getParameterMap());
-        System.out.println("提交参数："+params);
+        String params=JSON.toJSONString(httpServletRequest.getParameterMap());
         String url=httpServletRequest.getRequestURI();
         Map<String,String> map=new HashMap<String,String>();
         map.put(url, params);
@@ -74,44 +71,6 @@ public class DuplicateInterceptor extends HandlerInterceptorAdapter {
     }
 
 
-
-    //返回响应体的Map
-    public static Map  getParameterMap(HttpServletRequest request){
-        Map<String,String[]> map = new HashMap<String,String[]>();
-        Map<String,Object> returnMap = new HashMap<String,Object>();
-
-        map = request.getParameterMap();
-        Iterator entries = map.entrySet().iterator();
-        Map.Entry entry;
-        String name ="";
-        String value=null;
-        while (entries.hasNext()){
-            entry=(Map.Entry)entries.next();
-            name = (String) entry.getKey();
-            Object objvalue = entry.getValue();
-            if(objvalue == null){
-                value = null;
-            }else if(objvalue instanceof String[]){
-                /**条件如果成立，objvalue就是一个数组，需要将它转换成为字符串，并拼接上逗号，并吧末尾的逗号去掉*/
-                String[] values = (String[]) objvalue;
-                for(int i=0;i<values.length;i++){
-                    value = values[i]+",";//这里我拼接的是英文的逗号。
-                }
-                value = value.substring(0,value.length()-1);//截掉最后一个逗号。
-            }else{
-                value = objvalue.toString();
-            }
-            returnMap.put(name , value);
-        }
-        Iterator it = returnMap.keySet().iterator();
-        while (it.hasNext()){
-            Object key = it.next();
-            if(returnMap.get(key) == null || "".equals (((String)returnMap.get(key)).trim())){
-                returnMap.put((String) key, null);
-            }
-        }
-        return returnMap;
-    }
 
 
 }
