@@ -1,13 +1,16 @@
 package njtech.design.flightBerth.controller;
 
 
+import njtech.design.flightBerth.dao.TicketMapper;
 import njtech.design.flightBerth.entity.Flight;
+import njtech.design.flightBerth.entity.Ticket;
 import njtech.design.flightBerth.entity.UserInfo;
 import njtech.design.flightBerth.entity.dto.FlightDTO;
 import njtech.design.flightBerth.entity.dto.FlightRespDTO;
 import njtech.design.flightBerth.entity.dto.PriceDTO;
 import njtech.design.flightBerth.entity.dto.ShowBidDTO;
 import njtech.design.flightBerth.enums.BerthClass;
+import njtech.design.flightBerth.enums.TicketRemarkEnum;
 import njtech.design.flightBerth.service.FlightService;
 import njtech.design.flightBerth.service.PriceService;
 import njtech.design.flightBerth.service.UserService;
@@ -33,6 +36,9 @@ public class BiddingController {
 
     @Autowired
     private FlightService flightService;
+
+    @Autowired
+    private TicketMapper ticketMapper;
 
     @Autowired
     private UserService userService;
@@ -128,6 +134,10 @@ public class BiddingController {
             }
         }
 
+
+
+
+
         int count = flightService.getFlightAndTicket(userInfo.getIdentity(), flight.getFlightNum(), flight.getStartPlace(), flight.getTargetPlace(), flight.getFlightDate());
         if (count == 0) {
             session.setAttribute("ticketInfo", "未找到您购买本次航班的记录，如确实购买，请转到添加机票页面");
@@ -140,6 +150,21 @@ public class BiddingController {
             return "redirect:/bidding.jsp";
         } else {
             //有订票信息
+            //增加舱位升级的校验，头等舱不可竞价，商务舱不可竞价经济舱，都不可竞价本身仓位
+            Ticket ticket = ticketMapper.getFlightAndTicket(userInfo.getIdentity(), flight.getFlightNum(), flight.getStartPlace(), flight.getTargetPlace(), flight.getFlightDate(), TicketRemarkEnum.BIDDING.getRemark());
+            if (ticket.getBerthName().equals(BerthClass.match(bidClass) )){
+                session.setAttribute("bidInfo","不可竞价当前已购买的舱位或比本身低的舱位");
+                return "redirect:/bidding.jsp";
+            }
+
+            if (ticket.getBerthName().equals(BerthClass.FISRTCLASS.getBerthName()) && bidClass.equals(BerthClass.BUSINESSCLASS.getBerthClass())){
+                //本身机票是商务舱，不可竞价经济舱；本身机票是头等舱，不可竞价商务舱和经济舱  （竞价的时候不能选择经济舱）
+                session.setAttribute("bidInfo","不可竞价当前已购买的舱位或比本身低的舱位");
+                return "redirect:/bidding.jsp";
+            }
+//            else if (ticket.getBerthName()==BerthClass.FISRTCLASS.getBerthName() && bidClass.equals(BerthClass.ECONOMYCLASS.getBerthClass()))
+
+
             //转到竞价成功（添加竞价信息），显示排名界面
             session.setAttribute("ticketInfo", null);
             PriceDTO priceDTO = priceService.insertPrice(bidClass, price, flight, userInfo);

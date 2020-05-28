@@ -203,7 +203,7 @@
                 <%--<input type="text" name="berthClass" required  lay-verify="required" placeholder="请输入您的舱位" autocomplete="off" class="layui-input">--%>
                     <select name="berthClass" id="berthClass" lay-verify="required">
                         <option value="BusinessClass">商务舱</option>
-                        <option value="FirstClass">头等舱</option>
+                        <%--<option value="FirstClass">头等舱</option>--%>
                         <option value="EconomyClass">经济舱</option>
                     </select>
             </div>

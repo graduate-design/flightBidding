@@ -192,12 +192,17 @@ public class UserInfoController {
         UserInfo user = userService.login(phone,password);
         session.setAttribute("loginMsg",null);
         session.setAttribute("psdMsg",null);
-        if (user != null){
+        if (user != null && user.getAuthority()==AuthorityEnum.MEMBER.getAuthorityCode()){
 //            session.setAttribute("loginMsg","登录成功");
             System.out.println(phone+"用户 登陆成功!");
             session.setAttribute("phone",phone);
             return "redirect:/success.jsp";
-        }else {
+        }else if (user!=null && user.getAuthority()==AuthorityEnum.MANAGER.getAuthorityCode()){
+            System.out.println(phone+"管理员 登陆成功!");
+            //session.setAttribute("phone",phone);
+            return "redirect:/adminSuccess.jsp";
+        }
+        else {
             session.setAttribute("loginMsg","密码或手机号不正确");
             return "redirect:/index.jsp";
         }
