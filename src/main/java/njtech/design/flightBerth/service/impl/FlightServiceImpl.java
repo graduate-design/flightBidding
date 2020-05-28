@@ -103,12 +103,12 @@ public class FlightServiceImpl implements FlightService {
         calendar.add(Calendar.DATE, -1); //得到前一天的当前时间
         Date date = calendar.getTime();
         List<Flight> flights = flightMapper.getExpiredFlight(date);
-        System.out.println("过期航班有"+flights.size()+"个");
+        //System.out.println("过期航班有"+flights.size()+"个");
         //将这些delFlag置为0
         for (Flight flight:flights){
             flightMapper.expireFlight(flight.getId());
             priceService.getEventualRank(flight);
-            System.out.println("航班"+flight.getFlightNum()+"完成竞价升舱");
+            //System.out.println("航班"+flight.getFlightNum()+"完成竞价升舱");
         }
 
         return flights;

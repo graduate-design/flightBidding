@@ -67,4 +67,224 @@
 
     </update>
 
+
+
+    <!--TODO 管理员-->
+
+    <sql id="Base_Column_List">
+		id,price_code,price,berth_class,user_code,user_name,flight_code,create_time,remark,del_flag
+	</sql>
+
+    <!--根据主键查询一条用户数据 -->
+    <select id="selectByPrimaryKey" resultMap="RM"
+            parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List" />
+        from ticket
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!-- 根据分页数据start 和size查询数据 -->
+    <select id="findByPage" parameterType="Map" resultMap="RM">
+        select
+        <include refid="Base_Column_List" />
+        from ticket
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+
+    <!--查询所有用户数据 -->
+    <select id="selectTicketList" resultType="njtech.design.flightBerth.entity.Ticket">
+        select
+        <include refid="Base_Column_List" />
+        from ticket
+    </select>
+
+    <!-- 查询用户记录总数 -->
+    <select id="selectCount" resultType="int">
+		select count(*) from ticket
+	</select>
+
+    <!--根据主键删除一条用户数据 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from ticket
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+    <!--插入一条完整用户数据 -->
+    <insert id="insert" parameterType="njtech.design.flightBerth.entity.Ticket">
+		insert into ticket (id, tic_code, identity, user_name, buy_way, air_company_name,flight_num,start,destination,flight_time,flight_date,berth_name,gate_num,seat_num,remark)
+		values (#{id,jdbcType=INTEGER}, #{ticCode,jdbcType=VARCHAR},#{identity,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},
+		#{buyWay,jdbcType=INTEGER},#{airCompanyName,jdbcType=VARCHAR},#{flightNum,jdbcType=INTEGER}, #{start,jdbcType=VARCHAR}, #{destination,jdbcType=VARCHAR},
+		 #{flightTime,jdbcType=TIMESTAMP},#{flightDate,jdbcType=DATE},#{berthName,jdbcType=VARCHAR},#{gateNum,jdbcType=VARCHAR},#{seatNum,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+		)
+	</insert>
+
+    <!--插入一条用户数据 ，可以不完整 -->
+    <insert id="insertSelective" parameterType="njtech.design.flightBerth.entity.Ticket">
+        insert into ticket
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ticCode != null">
+                tic_code,
+            </if>
+            <if test="identity != null">
+                identity,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="buyWay != null">
+                buy_way,
+            </if>
+
+            <if test="airCompanyName != null">
+                air_company_name,
+            </if>
+            <if test="flightNum != null">
+                flight_num,
+            </if>
+            <if test="start != null">
+                start,
+            </if>
+            <if test="destination != null">
+                destination,
+            </if>
+            <if test="flightTime != null">
+                flight_time,
+            </if>
+            <if test="flightDate != null">
+                flight_date,
+            </if>
+            <if test="berthName != null">
+                berth_name,
+            </if>
+            <if test="gateNum != null">
+                gate_num,
+            </if>
+            <if test="seatNum != null">
+                seat_num,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ticCode != null">
+                #{ticCode,jdbcType=VARCHAR},
+            </if>
+            <if test="identity != null">
+                #{identity,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="buyWay != null">
+                #{buyWay,jdbcType=INTEGER},
+            </if>
+            <if test="airCompanyName != null">
+                #{airCompanyName,jdbcType=VARCHAR},
+            </if>
+            <if test="flightNum != null">
+                #{flightNum,jdbcType=INTEGER},
+            </if>
+            <if test="start != null">
+                #{start,jdbcType=VARCHAR},
+            </if>
+            <if test="destination != null">
+                #{destination,jdbcType=VARCHAR},
+            </if>
+            <if test="flightTime != null">
+                #{flightTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="flightDate != null">
+                #{flightDate,jdbcType=DATE},
+            </if>
+            <if test="berthName != null">
+                #{berthName,jdbcType=DATE},
+            </if>
+            <if test="gateNum != null">
+                #{gateNum,jdbcType=VARCHAR},
+            </if>
+            <if test="seatNum != null">
+                #{seatNum,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--根据主键更新一条用户数据，可以不完整 -->
+    <update id="updateByPrimaryKeySelective" parameterType="njtech.design.flightBerth.entity.Ticket">
+        update ticket
+        <set>
+            <if test="ticCode != null">
+                tic_code = #{ticCode,jdbcType=VARCHAR},
+            </if>
+            <if test="identity != null">
+                identity = #{identity,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="buyWay != null">
+                buy_way = #{buyWay,jdbcType=INTEGER},
+            </if>
+
+            <if test="airCompanyName != null">
+                air_company_name = #{airCompanyName,jdbcType=VARCHAR},
+            </if>
+            <if test="flightNum != null">
+                flight_num = #{flightNum,jdbcType=INTEGER},
+            </if>
+            <if test="start != null">
+                start = #{start,jdbcType=VARCHAR},
+            </if>
+            <if test="destination != null">
+                destination = #{destination,jdbcType=VARCHAR},
+            </if>
+            <if test="flightTime != null">
+                flight_time = #{flightTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="flightDate != null">
+                flight_date = #{flightDate,jdbcType=DATE},
+            </if>
+            <if test="berthName != null">
+                berth_name = #{berthName,jdbcType=DATE},
+            </if>
+
+            <if test="gateNum != null">
+                gate_num = #{gateNum,jdbcType=VARCHAR},
+            </if>
+            <if test="seatNum != null">
+                seat_num = #{seatNum,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--根据主键更新一条用户数据 -->
+    <update id="updateByPrimaryKey" parameterType="njtech.design.flightBerth.entity.Ticket">
+		update ticket
+		set tic_code = #{ticCode,jdbcType=VARCHAR},
+		identity = #{identity,jdbcType=VARCHAR},
+		user_name = #{userName,jdbcType=VARCHAR},
+		buy_way = #{buyWay,jdbcType=INTEGER},
+		air_company_name = #{airCompanyName,jdbcType=VARCHAR},
+		flight_num = #{flightNum,jdbcType=INTEGER},
+		start = #{start,jdbcType=VARCHAR},
+		destination = #{destination,jdbcType=VARCHAR},
+		flight_time = #{flightTime,jdbcType=TIMESTAMP},
+		flight_date = #{flightDate,jdbcType=DATE},
+		berth_name = #{berthName,jdbcType=VARCHAR},
+		gate_num = #{gateNum,jdbcType=VARCHAR},
+		seat_num = #{seatNum,jdbcType=VARCHAR},
+		remark = #{remark,jdbcType=VARCHAR},
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
 </mapper>

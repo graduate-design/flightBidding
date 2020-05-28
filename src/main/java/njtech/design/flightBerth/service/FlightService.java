@@ -66,4 +66,9 @@ public interface FlightService {
 
     List<ShowBidDTO> showBid(UserInfo userInfo);
 
+    /**
+     * 管理员
+     */
+
+
 }

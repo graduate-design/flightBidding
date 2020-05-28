@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public interface TicketMapper {
@@ -44,5 +45,50 @@ public interface TicketMapper {
     int solveExpiredTicket(@Param("flightTime")Date flightTime);
 
 
+    /**
+     * 管理员
+     */
+    /**
+     * 根据主键删除一条用户数据
+     * @param id
+     * @return
+     */
+    int deleteByPrimaryKey(Integer id);
+    /**
+     * 插入一条用户数据 ，可以不完整
+     * @param record
+     * @return
+     */
+    int insertSelective(Ticket record);
+    /**
+     * 根据主键查询一条用户数据
+     * @param id
+     * @return
+     */
+    Ticket selectByPrimaryKey(@Param("id") Integer id);
+
+    /**
+     * 根据主键更新一条用户数据，可以不完整 -
+     * @param record
+     * @return
+     */
+    int updateByPrimaryKeySelective(Ticket record);
+
+    /**
+     * 查询所有用户数据
+     * @return
+     */
+    List<Ticket> selectTicketList();
+    /**
+     * 查询用户记录总数
+     * @return
+     */
+    int selectCount();
+    /**
+     * 分页操作，调用findByPage limit分页方法
+     * @param map
+     * @return
+     */
+    List<Ticket> findByPage(HashMap<String,Object> map);
 
 }

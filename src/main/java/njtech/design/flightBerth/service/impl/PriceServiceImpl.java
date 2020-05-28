@@ -2,10 +2,7 @@ package njtech.design.flightBerth.service.impl;
 
 import njtech.design.flightBerth.dao.PriceMapper;
 import njtech.design.flightBerth.dao.TicketMapper;
-import njtech.design.flightBerth.entity.Flight;
-import njtech.design.flightBerth.entity.Price;
-import njtech.design.flightBerth.entity.Ticket;
-import njtech.design.flightBerth.entity.UserInfo;
+import njtech.design.flightBerth.entity.*;
 import njtech.design.flightBerth.entity.dto.PriceDTO;
 import njtech.design.flightBerth.entity.dto.SuccessRank;
 import njtech.design.flightBerth.enums.BerthClass;
@@ -21,6 +18,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -263,4 +261,74 @@ public class PriceServiceImpl implements PriceService {
 
         return priceDTO;
     }
+
+
+    /**
+     * TODO 管理员
+     */
+
+    @Override
+    public int deleteByPrimaryKey(Integer id) {
+        return priceMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public int insertSelective(Price record) {
+
+        return priceMapper.insertSelective(record);
+    }
+
+    @Override
+    public Price selectByPrimaryKey(Integer id) {
+
+        return priceMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public int updateByPrimaryKeySelective(Price record) {
+        return priceMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Override
+    public List<Price> selectPriceList() {
+
+        return priceMapper.selectPriceList();
+    }
+
+    @Override
+    public int selectCount() {
+        return priceMapper.selectCount();
+    }
+
+
+    @Override
+    public PageBean<Price> findByPage(int currentPage) {
+        HashMap<String,Object> map = new HashMap<String,Object>();
+        PageBean<Price> pageBean = new PageBean<Price>();
+
+        //封装当前页数
+        pageBean.setCurrPage(currentPage);
+
+        //每页显示的数据
+        int pageSize=5;
+        pageBean.setPageSize(pageSize);
+
+        //封装总记录数
+        int totalCount = ticketMapper.selectCount();
+        pageBean.setTotalCount(totalCount);
+
+        //封装总页数
+        double tc = totalCount;
+        Double num =Math.ceil(tc/pageSize);//向上取整
+        pageBean.setTotalPage(num.intValue());
+
+        map.put("start",(currentPage-1)*pageSize);
+        map.put("size", pageBean.getPageSize());
+        //封装每页显示的数据
+        List<Price> lists = priceMapper.findByPage(map);
+        pageBean.setLists(lists);
+
+        return pageBean;
+    }
+
 }

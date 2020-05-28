@@ -1,6 +1,9 @@
 package njtech.design.flightBerth.service;
 
+import njtech.design.flightBerth.entity.PageBean;
 import njtech.design.flightBerth.entity.UserInfo;
+
+import java.util.List;
 
 public interface UserService {
     boolean findUser(String phone,String psd);
@@ -37,4 +40,23 @@ public interface UserService {
 
     //注销
     int deleteUser(String phone);
+
+
+    /**
+     * 管理员
+     */
+    int deleteByPrimaryKey(Integer id);
+
+    int insertSelective(UserInfo record);
+
+    UserInfo selectByPrimaryKey(Integer id);
+
+
+    List<UserInfo> selectUserList();
+
+    int selectCount();
+
+    int updateByPrimaryKeySelective(UserInfo record);
+
+    PageBean<UserInfo> findByPage(int currentPage);
 }

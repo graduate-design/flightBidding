@@ -3,6 +3,9 @@ package njtech.design.flightBerth.dao;
 import njtech.design.flightBerth.entity.UserInfo;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.HashMap;
+import java.util.List;
+
 
 public interface UserMapper {
     /**
@@ -51,4 +54,51 @@ public interface UserMapper {
     int changePassword(@Param("password") String password,@Param("phone") String phone);
 
     int deleteUser(@Param("phone") String phone);
+
+
+    /**
+     * 管理员
+     */
+    /**
+     * 根据主键删除一条用户数据
+     * @param id
+     * @return
+     */
+    int deleteByPrimaryKey(Integer id);
+    /**
+     * 插入一条用户数据 ，可以不完整
+     * @param record
+     * @return
+     */
+    int insertSelective(UserInfo record);
+    /**
+     * 根据主键查询一条用户数据
+     * @param id
+     * @return
+     */
+    UserInfo selectByPrimaryKey(@Param("id") Integer id);
+
+    /**
+     * 根据主键更新一条用户数据，可以不完整 -
+     * @param record
+     * @return
+     */
+    int updateByPrimaryKeySelective(UserInfo record);
+
+    /**
+     * 查询所有用户数据
+     * @return
+     */
+    List<UserInfo> selectUserList();
+    /**
+     * 查询用户记录总数
+     * @return
+     */
+    int selectCount();
+    /**
+     * 分页操作，调用findByPage limit分页方法
+     * @param map
+     * @return
+     */
+    List<UserInfo> findByPage(HashMap<String,Object> map);
 }

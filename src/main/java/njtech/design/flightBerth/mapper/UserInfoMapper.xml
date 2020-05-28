@@ -82,4 +82,184 @@
         delete from user_info where phone = #{phone}
     </delete>
 
+    <!--TODO 管理-->
+    <sql id="Base_Column_List">
+		id,user_code,user_name,password,email,user_sex,user_age,phone,identity,authority,remark
+	</sql>
+
+    <!--根据主键查询一条用户数据 -->
+    <select id="selectByPrimaryKey" resultMap="RM"
+            parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List" />
+        from user_info
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!-- 根据分页数据start 和size查询数据 -->
+    <select id="findByPage" parameterType="Map" resultMap="RM">
+        select
+        <include refid="Base_Column_List" />
+        from user_info
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+
+    <!--查询所有用户数据 -->
+    <select id="selectUserList" resultType="njtech.design.flightBerth.entity.UserInfo">
+        select
+        <include refid="Base_Column_List" />
+        from user_info
+    </select>
+
+    <!-- 查询用户记录总数 -->
+    <select id="selectCount" resultType="int">
+		select count(*) from user_info
+	</select>
+
+    <!--根据主键删除一条用户数据 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from user_info
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+    <!--插入一条完整用户数据 -->
+    <insert id="insert" parameterType="njtech.design.flightBerth.entity.UserInfo">
+		insert into user_info (id, user_code, user_name, password, email, user_sex,user_age,phone,identity,authority,remark)
+		values (#{id,jdbcType=INTEGER}, #{userCode,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},
+		#{email,jdbcType=VARCHAR},#{userSex,jdbcType=VARCHAR},#{userAge,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{identity,jdbcType=VARCHAR},
+		 #{authority,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR},
+		)
+	</insert>
+
+    <!--插入一条用户数据 ，可以不完整 -->
+    <insert id="insertSelective" parameterType="njtech.design.flightBerth.entity.UserInfo">
+        insert into user_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userCode != null">
+                user_code,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="userSex != null">
+                user_sex,
+            </if>
+            <if test="userAge != null">
+                user_age,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="identity != null">
+                identity,
+            </if>
+            <if test="authority != null">
+                authority,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userCode != null">
+                #{userCode,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="userSex != null">
+                #{userSex,jdbcType=VARCHAR},
+            </if>
+            <if test="userAge != null">
+                #{userAge,jdbcType=INTEGER},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="identity != null">
+                #{identity,jdbcType=VARCHAR},
+            </if>
+            <if test="authority != null">
+                #{authority,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--根据主键更新一条用户数据，可以不完整 -->
+    <update id="updateByPrimaryKeySelective" parameterType="njtech.design.flightBerth.entity.UserInfo">
+        update user_info
+        <set>
+            <if test="userCode != null">
+                user_code = #{userCode,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="userSex != null">
+                user_sex = #{userSex,jdbcType=VARCHAR},
+            </if>
+            <if test="userAge != null">
+                user_age = #{userAge,jdbcType=INTEGER},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="identity != null">
+                identity = #{identity,jdbcType=VARCHAR},
+            </if>
+            <if test="authority != null">
+                authority = #{authority,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--根据主键更新一条用户数据 -->
+    <update id="updateByPrimaryKey" parameterType="njtech.design.flightBerth.entity.UserInfo">
+		update user_info
+		set user_code = #{userCode,jdbcType=VARCHAR},
+		user_name = #{userName,jdbcType=VARCHAR},
+		password = #{password,jdbcType=VARCHAR},
+		email = #{email,jdbcType=VARCHAR},
+		user_sex = #{userSex,jdbcType=VARCHAR},
+		user_age = #{userAge,jdbcType=INTEGER},
+		phone = #{phone,jdbcType=VARCHAR},
+		identity = #{identity,jdbcType=VARCHAR},
+		authority = #{authority,jdbcType=INTEGER},
+		remark = #{remark,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
 </mapper>

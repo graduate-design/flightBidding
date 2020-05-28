@@ -1,6 +1,7 @@
 package njtech.design.flightBerth.service;
 
 import njtech.design.flightBerth.entity.Flight;
+import njtech.design.flightBerth.entity.PageBean;
 import njtech.design.flightBerth.entity.Ticket;
 
 import java.util.List;
@@ -19,4 +20,23 @@ public interface TicketService {
      * @return
      */
     int solveExpiredTicket();
+
+
+    /***
+     * 管理员
+     */
+    int deleteByPrimaryKey(Integer id);
+
+    int insertSelective(Ticket record);
+
+    Ticket selectByPrimaryKey(Integer id);
+
+
+    List<Ticket> selectTicketList();
+
+    int selectCount();
+
+    int updateByPrimaryKeySelective(Ticket record);
+
+    PageBean<Ticket> findByPage(int currentPage);
 }
