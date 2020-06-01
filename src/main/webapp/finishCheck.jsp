@@ -53,7 +53,7 @@
                 <dd><a href="javascript:window.location = 'user/checkAuth'">身份认证</a></dd>
                 <dd><a href="changePsd.jsp">修改密码</a></dd>
 
-                <dd><a href="index.jsp">退出</a></dd>
+                <dd><a href="javascript:window.location = 'user/exit'">退出</a></dd>
             </dl>
         </li>
         <span class="layui-layout-right">

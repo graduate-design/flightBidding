@@ -22,6 +22,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -31,6 +32,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 
 
@@ -300,8 +302,16 @@ public class UserInfoController {
     }
 
     @RequestMapping("/exit")
-    public String exit(HttpSession session){
+    public String exit(HttpSession session ,HttpServletRequest request){
         session.setAttribute("phone",null);
+        System.out.println(session.getAttribute("phone")+"成功登出");
+
+       //清除所有session
+        Enumeration em = request.getSession().getAttributeNames();
+        while(em.hasMoreElements()){
+            request.getSession().removeAttribute(em.nextElement().toString());
+        }
+        //用于退出页面
         return "redirect:/index.jsp";
     }
 

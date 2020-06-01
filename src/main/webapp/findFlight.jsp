@@ -1,3 +1,4 @@
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -73,7 +74,7 @@
             <dl class="layui-nav-child">
                 <dd><a href="javascript:window.location = 'user/checkAuth'">身份认证</a></dd>
                 <dd><a href="changePsd.jsp">修改密码</a></dd>
-                <dd><a href="index.jsp">退出</a></dd>
+                <dd><a href="javascript:window.location = 'user/exit'">退出</a></dd>
             </dl>
         </li>
         <span class="layui-layout-right">
@@ -81,6 +82,17 @@
         </span>
     </ul>
 </div>
+
+
+<%
+    String user = (String) session.getAttribute("phone");
+    if(StringUtils.isEmpty(user)){
+%>
+    <jsp:forward page="index.jsp" />;
+<%
+    }
+%>
+
 
 <div align="center">
     <%

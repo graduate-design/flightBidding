@@ -1,6 +1,7 @@
 <%@ page import="njtech.design.flightBerth.entity.Ticket" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -71,7 +72,7 @@
             <dl class="layui-nav-child">
                 <dd><a href="javascript:window.location = 'user/checkAuth'">身份认证</a></dd>
                 <dd><a href="changePsd.jsp">修改密码</a></dd>
-                <dd><a href="index.jsp">退出</a></dd>
+                <dd><a href="javascript:window.location = 'user/exit'">退出</a></dd>
             </dl>
         </li>
         <span class="layui-layout-right">
@@ -80,6 +81,14 @@
     </ul>
 </div>
 
+<%
+    String user = (String) session.getAttribute("phone");
+    if(StringUtils.isEmpty(user)){
+%>
+<jsp:forward page="index.jsp" />;
+<%
+    }
+%>
 
 
 <table lay-filter="parse-table-demo" class="layui-table">
@@ -100,6 +109,7 @@
         <%--<form action="${pageContext.request.contextPath}/bid/check" method="get">--%>
     <%
         List<Ticket> ticketList = (List<Ticket>) session.getAttribute("allTickets");
+        if (ticketList!=null)
         for (Ticket ticket:ticketList){
     %>
     <form action="${pageContext.request.contextPath}/user/bid" method="get">

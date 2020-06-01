@@ -1,3 +1,4 @@
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -15,6 +16,18 @@
     <script type="text/javascript" src="./resources/layui/layui-v2.5.6/layui/layui.js"></script>
     <script type="text/javascript" src="./resources/layui/layui-v2.5.6/layui/layui.all.js"></script>
 </head>
+
+
+<%
+    String user = (String) session.getAttribute("phone");
+    if(StringUtils.isEmpty(user)){
+%>
+<jsp:forward page="index.jsp" />;
+<%
+    }
+%>
+
+
 <%
     String errorInfo = (String)session.getAttribute("psdMsg");         // 获取错误属性
     if(errorInfo != null) {
@@ -58,7 +71,7 @@
             <dl class="layui-nav-child">
                 <dd><a href="javascript:window.location = 'user/checkAuth'">身份认证</a></dd>
                 <dd><a href="changePsd.jsp">修改密码</a></dd>
-                <dd><a href="index.jsp">退出</a></dd>
+                <dd><a href="javascript:window.location = 'user/exit'">退出</a></dd>
             </dl>
         </li>
         <span class="layui-layout-right">

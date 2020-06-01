@@ -54,7 +54,13 @@ public class BiddingController {
     //查询该航班是否可参与竞价
     @RequestMapping(value = "/findFlight", method = RequestMethod.POST)
     public String findFlight(FlightDTO flightDTO, HttpSession session) throws IOException, ServletException {
-//        System.out.println(flightDTO.getStartDate());
+
+        String phone = (String) session.getAttribute("phone");
+        if (StringUtils.isEmpty(phone)) {
+            // 请先登录 转到登录主页
+            return "redirect:/index.jsp";
+        }
+
         session.setAttribute("msg", null);
         List<FlightRespDTO> flights = flightService.findFlight(flightDTO.getAirCompanyName(), flightDTO.getFlightNum(), flightDTO.getStartDate());
         if (CollectionUtils.isEmpty(flights)) {
@@ -74,6 +80,12 @@ public class BiddingController {
     //显示所有航班信息
     @RequestMapping("/flights")
     public String findFlights(HttpSession session) {
+
+        String phone = (String) session.getAttribute("phone");
+        if (StringUtils.isEmpty(phone)) {
+            // 请先登录 转到登录主页
+            return "redirect:/index.jsp";
+        }
 
         List<FlightRespDTO> flights = flightService.findAll(null);
         session.setAttribute("allFlights", flights);

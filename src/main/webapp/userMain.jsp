@@ -21,7 +21,7 @@
             width:900px;
         }
         thead{
-            background-color:lightblue;
+            background-color:#F0FFFF;
         }
     </style>
 </head>
@@ -37,8 +37,8 @@
     <table border="1" cellpadding="10" cellspacing="0" class="table1">
         <thead>
         <tr>
-            <td>id</td>
-            <td>user_code</td>
+            <%--<td>id</td>--%>
+            <%--<td>user_code</td>--%>
             <td>user_name</td>
             <td>password</td>
             <td>email</td>
@@ -53,8 +53,8 @@
         </thead>
         <c:forEach items="${requestScope.pagemsg.lists}" var="u">
             <tr>
-                <th>${u.id }</th>
-                <th>${u.userCode }</th>
+                <%--<th>${u.id }</th>--%>
+                <%--<th>${u.userCode }</th>--%>
                 <th>${u.userName }</th>
                 <th>${u.password }</th>
                 <th>${u.email }</th>

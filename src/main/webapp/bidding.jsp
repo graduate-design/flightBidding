@@ -1,5 +1,6 @@
 <%@ page import="njtech.design.flightBerth.entity.Flight" %>
-<%@ page import="java.text.SimpleDateFormat" %><%--
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %><%--
   Created by IntelliJ IDEA.
   User: liber
   Date: 2020/5/15
@@ -115,7 +116,7 @@
             <dl class="layui-nav-child">
                 <dd><a href="javascript:window.location = 'user/checkAuth'">身份认证</a></dd>
                 <dd><a href="changePsd.jsp">修改密码</a></dd>
-                <dd><a href="index.jsp">退出</a></dd>
+                <dd><a href="javascript:window.location = 'user/exit'">退出</a></dd>
             </dl>
         </li>
         <span class="layui-layout-right">
@@ -125,6 +126,14 @@
 </div>
 
 
+<%
+    String user = (String) session.getAttribute("phone");
+    if(StringUtils.isEmpty(user)){
+%>
+<jsp:forward page="index.jsp" />;
+<%
+    }
+%>
 
 <table lay-filter="parse-table-demo" class="layui-table">
     <thead>
@@ -147,8 +156,11 @@
                         <td><%
                     Flight flight = (Flight) session.getAttribute("accurateFlight");
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                    String date = sdf.format(flight.getFlightDate());
-                    out.print(date);
+                    if (flight!=null){
+                        String date = sdf.format(flight.getFlightDate());
+                        out.print(date);
+                    }
+
                 %></td>
                         <td>${accurateFlight.startPlace}</td>
                         <td>${accurateFlight.targetPlace}</td>
