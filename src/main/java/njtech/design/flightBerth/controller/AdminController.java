@@ -1,9 +1,12 @@
 package njtech.design.flightBerth.controller;
 
 
+import njtech.design.flightBerth.dao.PriceMapper;
+import njtech.design.flightBerth.entity.Flight;
 import njtech.design.flightBerth.entity.Price;
 import njtech.design.flightBerth.entity.Ticket;
 import njtech.design.flightBerth.entity.UserInfo;
+import njtech.design.flightBerth.service.FlightService;
 import njtech.design.flightBerth.service.PriceService;
 import njtech.design.flightBerth.service.TicketService;
 import njtech.design.flightBerth.service.UserService;
@@ -25,6 +28,8 @@ public class AdminController {
     private PriceService priceService;
     @Autowired
     private TicketService ticketService;
+    @Autowired
+    private FlightService flightService;
 
 
     /**
@@ -72,7 +77,7 @@ public class AdminController {
     @RequestMapping("/userDelete")
     public String userDelete(@RequestParam("id") int id){
         userService.deleteByPrimaryKey(id);
-        return "redirect:userMain";
+        return "userMain";
     }
     /**
      * 添加一个用户数据
@@ -117,7 +122,7 @@ public class AdminController {
             //有id值为修改
             priceService.updateByPrimaryKeySelective(price);
         }
-        return "redirect:priceMain";
+        return "priceMain";
     }
 
     /**
@@ -128,7 +133,7 @@ public class AdminController {
     @RequestMapping("/priceDelete")
     public String priceDelete(@RequestParam("id") int id){
         priceService.deleteByPrimaryKey(id);
-        return "redirect:priceMain";
+        return "priceMain";
     }
     /**
      * 添加一个用户数据
@@ -172,7 +177,7 @@ public class AdminController {
             //有id值为修改
             ticketService.updateByPrimaryKeySelective(ticket);
         }
-        return "redirect:ticketMain";
+        return "ticketMain";
     }
 
     /**
@@ -183,7 +188,7 @@ public class AdminController {
     @RequestMapping("/ticketDelete")
     public String ticketDelete(@RequestParam("id") int id){
         ticketService.deleteByPrimaryKey(id);
-        return "redirect:ticketMain";
+        return "ticketMain";
     }
     /**
      * 添加一个用户数据
@@ -193,5 +198,56 @@ public class AdminController {
     public String ticketAdd(Model model){
         model.addAttribute("returnTicket", new Ticket());
         return "ticketEdit";
+    }
+
+    @RequestMapping("/flightMain")
+    public String  flightMain(@RequestParam(value="currentPage",defaultValue="1",required=false)int currentPage, Model model){
+        model.addAttribute("pagemsg", flightService.findByPage(currentPage));//回显分页数据
+        return "flightMain";
+    }
+
+    @RequestMapping("/flightEdit")
+    public String flightEdit(@RequestParam("id") int id,Model model){
+        Flight flight = flightService.selectByPrimaryKey(id);
+        model.addAttribute("returnFlight", flight);
+        return "flightEdit";
+    }
+    /**
+     * 保存用户数据
+     * @return
+     */
+    @RequestMapping("/flightSave")
+    public String flightSave(Flight flight){
+        System.out.println(flight.toString());
+        if(flight.getId() <= 0){
+            System.out.println("111");
+            //id为null是保存
+            flightService.insertSelective(flight);
+        }else{
+            System.out.println("222");
+            //有id值为修改
+            flightService.updateByPrimaryKeySelective(flight);
+        }
+        return "flightMain";
+    }
+
+    /**
+     * 删除用户数据
+     * @param id
+     * @return
+     */
+    @RequestMapping("/flightDelete")
+    public String flightDelete(@RequestParam("id") int id){
+        flightService.deleteByPrimaryKey(id);
+        return "flightMain";
+    }
+    /**
+     * 添加一个用户数据
+     * @return
+     */
+    @RequestMapping("/flightAdd")
+    public String flightAdd(Model model){
+        model.addAttribute("returnFlight", new Flight());
+        return "flightEdit";
     }
 }

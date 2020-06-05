@@ -108,7 +108,7 @@ WHERE
     <!-- 根据分页数据start 和size查询数据 -->
     <select id="findByPage" parameterType="Map" resultMap="RM">
         select
-        <include refid="Base_Column_List" />
+        *
         from price
         <if test="start!=null and size!=null">
             limit #{start},#{size}

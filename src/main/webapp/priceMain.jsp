@@ -26,12 +26,8 @@
     </style>
 </head>
 <body>
-欢迎你：${currentUser}
-<br>
-<hr>
-<a href="priceAdd"> 添加用户</a><br>
 <c:if test="${empty requestScope.pagemsg}">
-    没有任何用户信息！
+    没有任何竞价信息！
 </c:if>
 <c:if test="${!empty requestScope.pagemsg}">
     <table border="1" cellpadding="10" cellspacing="0" class="table1">
@@ -73,8 +69,6 @@
     <tr>
 
         <td class="td2">
-
-
             <span>第${requestScope.pagemsg.currPage }/ ${requestScope.pagemsg.totalPage}页</span>
             <span>总记录数：${requestScope.pagemsg.totalCount }  每页显示:${requestScope.pagemsg.pageSize}</span>
             <span>

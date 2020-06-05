@@ -1,6 +1,7 @@
 package njtech.design.flightBerth.service;
 
 import njtech.design.flightBerth.entity.Flight;
+import njtech.design.flightBerth.entity.PageBean;
 import njtech.design.flightBerth.entity.UserInfo;
 import njtech.design.flightBerth.entity.dto.FlightRespDTO;
 import njtech.design.flightBerth.entity.dto.ShowBidDTO;
@@ -69,6 +70,19 @@ public interface FlightService {
     /**
      * 管理员
      */
+    int deleteByPrimaryKey(Integer id);
 
+    int insertSelective(Flight record);
+
+    Flight selectByPrimaryKey(Integer id);
+
+
+    List<Flight> selectUserList();
+
+    int selectCount();
+
+    int updateByPrimaryKeySelective(Flight record);
+
+    PageBean<Flight> findByPage(int currentPage);
 
 }

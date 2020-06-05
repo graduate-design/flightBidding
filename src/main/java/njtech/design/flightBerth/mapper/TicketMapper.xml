@@ -72,8 +72,9 @@
     <!--TODO 管理员-->
 
     <sql id="Base_Column_List">
-		id,price_code,price,berth_class,user_code,user_name,flight_code,create_time,remark,del_flag
-	</sql>
+        tic_code,identity,user_name,buy_way,flight_num,start,destination,flight_time,flight_date,
+        gate_num,seat_num,remark,air_company_name,berth_name
+        	</sql>
 
     <!--根据主键查询一条用户数据 -->
     <select id="selectByPrimaryKey" resultMap="RM"

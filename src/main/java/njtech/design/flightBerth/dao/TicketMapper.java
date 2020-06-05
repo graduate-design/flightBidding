@@ -45,6 +45,7 @@ public interface TicketMapper {
     int solveExpiredTicket(@Param("flightTime")Date flightTime);
 
 
+
     /**
      * 管理员
      */

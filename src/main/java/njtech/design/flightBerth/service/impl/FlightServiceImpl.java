@@ -4,10 +4,7 @@ import njtech.design.flightBerth.dao.AirCompanyMapper;
 import njtech.design.flightBerth.dao.FlightMapper;
 import njtech.design.flightBerth.dao.PriceMapper;
 import njtech.design.flightBerth.dao.TicketMapper;
-import njtech.design.flightBerth.entity.Flight;
-import njtech.design.flightBerth.entity.Price;
-import njtech.design.flightBerth.entity.Ticket;
-import njtech.design.flightBerth.entity.UserInfo;
+import njtech.design.flightBerth.entity.*;
 import njtech.design.flightBerth.entity.dto.FlightDTO;
 import njtech.design.flightBerth.entity.dto.FlightRespDTO;
 import njtech.design.flightBerth.entity.dto.ShowBidDTO;
@@ -21,10 +18,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
@@ -156,5 +150,72 @@ public class FlightServiceImpl implements FlightService {
         return showBidDTOS;
     }
 
+
+    /**
+     * 管理员
+     */
+    @Override
+    public int deleteByPrimaryKey(Integer id) {
+        return flightMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public int insertSelective(Flight record) {
+
+        return flightMapper.insertSelective(record);
+    }
+
+    @Override
+    public Flight selectByPrimaryKey(Integer id) {
+
+        return flightMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public int updateByPrimaryKeySelective(Flight record) {
+        return flightMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Override
+    public List<Flight> selectUserList() {
+
+        return flightMapper.selectFlightList();
+    }
+
+    @Override
+    public int selectCount() {
+        return flightMapper.selectCount();
+    }
+
+
+    @Override
+    public PageBean<Flight> findByPage(int currentPage) {
+        HashMap<String,Object> map = new HashMap<String,Object>();
+        PageBean<Flight> pageBean = new PageBean<Flight>();
+
+        //封装当前页数
+        pageBean.setCurrPage(currentPage);
+
+        //每页显示的数据
+        int pageSize=5;
+        pageBean.setPageSize(pageSize);
+
+        //封装总记录数
+        int totalCount = flightMapper.selectCount();
+        pageBean.setTotalCount(totalCount);
+
+        //封装总页数
+        double tc = totalCount;
+        Double num =Math.ceil(tc/pageSize);//向上取整
+        pageBean.setTotalPage(num.intValue());
+
+        map.put("start",(currentPage-1)*pageSize);
+        map.put("size", pageBean.getPageSize());
+        //封装每页显示的数据
+        List<Flight> lists = flightMapper.findByPage(map);
+        pageBean.setLists(lists);
+
+        return pageBean;
+    }
 
 }

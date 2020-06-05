@@ -60,4 +60,187 @@
 
     </select>
 
+    <!--todo 管理员-->
+    <sql id="Base_Column_List">
+		id,flight_code,air_company_code,air_company_name,flight_num,flight_date,redundant_business_class,redundant_first_class,start_place,target_place,del_flag
+	</sql>
+
+    <!--根据主键查询一条用户数据 -->
+    <select id="selectByPrimaryKey" resultMap="RM"
+            parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List" />
+        from flight
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!-- 根据分页数据start 和size查询数据 -->
+    <select id="findByPage" parameterType="Map" resultMap="RM">
+        select
+        <include refid="Base_Column_List" />
+        from flight
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+
+    <!--查询所有用户数据 -->
+    <select id="selectFlightList" resultType="njtech.design.flightBerth.entity.Flight">
+        select
+        <include refid="Base_Column_List" />
+        from flight
+    </select>
+
+    <!-- 查询用户记录总数 -->
+    <select id="selectCount" resultType="int">
+		select count(*) from flight
+	</select>
+
+    <!--根据主键删除一条用户数据 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from flight
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+    <!--插入一条完整用户数据 -->
+    <insert id="insert" parameterType="njtech.design.flightBerth.entity.Flight">
+		insert into flight (id,flight_code,air_company_code,air_company_name,flight_num,flight_date,redundant_business_class,redundant_first_class,start_place,target_place,del_flag)
+		values (#{id,jdbcType=INTEGER}, #{flight_code,jdbcType=VARCHAR},#{air_company_code,jdbcType=VARCHAR},#{air_company_name,jdbcType=VARCHAR},
+		#{flight_num,jdbcType=VARCHAR},#{flight_date,jdbcType=TIMESTAMP},#{redundant_business_class,jdbcType=INTEGER}, #{redundant_first_class,jdbcType=INTEGER}, #{start_place,jdbcType=VARCHAR},
+		 #{target_place,jdbcType=VARCHAR}, #{del_flag,jdbcType=TINYINT},
+		)
+	</insert>
+
+    <!--插入一条用户数据 ，可以不完整 -->
+    <insert id="insertSelective" parameterType="njtech.design.flightBerth.entity.Flight">
+        insert into flight
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="flightCode != null">
+                flight_code,
+            </if>
+            <if test="airCompanyCode != null">
+                air_company_code,
+            </if>
+            <if test="airCompanyName != null">
+                air_company_name,
+            </if>
+            <if test="flightNum != null">
+                flight_num,
+            </if>
+            <if test="flightDate != null">
+                flight_date,
+            </if>
+            <if test="redundantBusinessClass != null">
+                redundant_business_class,
+            </if>
+            <if test="redundantFirstClass != null">
+                redundant_first_class,
+            </if>
+            <if test="startPlace != null">
+                start_place,
+            </if>
+            <if test="targetPlace != null">
+                target_place,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="flightCode != null">
+                #{flightCode,jdbcType=VARCHAR},
+            </if>
+            <if test="airCompanyCode != null">
+                #{airCompanyCode,jdbcType=VARCHAR},
+            </if>
+            <if test="airCompanyName != null">
+                #{airCompanyName,jdbcType=VARCHAR},
+            </if>
+            <if test="flightNum != null">
+                #{flightNum,jdbcType=VARCHAR},
+            </if>
+            <if test="flightDate != null">
+                #{flightDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="redundantBusinessClass != null">
+                #{redundantBusinessClass,jdbcType=INTEGER},
+            </if>
+            <if test="redundantFirstClass != null">
+                #{redundantFirstClass,jdbcType=INTEGER},
+            </if>
+            <if test="startPlace != null">
+                #{startPlace,jdbcType=VARCHAR},
+            </if>
+            <if test="targetPlace != null">
+                #{targetPlace,jdbcType=VARCHAR},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+
+    <!--根据主键更新一条用户数据，可以不完整 -->
+    <update id="updateByPrimaryKeySelective" parameterType="njtech.design.flightBerth.entity.Flight">
+        update flight
+        <set>
+            <if test="id != null">
+                id = #{id,jdbcType=INTEGER},
+            </if>
+            <if test="flightCode != null">
+                flight_code = #{flightCode,jdbcType=VARCHAR},
+            </if>
+            <if test="airCompanyCode != null">
+                air_company_code = #{airCompanyCode,jdbcType=VARCHAR},
+            </if>
+            <if test="airCompanyName != null">
+                air_company_name = #{airCompanyName,jdbcType=VARCHAR},
+            </if>
+            <if test="flightNum != null">
+                flight_num = #{flightNum,jdbcType=VARCHAR},
+            </if>
+            <if test="flightDate != null">
+                flight_date = #{flightDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="redundantBusinessClass != null">
+                redundant_business_class = #{redundantBusinessClass,jdbcType=INTEGER},
+            </if>
+            <if test="redundantFirstClass != null">
+                redundant_first_class = #{redundantFirstClass,jdbcType=INTEGER},
+            </if>
+            <if test="startPlace != null">
+                start_place = #{startPlace,jdbcType=VARCHAR},
+            </if>
+            <if test="targetPlace != null">
+                target_place = #{targetPlace,jdbcType=VARCHAR},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=TINYINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--根据主键更新一条用户数据 -->
+    <update id="updateByPrimaryKey" parameterType="njtech.design.flightBerth.entity.Flight">
+		update flight
+		set flight_code = #{flightCode,jdbcType=VARCHAR},
+		air_company_code = #{airCompanyCode,jdbcType=VARCHAR},
+		air_company_name = #{airCompanyName,jdbcType=VARCHAR},
+		flight_num = #{flightNum,jdbcType=VARCHAR},
+		flight_date = #{flightDate,jdbcType=VARCHAR},
+		redundant_business_class = #{redundantBusinessClass,jdbcType=INTEGER},
+		redundant_first_class = #{redundantFirstClass,jdbcType=INTEGER},
+		start_place = #{startPlace,jdbcType=VARCHAR},
+		target_place = #{targetPlace,jdbcType=VARCHAR},
+		del_flag = #{delFlag,jdbcType=TINYINT}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
 </mapper>

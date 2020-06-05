@@ -10,8 +10,6 @@
     <title>编辑页面</title>
 </head>
 <body>
-欢迎你：${currentUser}
-<hr>
 <form:form action="userSave" method="post" modelAttribute="returnUser">
     <form:hidden path="id"/>
     userCode:<form:input path="userCode" /><br>

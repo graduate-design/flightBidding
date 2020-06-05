@@ -264,7 +264,7 @@ public class PriceServiceImpl implements PriceService {
 
 
     /**
-     * TODO 管理员
+     *  管理员
      */
 
     @Override
@@ -330,5 +330,6 @@ public class PriceServiceImpl implements PriceService {
 
         return pageBean;
     }
+
 
 }

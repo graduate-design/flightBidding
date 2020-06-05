@@ -32,43 +32,43 @@
     </style>
 </head>
 <body>
-<a href="userAdd"> 添加用户</a><br>
+<a href="flightAdd"> 添加航班 </a><br>
 <c:if test="${empty requestScope.pagemsg}">
-    没有任何用户信息！
+    没有任何航班信息！
 </c:if>
 <c:if test="${!empty requestScope.pagemsg}">
-    <table class="layui-table" lay-data="{height:315, url:'/flightBidding_war/admin/userMain', page:true, id:'test'}" lay-filter="test">
+    <table class="layui-table" lay-data="{height:315, url:'/flightBidding_war/admin/flightMain', page:true, id:'test'}" lay-filter="test">
         <thead>
         <tr>
-            <td>id</td>
-            <td>user_code</td>
-            <td>user_name</td>
-            <td>password</td>
-            <td>email</td>
-            <td>user_sex</td>
-            <td>user_age</td>
-            <td>phone</td>
-            <td>identity</td>
-            <td>authority</td>
-            <td>remark</td>
-            <td>dosomething</td>
+            <%--<td>id</td>--%>
+            <td>flight_code</td>
+            <td>air_company_code</td>
+            <td>air_company_name</td>
+            <td>flight_num</td>
+            <td>flight_date</td>
+            <td>redundant_business_class</td>
+            <td>redundant_first_class</td>
+            <td>start_place</td>
+            <td>target_place</td>
+            <td>del_flag</td>
+            <td>操作</td>
         </tr>
         </thead>
-        <c:forEach items="${requestScope.pagemsg.lists}" var="u">
+        <c:forEach items="${requestScope.pagemsg.lists}" var="f">
             <tr>
-                <th>${u.id }</th>
-                <th>${u.userCode }</th>
-                <th>${u.userName }</th>
-                <th>${u.password }</th>
-                <th>${u.email }</th>
-                <th>${u.userSex }</th>
-                <th>${u.userAge }</th>
-                <th>${u.phone }</th>
-                <th>${u.identity }</th>
-                <th>${u.authority }</th>
-                <th>${u.remark }</th>
-                <th><a href="userEdit?id=${u.id}">Edit</a>
-                <a href="userDelete?id=${u.id}" onclick="return confirm('你要删除该数据么')" >Delete</a></th>
+                <%--<th>${f.id }</th>--%>
+                <th>${f.flightCode }</th>
+                <th>${f.airCompanyCode }</th>
+                <th>${f.airCompanyName }</th>
+                <th>${f.flightNum }</th>
+                <th>${f.flightDate }</th>
+                <th>${f.redundantBusinessClass }</th>
+                <th>${f.redundantFirstClass }</th>
+                <th>${f.startPlace }</th>
+                <th>${f.targetPlace }</th>
+                <th>${f.delFlag }</th>
+                <th><a href="flightEdit?id=${f.id}">Edit</a>
+                <a href="flightDelete?id=${f.id}" onclick="return confirm('你要删除该数据么')" >Delete</a></th>
             </tr>
         </c:forEach>
     </table>
@@ -84,13 +84,13 @@
             <span>总记录数：${requestScope.pagemsg.totalCount }  每页显示:${requestScope.pagemsg.pageSize}</span>
             <span>
        <c:if test="${requestScope.pagemsg.currPage != 1}">
-           <a href="${pageContext.request.contextPath }/admin/userMain?currentPage=1">[首页]</a>
-           <a href="${pageContext.request.contextPath }/admin/userMain?currentPage=${requestScope.pagemsg.currPage-1}">[上一页]</a>
+           <a href="${pageContext.request.contextPath }/admin/flightMain?currentPage=1">[首页]</a>
+           <a href="${pageContext.request.contextPath }/admin/flightMain?currentPage=${requestScope.pagemsg.currPage-1}">[上一页]</a>
        </c:if>
 
        <c:if test="${requestScope.pagemsg.currPage != requestScope.pagemsg.totalPage && requestScope.pagemsg.totalPage != 0}">
-           <a href="${pageContext.request.contextPath }/admin/userMain?currentPage=${requestScope.pagemsg.currPage+1}">[下一页]</a>
-           <a href="${pageContext.request.contextPath }/admin/userMain?currentPage=${requestScope.pagemsg.totalPage}">[尾页]</a>
+           <a href="${pageContext.request.contextPath }/admin/flightMain?currentPage=${requestScope.pagemsg.currPage+1}">[下一页]</a>
+           <a href="${pageContext.request.contextPath }/admin/flightMain?currentPage=${requestScope.pagemsg.totalPage}">[尾页]</a>
        </c:if>
    </span>
         </td>

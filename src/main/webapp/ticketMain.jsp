@@ -26,12 +26,8 @@
     </style>
 </head>
 <body>
-欢迎你：${currentUser}
-<br>
-<hr>
-<%--<a href="ticketAdd"> 添加用户</a><br>--%>
 <c:if test="${empty requestScope.pagemsg}">
-    没有任何用户信息！
+    没有任何机票信息！
 </c:if>
 <c:if test="${!empty requestScope.pagemsg}">
     <table border="1" cellpadding="10" cellspacing="0" class="table1">
@@ -58,15 +54,15 @@
                 <th>${t.id }</th>
                 <th>${t.identity }</th>
                 <th>${t.userName }</th>
-                <th>${t.buy_way }</th>
-                <th>${t.air_company_name }</th>
-                <th>${t.flight_num }</th>
+                <th>${t.buyWay }</th>
+                <th>${t.airCompanyName }</th>
+                <th>${t.flightNum }</th>
                 <th>${t.start }</th>
                 <th>${t.destination }</th>
-                <th>${t.flight_date }</th>
-                <th>${t.berth_name }</th>
-                <th>${t.gate_num }</th>
-                <th>${t.seat_mum }</th>
+                <th>${t.flightTime }</th>
+                <th>${t.berthName }</th>
+                <th>${t.gateNum }</th>
+                <th>${t.seatNum }</th>
                 <th>${t.remark }</th>
                 <th><a href="ticketEdit?id=${t.id}">Edit</a>
                 <a href="ticketDelete?id=${t.id}" onclick="return confirm('你要删除该数据么')" >Delete</a></th>
